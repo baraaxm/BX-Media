@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 1,
       title: "VIP Quick Service",
       category: "High-End Video & Content Production",
-      client: "Feynlab",
+      client: "VIP Quick Service",
       location: "Riyadh",
       image: "Projects/VIP.png"
     },
