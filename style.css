@@ -40,6 +40,7 @@ body {
   display: flex;
   align-items: center;
 }
+
 .logo-img {
   height: 40px;
 }
@@ -48,15 +49,18 @@ body {
   display: flex;
   list-style: none;
 }
+
 .nav-menu li {
   margin-left: 2rem;
 }
+
 .nav-menu a {
   color: #ddd;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
 }
+
 .nav-menu a:hover {
   color: #ff6600;
 }
@@ -66,6 +70,7 @@ body {
   flex-direction: column;
   cursor: pointer;
 }
+
 .hamburger span {
   height: 3px;
   width: 25px;
@@ -82,10 +87,11 @@ body {
 
 .hero-video-wrapper {
   position: absolute;
-  top: 0; left: 0;
+  top: 0; 
+  left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: -2;
 }
 
 .hero-video {
@@ -95,24 +101,16 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: -1;
+  z-index: -2;
   pointer-events: none;
 }
 
-.hero-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  object-fit: cover;
-}
-
 .hero-overlay {
-  position: absolute;
-  top: 0; left: 0;
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
-  z-index: -1;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -164,6 +162,7 @@ body {
   padding: 80px 0;
   background: #1a1a1a;
 }
+
 .about-flex {
   display: flex;
   align-items: center;
@@ -172,9 +171,11 @@ body {
   justify-content: center;
   padding-top: 2rem;
 }
+
 .about-logo img {
   max-width: 150px;
 }
+
 .about-text {
   flex: 1;
   max-width: 600px;
@@ -182,6 +183,7 @@ body {
   font-size: 1.1rem;
   line-height: 1.8;
 }
+
 .about-text h2 {
   color: #ff6600;
   margin-bottom: 1rem;
@@ -192,11 +194,13 @@ body {
   text-align: center;
   margin-bottom: 3rem;
 }
+
 .section-header h4 {
   color: #ff6600;
   font-size: 1rem;
   text-transform: uppercase;
 }
+
 .section-header h2 {
   color: #fff;
   font-size: 2.5rem;
@@ -208,11 +212,13 @@ body {
   background: #121212;
   padding: 80px 0;
 }
+
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
 }
+
 .service-card {
   background: #1e1e1e;
   padding: 2rem;
@@ -220,9 +226,11 @@ body {
   text-align: center;
   transition: transform 0.3s ease;
 }
+
 .service-card:hover {
   transform: translateY(-5px);
 }
+
 .service-icon {
   width: 80px;
   height: 80px;
@@ -235,10 +243,12 @@ body {
   margin: 0 auto 1.5rem;
   font-size: 2rem;
 }
+
 .service-card h3 {
   color: #fff;
   margin-bottom: 1rem;
 }
+
 .service-card p {
   color: #bbb;
 }
@@ -248,10 +258,12 @@ body {
   background: #121212;
   padding: 60px 0;
 }
+
 .clients-carousel {
   overflow: hidden;
   position: relative;
 }
+
 .clients-track {
   display: flex;
   width: max-content;
@@ -259,15 +271,18 @@ body {
   gap: 3rem;
   align-items: center;
 }
+
 .clients-track img {
   height: 80px;
   object-fit: contain;
   filter: grayscale(100%);
   transition: filter 0.3s ease;
 }
+
 .clients-track img:hover {
   filter: none;
 }
+
 @keyframes scrollClients {
   0% {
     transform: translateX(0);
@@ -282,11 +297,13 @@ body {
   background: #1a1a1a;
   padding: 80px 0;
 }
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
 }
+
 .project-card {
   background: #2a2a2a;
   border-radius: 10px;
@@ -295,23 +312,28 @@ body {
   display: flex;
   flex-direction: column;
 }
+
 .project-card:hover {
   transform: translateY(-5px);
 }
+
 .project-image img {
   width: 100%;
   height: 180px;
   object-fit: cover;
   border-radius: 8px;
 }
+
 .project-info {
   padding: 1.2rem;
   color: #ddd;
 }
+
 .project-info h3 {
   color: #ff6600;
   margin-bottom: 0.5rem;
 }
+
 .project-category {
   background: #ff6600;
   color: white;
@@ -321,10 +343,12 @@ body {
   margin-bottom: 1rem;
   display: inline-block;
 }
+
 .project-details p {
   font-size: 0.9rem;
   margin: 0.3rem 0;
 }
+
 .project-btn {
   margin-top: 1rem;
   background: #ff6600;
@@ -335,6 +359,7 @@ body {
   display: inline-block;
   transition: background 0.3s ease;
 }
+
 .project-btn:hover {
   background: #e65c00;
 }
@@ -344,26 +369,32 @@ body {
   background: #121212;
   padding: 80px 0;
 }
+
 .contact-content {
   display: flex;
   flex-wrap: wrap;
   gap: 3rem;
 }
+
 .contact-info, .contact-form {
   flex: 1;
   min-width: 300px;
 }
+
 .contact-info h3,
 .contact-form h3 {
   color: #ff6600;
   margin-bottom: 2rem;
 }
+
 .contact-item h4 {
   color: #fff;
 }
+
 .contact-item p {
   color: #ccc;
 }
+
 .contact-form input,
 .contact-form textarea {
   width: 100%;
@@ -373,6 +404,7 @@ body {
   color: #fff;
   border-radius: 5px;
 }
+
 .submit-btn {
   background: #ff6600;
   color: white;
@@ -383,6 +415,7 @@ body {
   cursor: pointer;
   transition: background 0.3s ease;
 }
+
 .submit-btn:hover {
   background: #e65c00;
 }
@@ -393,6 +426,7 @@ body {
   color: #ccc;
   padding: 60px 0 0;
 }
+
 .footer-content {
   display: flex;
   flex-wrap: wrap;
@@ -401,31 +435,38 @@ body {
   padding-bottom: 40px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .footer-section {
   flex: 1 1 250px;
   min-width: 220px;
 }
+
 .footer-section h3,
 .footer-section h4 {
   color: #ff6600;
   margin-bottom: 1rem;
 }
+
 .footer-section p {
   line-height: 1.6;
   margin-bottom: 1rem;
 }
+
 .footer-section ul {
   list-style: none;
   padding: 0;
 }
+
 .footer-section ul li {
   margin-bottom: 0.5rem;
 }
+
 .footer-section ul li a {
   color: #ccc;
   text-decoration: none;
   transition: color 0.3s ease;
 }
+
 .footer-section ul li a:hover {
   color: #ff6600;
 }
@@ -434,12 +475,14 @@ body {
   text-align: center;
   padding: 30px 20px;
 }
+
 .footer-bottom .social-links.centered {
   display: flex;
   justify-content: center;
   gap: 1rem;
   margin-bottom: 20px;
 }
+
 .footer-bottom .social-links.centered a {
   background: #ff6600;
   color: white;
@@ -452,9 +495,11 @@ body {
   text-decoration: none;
   transition: background 0.3s ease;
 }
+
 .footer-bottom .social-links.centered a:hover {
   background: #e65c00;
 }
+
 .footer-bottom p {
   font-size: 0.9rem;
   color: #888;
@@ -466,6 +511,7 @@ body {
   transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
+
 .fade-in.visible {
   opacity: 1;
   transform: translateY(0);
@@ -476,6 +522,7 @@ body {
   .hamburger {
     display: flex;
   }
+
   .nav-menu {
     flex-direction: column;
     position: fixed;
@@ -486,105 +533,22 @@ body {
     text-align: center;
     transition: left 0.3s;
   }
+
   .nav-menu.active {
     left: 0;
   }
+
   .nav-menu li {
     margin: 1rem 0;
   }
+
   .about-flex,
   .contact-content,
   .footer-content {
     flex-direction: column;
     text-align: center;
   }
-}
 
-
-
-/* Project Details - Global Scope */
-.project-detail-container {
-  min-height: 100vh;
-  padding: 60px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.project-detail-container h1 {
-  font-size: 2.5rem;
-  color: #ff6600;
-  margin-bottom: 1rem;
-}
-
-.project-detail-container p {
-  font-size: 1.1rem;
-  max-width: 700px;
-  margin-bottom: 2rem;
-  color: #ccc;
-  line-height: 1.7;
-}
-
-.video-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 960px;         /* Make it wider */
-  aspect-ratio: 16 / 9;     /* Keeps consistent size */
-  margin: 2rem auto;
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.4);
-}
-
-.video-wrapper iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-.multi-video-block {
-  text-align: center;
-}
-
-.multi-video-block h3 {
-  color: #fff;
-  margin: 1.5rem 0 0.5rem;
-  font-size: 1.25rem;
-}
-
-
-.back-link {
-  display: inline-block;
-  margin-top: 60px;
-  color: #ff6600;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.back-link:hover {
-  text-decoratfion: underline;
-}
-
-.hero {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.hero-overlay {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  padding: 0 20px;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-@media (max-width: 768px) {
   .slide-content h1 {
     font-size: 2.2rem;
   }
