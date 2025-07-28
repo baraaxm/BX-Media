@@ -91,7 +91,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1; /* Ensure it's visible but under overlay */
+  z-index: -2;
 }
 
 .hero-video {
@@ -101,13 +101,21 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1; /* Same as wrapper, for consistency */
-  pointer-events: none;
+  z-index: -1;
+  pointer-events: none; /* Removes any button overlay interaction */
 }
+
 
 .hero-overlay {
   position: relative;
-  z-index: 2; /* Overlay stays above video */
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
 }
 
 .slide-content {
