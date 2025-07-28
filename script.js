@@ -70,9 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
       client: "Seven Car Lounge",
       location: "Riyadh",
       image: "Projects/Albassami0001.jpg"
-    },
-    
-    
+    }
   ];
 
   const projectsGrid = document.getElementById("projectsGrid");
@@ -96,4 +94,18 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     projectsGrid.appendChild(card);
   });
+
+  // ✅ Autoplay Fix for Mobile
+  const heroVideo = document.querySelector('.hero-video');
+  if (heroVideo) {
+    heroVideo.muted = true;
+    heroVideo.playsInline = true;
+
+    heroVideo.play().catch(() => {
+      console.log("Autoplay blocked. Enabling on user interaction...");
+      document.body.addEventListener('touchstart', () => {
+        heroVideo.play();
+      }, { once: true });
+    });
+  }
 });
