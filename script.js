@@ -1,17 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
   // === HERO VIDEO AUTOPLAY FIX (For iOS Safari & Mobile) ===
   const heroVideo = document.querySelector('.hero-video');
-  if (heroVideo) {
-    heroVideo.muted = true;
-    heroVideo.playsInline = true;
-    heroVideo.autoplay = true;
+if (heroVideo) {
+  heroVideo.muted = true;
+  heroVideo.playsInline = true;
+  heroVideo.autoplay = true;
+  heroVideo.loop = true;
 
-    heroVideo.play().catch(() => {
-      console.log("Autoplay blocked, forcing playback...");
-      heroVideo.muted = true;
-      heroVideo.play();
-    });
-  }
+  heroVideo.play().catch(() => {
+    console.log("Autoplay blocked, forcing playback...");
+    heroVideo.muted = true;
+    heroVideo.play();
+  });
+}
 
   // === FADE-IN ANIMATION ===
   const elements = document.querySelectorAll('.fade-in');
