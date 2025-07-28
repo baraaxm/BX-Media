@@ -1,4 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // === HERO VIDEO AUTOPLAY FIX (For iOS Safari & Mobile) ===
+  const heroVideo = document.querySelector('.hero-video');
+  if (heroVideo) {
+    heroVideo.muted = true;
+    heroVideo.playsInline = true;
+    heroVideo.autoplay = true;
+
+    heroVideo.play().catch(() => {
+      console.log("Autoplay blocked, forcing playback...");
+      heroVideo.muted = true;
+      heroVideo.play();
+    });
+  }
+
+  // === FADE-IN ANIMATION ===
   const elements = document.querySelectorAll('.fade-in');
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
@@ -14,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(el);
   });
 
+  // === MOBILE MENU TOGGLE ===
   const hamburger = document.querySelector('.hamburger');
   const navMenu = document.querySelector('.nav-menu');
   hamburger.addEventListener('click', () => {
@@ -21,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     navMenu.classList.toggle('active');
   });
 
-  // Dynamic Projects
+  // === DYNAMIC PROJECTS ===
   const projectData = [
     {
       id: 1,
@@ -94,18 +110,4 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     projectsGrid.appendChild(card);
   });
-
-  // ✅ Autoplay Fix for Mobile
-  const heroVideo = document.querySelector('.hero-video');
-  if (heroVideo) {
-    heroVideo.muted = true;
-    heroVideo.playsInline = true;
-
-    heroVideo.play().catch(() => {
-      console.log("Autoplay blocked. Enabling on user interaction...");
-      document.body.addEventListener('touchstart', () => {
-        heroVideo.play();
-      }, { once: true });
-    });
-  }
 });
