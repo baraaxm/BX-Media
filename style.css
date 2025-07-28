@@ -82,7 +82,9 @@ body {
 .hero {
   position: relative;
   height: 100vh;
+  width: 100%;
   overflow: hidden;
+  background: #000; /* fallback if video doesn't load */
 }
 
 .hero-video-wrapper {
@@ -91,7 +93,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -2;
+  z-index: 1;
 }
 
 .hero-video {
@@ -101,14 +103,13 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: -1;
-  pointer-events: none; /* Removes any button overlay interaction */
+  z-index: 1;
+  pointer-events: none;
 }
-
 
 .hero-overlay {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
@@ -117,6 +118,7 @@ body {
   justify-content: center;
   padding: 0 20px;
 }
+
 
 .slide-content {
   padding: 2rem 1rem;
