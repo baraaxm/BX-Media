@@ -41,12 +41,15 @@ if (heroVideo) {
   // === DYNAMIC PROJECTS ===
   const projectData = [
     {
+
       id: 1,
-      title: "VIP Quick Service",
+      title: "Albassami × Seven Car Lounge",
       category: "High-End Video & Content Production",
-      client: "VIP Quick Service",
+      client: "Seven Car Lounge",
       location: "Riyadh",
-      image: "Projects/VIP.png"
+      image: "Projects/albassami0001.jpg"
+        
+      
     },
     {
       id: 2,
@@ -54,7 +57,7 @@ if (heroVideo) {
       category: "High-End Video & Content Production",
       client: "ArabGT",
       location: "Riyadh",
-      image: "Projects/SAMF0001.jpg"
+      image: "Projects/samf0001.jpg"
     },
     {
       id: 3,
@@ -62,7 +65,7 @@ if (heroVideo) {
       category: "High-End Video & Content Production",
       client: "Strive ME",
       location: "Riyadh",
-      image: "Projects/Hongqi.png"
+      image: "Projects/hongqi.png"
     },
     {
       id: 4,
@@ -70,7 +73,7 @@ if (heroVideo) {
       category: "High-End Video & Content Production",
       client: "Abdullateef Jameel",
       location: "Riyadh",
-      image: "Projects/ToyotaLC3000001.jpg"
+      image: "Projects/toyotalc3000001.jpg"
     },
     {
       id: 5,
@@ -78,15 +81,15 @@ if (heroVideo) {
       category: "High-End Video & Content Production",
       client: "Feynlab",
       location: "Riyadh",
-      image: "Projects/Feynlab0001.jpg"
+      image: "Projects/feynlab0001.jpg"
     },
     {
       id: 6,
-      title: "Albassami × Seven Car Lounge",
+      title: "VIP Quick Service",
       category: "High-End Video & Content Production",
-      client: "Seven Car Lounge",
+      client: "VIP Quick Service",
       location: "Riyadh",
-      image: "Projects/Albassami0001.jpg"
+      image: "Projects/vip00.png"
     }
   ];
 
@@ -112,3 +115,4 @@ if (heroVideo) {
     projectsGrid.appendChild(card);
   });
 });
+
