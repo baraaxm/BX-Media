@@ -256,6 +256,7 @@ body {
   color: #bbb;
 }
 
+/* s */
 /* Clients */
 .clients {
   background: #121212;
@@ -270,9 +271,12 @@ body {
 .clients-track {
   display: flex;
   width: max-content;
-  animation: scrollClients 35s linear infinite;
+  animation: scrollClients 50s linear infinite;
   gap: 3rem;
   align-items: center;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .clients-track img {
@@ -281,14 +285,15 @@ body {
   filter: grayscale(100%);
   transition: filter 0.3s ease;
   margin: 0 10px;
+  flex: 0 0 auto;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
-/* Hover effect for desktop */
 .clients-track img:hover {
   filter: none;
 }
 
-/* Keyframe animation */
 @keyframes scrollClients {
   0% {
     transform: translateX(0);
@@ -298,24 +303,10 @@ body {
   }
 }
 
-/* Mobile adjustments */
+/* Mobile - keep animation but slightly reduce height */
 @media (max-width: 768px) {
-  .clients-carousel {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-  }
-
-  .clients-track {
-    animation: none !important;
-    flex-wrap: nowrap;
-    width: auto;
-    gap: 1rem;
-  }
-
   .clients-track img {
     height: 50px;
-    flex: 0 0 auto;
     margin: 0 8px;
   }
 }
@@ -586,4 +577,5 @@ body {
     font-size: 1rem;
   }
 }
+
 
