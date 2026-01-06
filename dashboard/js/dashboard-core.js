@@ -250,6 +250,7 @@
       if (next.project_id !== undefined && next.projectId === undefined) next.projectId = next.project_id;
       if (next.project_date !== undefined && next.projectDate === undefined) next.projectDate = next.project_date;
       if (next.task_id !== undefined && next.taskId === undefined) next.taskId = next.task_id;
+      if (next.task_order !== undefined && next.taskOrder === undefined) next.taskOrder = next.task_order;
       if (next.due_date !== undefined && next.dueDate === undefined) next.dueDate = next.due_date;
       if (next.drive_link !== undefined && next.driveLink === undefined) next.driveLink = next.drive_link;
       if (next.deliverable_id !== undefined && next.deliverableId === undefined) next.deliverableId = next.deliverable_id;
@@ -293,6 +294,7 @@
       title: "title",
       description: "description",
       assignee: "assignee",
+      taskOrder: "task_order",
       status: "status",
       progress: "progress",
       dueDate: "due_date",
@@ -689,6 +691,7 @@
         [columnMap.title]: payload.title,
         [columnMap.description]: payload.description,
         [columnMap.assignee]: payload.assignee,
+        [columnMap.taskOrder]: payload.taskOrder,
         [columnMap.status]: payload.status,
         [columnMap.progress]: payload.progress,
         [columnMap.dueDate]: payload.dueDate,
@@ -704,6 +707,7 @@
         [columnMap.title]: payload.title,
         [columnMap.description]: payload.description,
         [columnMap.assignee]: payload.assignee,
+        [columnMap.taskOrder]: payload.taskOrder,
         [columnMap.status]: payload.status,
         [columnMap.progress]: payload.progress,
         [columnMap.dueDate]: payload.dueDate,

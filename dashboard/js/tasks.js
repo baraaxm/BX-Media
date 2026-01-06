@@ -234,6 +234,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     return project?.name || project?.projectId || "Unknown project";
   }
 
+  function getTaskOrderValue(task) {
+    const val = Number(task.taskOrder);
+    if (Number.isFinite(val)) return val;
+    const fallback = new Date(task.updatedAt || task.createdAt || 0).getTime();
+    return Number.isFinite(fallback) ? fallback : Number.MAX_SAFE_INTEGER;
+  }
+
   function renderTasks() {
     tasksTableWrapper.innerHTML = "";
 
@@ -293,10 +300,25 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const wrap = document.createElement("div");
     wrap.className = "task-cards";
+      const useOrder = projectSelect.value !== "all";
+      const canReorder = isAdmin && useOrder;
 
-    filtered
-      .slice()
-      .sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0))
+      filtered
+        .slice()
+        .sort((a, b) => {
+          if (useOrder) {
+            const orderDiff = getTaskOrderValue(a) - getTaskOrderValue(b);
+            if (orderDiff !== 0) return orderDiff;
+          } else {
+            const projectA = getProjectNameForTask(a).toLowerCase();
+            const projectB = getProjectNameForTask(b).toLowerCase();
+            const projectDiff = projectA.localeCompare(projectB);
+            if (projectDiff !== 0) return projectDiff;
+            const orderDiff = getTaskOrderValue(a) - getTaskOrderValue(b);
+            if (orderDiff !== 0) return orderDiff;
+          }
+          return new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0);
+        })
       .forEach((t) => {
         const clientName = getClientNameForTask(t);
         const projectName = getProjectNameForTask(t);
@@ -306,6 +328,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const card = document.createElement("article");
         card.className = "task-card";
         card.dataset.taskId = t.taskId;
+        card.draggable = canReorder;
         card.innerHTML = `
           <header class="task-card-header">
             <div>
@@ -317,6 +340,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               </p>
             </div>
             <div class="task-card-controls">
+              ${canReorder ? `<span class="task-drag-handle" title="Drag to reorder"><i class="fas fa-grip-lines"></i></span>` : ""}
               <span class="badge ${statusValue}">${statusValue.replace("-", " ")}</span>
               ${
                 isAdmin
@@ -361,6 +385,134 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!openBtn) return;
         const task = tasks.find((item) => item.taskId === taskId);
         if (task) openTaskModal(task);
+      });
+    }
+
+    if (canReorder) {
+      let dragCard = null;
+      let dragDidDrop = false;
+      const getCardAfter = (container, y) => {
+        const cards = [...container.querySelectorAll(".task-card:not(.is-dragging)")];
+        return cards.reduce(
+          (closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) {
+              return { offset, element: child };
+            }
+            return closest;
+          },
+          { offset: Number.NEGATIVE_INFINITY, element: null }
+        ).element;
+      };
+      const saveOrder = async () => {
+        const orderedIds = [...wrap.querySelectorAll(".task-card")].map((el) => el.dataset.taskId);
+        const updates = orderedIds.map((taskId, index) => ({
+          taskId,
+          taskOrder: index + 1,
+        }));
+        updates.forEach((u) => {
+          const task = tasks.find((t) => t.taskId === u.taskId);
+          if (task) task.taskOrder = u.taskOrder;
+        });
+        try {
+          const responses = await Promise.all(
+            updates.map((u) =>
+              BXCore.apiPost({
+                action: "updateTask",
+                taskId: u.taskId,
+                taskOrder: u.taskOrder,
+              })
+            )
+          );
+          const failed = responses.find((resp) => !resp?.ok);
+          if (failed) throw new Error(failed.error || "Update failed");
+          BXCore.showToast("Task order updated.", "success");
+        } catch (err) {
+          console.error(err);
+          BXCore.showToast("Couldn't save task order. Please try again.", "error");
+        } finally {
+          renderTasks();
+        }
+      };
+
+      wrap.addEventListener("dragstart", (e) => {
+        const card = e.target.closest(".task-card");
+        if (!card || !e.target.closest(".task-drag-handle")) {
+          e.preventDefault();
+          return;
+        }
+        dragCard = card;
+        dragDidDrop = false;
+        card.classList.add("is-dragging");
+        e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.setData("text/plain", card.dataset.taskId || "");
+      });
+
+      wrap.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        const card = e.target.closest(".task-card");
+        wrap.querySelectorAll(".task-card").forEach((el) => el.classList.remove("is-drag-over"));
+        if (card && card !== dragCard) card.classList.add("is-drag-over");
+        const after = getCardAfter(wrap, e.clientY);
+        if (!dragCard) return;
+        if (after == null) {
+          wrap.appendChild(dragCard);
+        } else {
+          wrap.insertBefore(dragCard, after);
+        }
+      });
+
+      wrap.addEventListener("drop", async (e) => {
+        e.preventDefault();
+        if (!dragCard) return;
+        dragDidDrop = true;
+        await saveOrder();
+      });
+
+      wrap.addEventListener("dragend", () => {
+        wrap.querySelectorAll(".task-card").forEach((el) => {
+          el.classList.remove("is-dragging", "is-drag-over");
+        });
+        if (dragCard && !dragDidDrop) {
+          saveOrder();
+        }
+        dragCard = null;
+        dragDidDrop = false;
+      });
+
+      wrap.addEventListener("pointerdown", (e) => {
+        const handle = e.target.closest(".task-drag-handle");
+        if (!handle) return;
+        const card = handle.closest(".task-card");
+        if (!card) return;
+        e.preventDefault();
+        dragCard = card;
+        card.classList.add("is-dragging");
+        const onMove = (ev) => {
+          const target = document.elementFromPoint(ev.clientX, ev.clientY);
+          const hover = target ? target.closest(".task-card") : null;
+          wrap.querySelectorAll(".task-card").forEach((el) => el.classList.remove("is-drag-over"));
+          if (hover && hover !== dragCard) hover.classList.add("is-drag-over");
+          const after = getCardAfter(wrap, ev.clientY);
+          if (!dragCard) return;
+          if (after == null) {
+            wrap.appendChild(dragCard);
+          } else {
+            wrap.insertBefore(dragCard, after);
+          }
+        };
+        const onUp = async () => {
+          document.removeEventListener("pointermove", onMove);
+          document.removeEventListener("pointerup", onUp);
+          wrap.querySelectorAll(".task-card").forEach((el) => {
+            el.classList.remove("is-dragging", "is-drag-over");
+          });
+          await saveOrder();
+          dragCard = null;
+        };
+        document.addEventListener("pointermove", onMove);
+        document.addEventListener("pointerup", onUp, { once: true });
       });
     }
 
@@ -512,6 +664,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const progress = Number(fd.get("progress") || 0);
     const dueDate = String(fd.get("dueDate") || "").trim();
     const normalizedDueDate = dueDate ? dueDate : null;
+    const projectTasks = tasks.filter((t) => t.projectId === projectId);
+    const maxOrder = projectTasks.reduce((max, t) => {
+      const val = Number(t.taskOrder);
+      return Number.isFinite(val) ? Math.max(max, val) : max;
+    }, 0);
 
     try {
       const resp = await BXCore.apiPost({
@@ -524,6 +681,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         status,
         progress: Number.isFinite(progress) ? progress : 0,
         dueDate: normalizedDueDate,
+        taskOrder: maxOrder + 1,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       });

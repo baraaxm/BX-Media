@@ -314,6 +314,7 @@ function handleAddTask(d) {
     d.title || "",
     d.description || "",
     d.assignee || "",
+    d.taskOrder || "",
     d.status || "in-progress",
     Number(d.progress || 0),
     d.dueDate || "",

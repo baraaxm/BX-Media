@@ -117,6 +117,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (detailSubtitle)
       detailSubtitle.textContent = `${clientProjects.length} projects, ${clientTasks.length} tasks for this client.`;
 
+    const projectNameById = clientProjects.reduce((map, p) => {
+      map[p.projectId] = p.name || p.projectId || "Project";
+      return map;
+    }, {});
+    const tasksByProject = clientProjects.map((project) => {
+      const list = clientTasks.filter((t) => t.projectId === project.projectId);
+      const ordered = list
+        .slice()
+        .sort((a, b) => {
+          const aOrder = Number.isFinite(Number(a.taskOrder)) ? Number(a.taskOrder) : Number.MAX_SAFE_INTEGER;
+          const bOrder = Number.isFinite(Number(b.taskOrder)) ? Number(b.taskOrder) : Number.MAX_SAFE_INTEGER;
+          if (aOrder !== bOrder) return aOrder - bOrder;
+          return new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0);
+        });
+      return { project, tasks: ordered };
+    });
+
     detailBody.innerHTML = `
       <div class="client-summary-grid">
         <div class="client-summary-card">
@@ -163,16 +180,35 @@ document.addEventListener("DOMContentLoaded", async () => {
           <h3>Tasks</h3>
           ${
             clientTasks.length
-              ? `<ul>${clientTasks
-                  .slice(0, 10)
-                  .map(
-                    (t) =>
-                      `<li><span>${t.title || "Untitled task"}</span><span class="badge ${t.status ||
-                        "not-started"}">${(t.status || "not-started").replace("-", " ")}</span></li>`
-                  )
-                  .join("")}</ul>
-                  ${clientTasks.length > 10 ? `<p class="helper">${clientTasks.length - 10} more tasks not shown.</p>` : ""}
-                  `
+              ? tasksByProject
+                  .map(({ project, tasks }) => {
+                    if (!tasks.length) return "";
+                    const projectLabel = projectNameById[project.projectId] || "Project";
+                    return `
+                      <div class="client-task-project" data-project-id="${project.projectId}">
+                        <div class="client-task-project-title">${projectLabel}</div>
+                        <ul class="client-task-list" data-project-id="${project.projectId}">
+                          ${tasks
+                            .map((t) => {
+                              const status = t.status || "not-started";
+                              return `
+                                <li class="client-task-row" data-task-id="${t.taskId}" data-project-id="${t.projectId}">
+                                  <button class="task-drag-handle" type="button" aria-label="Drag to reorder">
+                                    <i class="fas fa-grip-lines"></i>
+                                  </button>
+                                  <div class="client-task-copy">
+                                    <span class="client-task-title">${t.title || "Untitled task"}</span>
+                                  </div>
+                                  <span class="badge ${status}">${status.replace("-", " ")}</span>
+                                </li>
+                              `;
+                            })
+                            .join("")}
+                        </ul>
+                      </div>
+                    `;
+                  })
+                  .join("")
               : "<p class='empty'>No tasks yet.</p>"
           }
         </div>
@@ -225,6 +261,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     detailModal.setAttribute("aria-hidden", "false");
     document.body.classList.add("modal-open");
 
+    detailBody.querySelectorAll(".client-task-list").forEach((list) => {
+      const projectId = list.dataset.projectId;
+      bindClientTaskOrdering(list, projectId);
+    });
+
     if (options.focusEdit) {
       const focusInput = detailBody.querySelector("#editClientName");
       if (focusInput) setTimeout(() => focusInput.focus(), 0);
@@ -236,6 +277,140 @@ document.addEventListener("DOMContentLoaded", async () => {
     detailModal.classList.remove("is-open");
     detailModal.setAttribute("aria-hidden", "true");
     document.body.classList.remove("modal-open");
+  }
+
+  function bindClientTaskOrdering(listEl, projectId) {
+    let dragItem = null;
+    let dragDidDrop = false;
+    const getAfterElement = (container, y) => {
+      const items = [...container.querySelectorAll(".client-task-row:not(.is-dragging)")];
+      return items.reduce(
+        (closest, child) => {
+          const box = child.getBoundingClientRect();
+          const offset = y - box.top - box.height / 2;
+          if (offset < 0 && offset > closest.offset) {
+            return { offset, element: child };
+          }
+          return closest;
+        },
+        { offset: Number.NEGATIVE_INFINITY, element: null }
+      ).element;
+    };
+
+    listEl.querySelectorAll(".client-task-row").forEach((row) => {
+      row.setAttribute("draggable", "true");
+    });
+    const saveOrder = async () => {
+      const ordered = [...listEl.querySelectorAll(".client-task-row")];
+      const updates = ordered.map((row, index) => ({
+        taskId: row.dataset.taskId,
+        taskOrder: index + 1,
+        projectId,
+      }));
+
+      updates.forEach((update) => {
+        const task = tasks.find((t) => t.taskId === update.taskId);
+        if (task) task.taskOrder = update.taskOrder;
+      });
+
+      try {
+        const responses = await Promise.all(
+          updates.map((u) =>
+            BXCore.apiPost({
+              action: "updateTask",
+              taskId: u.taskId,
+              taskOrder: u.taskOrder,
+            })
+          )
+        );
+        const failed = responses.find((resp) => !resp?.ok);
+        if (failed) throw new Error(failed.error || "Update failed");
+        BXCore.showToast("Task order updated.", "success");
+      } catch (err) {
+        console.error(err);
+        BXCore.showToast("Couldn't save task order. Please try again.", "error");
+      } finally {
+        listEl.querySelectorAll(".client-task-row").forEach((row) => {
+          row.classList.remove("is-dragging", "is-drag-over");
+        });
+        dragItem = null;
+      }
+    };
+
+    listEl.addEventListener("dragstart", (e) => {
+      const row = e.target.closest(".client-task-row");
+      if (!row || !e.target.closest(".task-drag-handle")) {
+        e.preventDefault();
+        return;
+      }
+      dragItem = row;
+      dragDidDrop = false;
+      row.classList.add("is-dragging");
+      e.dataTransfer.effectAllowed = "move";
+      e.dataTransfer.setData("text/plain", row.dataset.taskId || "");
+    });
+
+    listEl.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      const row = e.target.closest(".client-task-row");
+      listEl.querySelectorAll(".client-task-row").forEach((el) => el.classList.remove("is-drag-over"));
+      if (row && row !== dragItem) row.classList.add("is-drag-over");
+      const after = getAfterElement(listEl, e.clientY);
+      if (!dragItem) return;
+      if (after == null) {
+        listEl.appendChild(dragItem);
+      } else {
+        listEl.insertBefore(dragItem, after);
+      }
+    });
+
+    listEl.addEventListener("drop", async (e) => {
+      e.preventDefault();
+      if (!dragItem) return;
+      dragDidDrop = true;
+      await saveOrder();
+    });
+
+    listEl.addEventListener("dragend", () => {
+      listEl.querySelectorAll(".client-task-row").forEach((row) => {
+        row.classList.remove("is-dragging", "is-drag-over");
+      });
+      if (dragItem && !dragDidDrop) {
+        saveOrder();
+      }
+      dragItem = null;
+      dragDidDrop = false;
+    });
+
+    listEl.addEventListener("pointerdown", (e) => {
+      const handle = e.target.closest(".task-drag-handle");
+      if (!handle) return;
+      const row = handle.closest(".client-task-row");
+      if (!row) return;
+      e.preventDefault();
+      dragItem = row;
+      row.classList.add("is-dragging");
+      const onMove = (ev) => {
+        const target = document.elementFromPoint(ev.clientX, ev.clientY);
+        const hover = target ? target.closest(".client-task-row") : null;
+        listEl.querySelectorAll(".client-task-row").forEach((el) => el.classList.remove("is-drag-over"));
+        if (hover && hover !== dragItem) hover.classList.add("is-drag-over");
+        const after = getAfterElement(listEl, ev.clientY);
+        if (!dragItem) return;
+        if (after == null) {
+          listEl.appendChild(dragItem);
+        } else {
+          listEl.insertBefore(dragItem, after);
+        }
+      };
+      const onUp = async () => {
+        document.removeEventListener("pointermove", onMove);
+        document.removeEventListener("pointerup", onUp);
+        await saveOrder();
+      };
+      document.addEventListener("pointermove", onMove);
+      document.addEventListener("pointerup", onUp, { once: true });
+    });
   }
 
   /* ---------------------------------------------------------

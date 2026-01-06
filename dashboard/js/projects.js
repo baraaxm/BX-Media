@@ -379,6 +379,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       const progress = quickTaskProgress ? Number(quickTaskProgress.value || 0) : 0;
       const dueDate =
         quickTaskDueDate && quickTaskDueDate.value ? quickTaskDueDate.value : null;
+      const projectTasks = tasks.filter((t) => t.projectId === currentQuickProject.projectId);
+      const maxOrder = projectTasks.reduce((max, t) => {
+        const val = Number(t.taskOrder);
+        return Number.isFinite(val) ? Math.max(max, val) : max;
+      }, 0);
 
       BXCore.setButtonLoading(submitBtn, true, "Saving...");
       const taskId = "task_" + Date.now();
@@ -393,6 +398,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           status,
           progress: Number.isFinite(progress) ? progress : 0,
           dueDate,
+          taskOrder: maxOrder + 1,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         });

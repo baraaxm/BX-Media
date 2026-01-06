@@ -322,6 +322,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       const status = quickTaskForm.querySelector("#quickTaskStatus")?.value || "in-progress";
       const progress = Number(quickTaskForm.querySelector("#quickTaskProgress")?.value || 0);
       const dueDate = quickTaskForm.querySelector("#quickTaskDue")?.value || "";
+      const projectTasks = (tasks || []).filter((t) => t.projectId === projectId);
+      const maxOrder = projectTasks.reduce((max, t) => {
+        const val = Number(t.taskOrder);
+        return Number.isFinite(val) ? Math.max(max, val) : max;
+      }, 0);
 
       if (!projectId || !title) {
         setQuickStatus("Please select a project and add a task title.", "error");
@@ -340,6 +345,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           status,
           progress: Number.isFinite(progress) ? progress : 0,
           dueDate,
+          taskOrder: maxOrder + 1,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         });

@@ -457,6 +457,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     ? tasksToRender.filter((t) => (t.assignee || "bx-media") === assigneeFilter)
     : tasksToRender;
 
+  const getProjectNameForTask = (task) => {
+    const project = projects.find((p) => p.projectId === task.projectId);
+    return project?.name || project?.projectId || "";
+  };
+
   wrapper.innerHTML = "";
   const list = document.createElement("div");
   list.className = "tasks-group-list";
@@ -479,6 +484,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   ];
 
   statusGroups.forEach((group) => {
+    const useOrder = Boolean(selectedProjectId);
     const groupTasks = filteredTasks
       .filter((t) => {
         const status = t.status || "not-started";
@@ -487,7 +493,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
         return status === group.key;
       })
-      .sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0));
+      .sort((a, b) => {
+        if (useOrder) {
+          const aOrder = Number.isFinite(Number(a.taskOrder)) ? Number(a.taskOrder) : Number.MAX_SAFE_INTEGER;
+          const bOrder = Number.isFinite(Number(b.taskOrder)) ? Number(b.taskOrder) : Number.MAX_SAFE_INTEGER;
+          if (aOrder !== bOrder) return aOrder - bOrder;
+        } else {
+          const projectA = getProjectNameForTask(a).toLowerCase();
+          const projectB = getProjectNameForTask(b).toLowerCase();
+          const projectDiff = projectA.localeCompare(projectB);
+          if (projectDiff !== 0) return projectDiff;
+          const aOrder = Number.isFinite(Number(a.taskOrder)) ? Number(a.taskOrder) : Number.MAX_SAFE_INTEGER;
+          const bOrder = Number.isFinite(Number(b.taskOrder)) ? Number(b.taskOrder) : Number.MAX_SAFE_INTEGER;
+          if (aOrder !== bOrder) return aOrder - bOrder;
+        }
+        return new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0);
+      });
 
     const section = document.createElement("section");
     section.className = "client-task-group";
@@ -521,7 +542,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div>
             <strong>${task.title || "Task"}</strong>
             ${description ? `<div class="client-task-desc">${description}</div>` : ""}
-            <div class="client-task-meta">Due: ${dueLabel} · Assignee: ${assigneeLabel}</div>
+            <div class="client-task-meta">Due: ${dueLabel} | Assignee: ${assigneeLabel}</div>
           </div>
           <span class="badge ${task.status || "not-started"}">
             ${(task.status || "not-started").replace("-", " ")}
