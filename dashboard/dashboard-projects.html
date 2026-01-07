@@ -1,50 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>BX Media - Projects</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="css/dashboard.css" />
-</head>
-<body>
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <title>BX Media - Projects</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="css/dashboard.css" />
+
+</head>
+
+<body>
+
   <div class="shell shell-multi">
     <input type="checkbox" id="sidebarToggle" class="sidebar-toggle" />
-    
-    <aside class="sidebar">
-      <div class="logo">
-        <img src="../assets/index/7 logo.png" alt="BX Media" />
-        <span>BX Media</span>
-      </div>
-
-      <div class="sidebar-section-title">Main</div>
-      <nav class="nav nav-main">
-        <a href="dashboard-overview.html" id="navOverview"><i class="fas fa-grid-2"></i> Overview</a>
-        <a href="dashboard-clients.html" id="navClientsLink"><i class="fas fa-users"></i> Clients</a>
-        <a href="dashboard-projects.html" id="navProjectsLink"><i class="fas fa-diagram-project"></i> Projects</a>
-        <a href="dashboard-tasks.html" id="navTasksLink"><i class="fas fa-list-check"></i> Tasks</a>
-        <a href="dashboard-deliverables.html" id="navDeliverablesLink"><i class="fas fa-box-open"></i> Deliverables</a>
-      </nav>
-
-      <div class="sidebar-section-title">Account</div>
-      <nav class="nav nav-account">
-        <button id="logoutBtn"><i class="fas fa-arrow-right-from-bracket"></i> Log out</button>
-      </nav>
-      
-      <div class="sidebar-section-title stats-title">Overview</div>
-      <div class="sidebar-stats-grid">
-        <div class="stat-card"><span>Total projects</span><strong id="statTotalProjects">0</strong></div>
-        <div class="stat-card"><span>Total tasks</span><strong id="statTotalTasks">0</strong></div>
-        <div class="stat-card"><span>In progress</span><strong id="statInProgress">0</strong></div>
-        <div class="stat-card"><span>Completed</span><strong id="statCompleted">0</strong></div>
-        <div class="stat-card"><span>Not started</span><strong id="statNotStarted">0</strong></div>
-      </div>
-
-    </aside>
-
-    <main class="content">
-      <div class="page-container">
-        <section class="panel">
+    
+
+    <aside class="sidebar">
+
+      <div class="logo">
+
+        <img src="../assets/index/7 logo.png" alt="BX Media" />
+
+        <span>BX Media</span>
+
+      </div>
+
+
+
+      <div class="sidebar-section-title">Main</div>
+
+      <nav class="nav nav-main">
+
+        <a href="dashboard-overview.html" id="navOverview"><i class="fas fa-grid-2"></i> Overview</a>
+
+        <a href="dashboard-clients.html" id="navClientsLink"><i class="fas fa-users"></i> Clients</a>
+
+        <a href="dashboard-projects.html" id="navProjectsLink"><i class="fas fa-diagram-project"></i> Projects</a>
+
+        <a href="dashboard-tasks.html" id="navTasksLink"><i class="fas fa-list-check"></i> Tasks</a>
+
+        <a href="dashboard-deliverables.html" id="navDeliverablesLink"><i class="fas fa-box-open"></i> Deliverables</a>
+
+      </nav>
+
+
+
+      <div class="sidebar-section-title">Account</div>
+
+      <nav class="nav nav-account">
+
+        <button id="logoutBtn"><i class="fas fa-arrow-right-from-bracket"></i> Log out</button>
+
+      </nav>
+
+      
+
+      <div class="sidebar-section-title stats-title">Overview</div>
+
+      <div class="sidebar-stats-grid">
+
+        <div class="stat-card"><span>Total projects</span><strong id="statTotalProjects">0</strong></div>
+
+        <div class="stat-card"><span>Total tasks</span><strong id="statTotalTasks">0</strong></div>
+
+        <div class="stat-card"><span>In progress</span><strong id="statInProgress">0</strong></div>
+
+        <div class="stat-card"><span>Completed</span><strong id="statCompleted">0</strong></div>
+
+        <div class="stat-card"><span>Not started</span><strong id="statNotStarted">0</strong></div>
+
+      </div>
+
+
+
+    </aside>
+
+
+
+    <main class="content">
+
+      <div class="page-container">
+
+        <section class="panel">
+
           <header class="panel-header">
             <div class="header-title-row">
               <label for="sidebarToggle" class="sidebar-toggle-btn" aria-label="Open navigation">
@@ -61,113 +106,220 @@
               </button>
             </div>
           </header>
-          <div id="projectsActionStatus" class="alert alert-success" style="display:none"></div>
-          <section class="subpanel section-block">
-            <h2><i class="fas fa-filter"></i> Filters</h2>
-            <div class="tasks-filters">
-              <div class="form-row" id="projectsClientRow">
-                <label>Client</label>
-                <select id="projectsClientSelect"></select>
-              </div>
-              <div class="form-row">
-                <label>Status</label>
-                <select id="projectsStatusFilter">
-                  <option value="all">All</option>
-                  <option value="not-started" selected>Not started</option>
-                  <option value="in-progress">In progress</option>
-                  <option value="completed">Completed</option>
-                  <option value="blocked">Blocked</option>
-                </select>
-              </div>
-            </div>
-          </section>
-
-          <div class="layout-2col section-block">
-            <section class="subpanel column">
-              <div class="subpanel-header">
-                <h2><i class="fas fa-diagram-project"></i> Add project</h2>
-                <button class="btn-secondary btn-compact" id="toggleAddProject" type="button">Hide</button>
-              </div>
-              <div id="addProjectPanel" class="collapsible" aria-hidden="false">
-                <form id="addProjectForm" class="form-grid">
-                  <div class="form-row">
-                    <label>Client</label>
-                    <select id="addProjectClientSelect" name="clientId" required></select>
-                  </div>
-                  <div class="form-row">
-                    <label>Project name</label>
-                    <input name="name" placeholder="Website redesign" required />
-                  </div>
-                  <div class="form-row">
-                    <label>Description</label>
-                    <textarea name="description" rows="3" placeholder="Scope, goals, or key notes"></textarea>
-                  </div>
-                  <div class="form-row">
-                    <label>Project date</label>
-                    <input name="projectDate" type="date" />
-                  </div>
-                  <div class="form-row">
-                    <label>Status</label>
-                    <select name="status">
-                      <option value="not-started" selected>Not started</option>
-                      <option value="in-progress">In progress</option>
-                      <option value="completed">Completed</option>
-                      <option value="blocked">Blocked</option>
-                    </select>
-                  </div>
-                  <div class="form-row">
-                    <label>Drive link</label>
-                    <input name="driveLink" type="url" placeholder="https://drive.google.com/..." />
-                  </div>
-                  <div class="modal-actions">
-                    <button class="ghost" type="button" id="cancelAddProject">Cancel</button>
-                    <button class="btn-primary" type="submit" data-default-label="Add project">
-                      <span class="btn-label"><i class="fas fa-plus-circle"></i> <span class="btn-text">Add project</span></span>
-                      <span class="btn-spinner" aria-hidden="true">
-                        <i class="fas fa-circle-notch fa-spin"></i>
-                      </span>
-                    </button>
-                  </div>
-                </form>
-                <div id="addProjectStatus" class="alert alert-success" style="display:none">
-                  Project added successfully.
-                </div>
-              </div>
-            </section>
-
-            <section class="subpanel column">
-              <div class="subpanel-header">
-                <div>
-                  <h2><i class="fas fa-layer-group"></i> Projects</h2>
-                  <p class="helper">Edit, delete, and monitor progress in one place.</p>
-                </div>
-              </div>
-              <div id="projectsList"></div>
-            </section>
-          </div>
-        </section>
-      </div>
-    </main>
-  </div>
-
-  <div class="modal" id="quickTaskModal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="modal-backdrop" data-modal-close></div>
-    <div class="modal-panel">
-      <header class="modal-header">
-        <div>
-          <h2>Add task</h2>
-          <p class="modal-helper" id="quickTaskMeta"></p>
-        </div>
-        <button class="ghost modal-close" type="button" data-modal-close>
-          <i class="fas fa-xmark"></i> Close
-        </button>
-      </header>
-      <form id="quickTaskForm" class="form-grid">
-        <input type="hidden" id="quickTaskProjectId" name="projectId" />
-        <div class="form-row">
-          <label>Title</label>
-          <input id="quickTaskTitle" name="title" placeholder="Design homepage hero" required />
-        </div>
+          <div id="projectsActionStatus" class="alert alert-success" style="display:none"></div>
+
+          <section class="subpanel section-block">
+
+            <h2><i class="fas fa-filter"></i> Filters</h2>
+
+            <div class="tasks-filters">
+
+              <div class="form-row" id="projectsClientRow">
+
+                <label>Client</label>
+
+                <select id="projectsClientSelect"></select>
+
+              </div>
+
+              <div class="form-row">
+
+                <label>Status</label>
+
+                <select id="projectsStatusFilter">
+
+                  <option value="all" selected>All</option>
+
+                  <option value="not-started">Not started</option>
+
+                  <option value="in-progress">In progress</option>
+
+                  <option value="completed">Completed</option>
+
+                  <option value="blocked">Blocked</option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+
+          <div class="layout-2col section-block">
+
+            <section class="subpanel column">
+
+              <div class="subpanel-header">
+
+                <h2><i class="fas fa-diagram-project"></i> Add project</h2>
+
+                <button class="btn-secondary btn-compact" id="toggleAddProject" type="button">Hide</button>
+
+              </div>
+
+              <div id="addProjectPanel" class="collapsible" aria-hidden="false">
+
+                <form id="addProjectForm" class="form-grid">
+
+                  <div class="form-row">
+
+                    <label>Client</label>
+
+                    <select id="addProjectClientSelect" name="clientId" required></select>
+
+                  </div>
+
+                  <div class="form-row">
+
+                    <label>Project name</label>
+
+                    <input name="name" placeholder="Website redesign" required />
+
+                  </div>
+
+                  <div class="form-row">
+
+                    <label>Description</label>
+
+                    <textarea name="description" rows="3" placeholder="Scope, goals, or key notes"></textarea>
+
+                  </div>
+
+                  <div class="form-row">
+
+                    <label>Project date</label>
+
+                    <input name="projectDate" type="date" />
+
+                  </div>
+
+                  <div class="form-row">
+
+                    <label>Status</label>
+
+                    <select name="status">
+
+                      <option value="not-started">Not started</option>
+
+                      <option value="in-progress">In progress</option>
+
+                      <option value="completed">Completed</option>
+
+                      <option value="blocked">Blocked</option>
+
+                    </select>
+
+                  </div>
+
+                  <div class="form-row">
+
+                    <label>Drive link</label>
+
+                    <input name="driveLink" type="url" placeholder="https://drive.google.com/..." />
+
+                  </div>
+
+                  <div class="modal-actions">
+
+                    <button class="ghost" type="button" id="cancelAddProject">Cancel</button>
+
+                    <button class="btn-primary" type="submit" data-default-label="Add project">
+
+                      <span class="btn-label"><i class="fas fa-plus-circle"></i> <span class="btn-text">Add project</span></span>
+
+                      <span class="btn-spinner" aria-hidden="true">
+
+                        <i class="fas fa-circle-notch fa-spin"></i>
+
+                      </span>
+
+                    </button>
+
+                  </div>
+
+                </form>
+
+                <div id="addProjectStatus" class="alert alert-success" style="display:none">
+
+                  Project added successfully.
+
+                </div>
+
+              </div>
+
+            </section>
+
+
+
+            <section class="subpanel column">
+
+              <div class="subpanel-header">
+
+                <div>
+
+                  <h2><i class="fas fa-layer-group"></i> Projects</h2>
+
+                  <p class="helper">Edit, delete, and monitor progress in one place.</p>
+
+                </div>
+
+              </div>
+
+              <div id="projectsList"></div>
+
+            </section>
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+
+  <div class="modal" id="quickTaskModal" aria-hidden="true" role="dialog" aria-modal="true">
+
+    <div class="modal-backdrop" data-modal-close></div>
+
+    <div class="modal-panel">
+
+      <header class="modal-header">
+
+        <div>
+
+          <h2>Add task</h2>
+
+          <p class="modal-helper" id="quickTaskMeta"></p>
+
+        </div>
+
+        <button class="ghost modal-close" type="button" data-modal-close>
+
+          <i class="fas fa-xmark"></i> Close
+
+        </button>
+
+      </header>
+
+      <form id="quickTaskForm" class="form-grid">
+
+        <input type="hidden" id="quickTaskProjectId" name="projectId" />
+
+        <div class="form-row">
+
+          <label>Title</label>
+
+          <input id="quickTaskTitle" name="title" placeholder="Design homepage hero" required />
+
+        </div>
+
         <div class="form-row">
           <label>Description</label>
           <textarea id="quickTaskDescription" name="description" rows="3" placeholder="Context, owners, links"></textarea>
@@ -182,150 +334,297 @@
         <div class="form-row">
           <label>Status</label>
           <select id="quickTaskStatus" name="status">
-            <option value="not-started" selected>Not started</option>
-            <option value="in-progress">In progress</option>
-            <option value="completed">Completed</option>
-            <option value="blocked">Blocked</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <label>Progress (%)</label>
-          <input id="quickTaskProgress" name="progress" type="number" min="0" max="100" value="0" />
-        </div>
-        <div class="form-row">
-          <label>Due date</label>
-          <input id="quickTaskDueDate" name="dueDate" type="date" />
-        </div>
-        <div class="modal-actions">
-          <button class="ghost" type="button" data-modal-close>Cancel</button>
-          <button class="btn-primary" type="submit" data-default-label="Add task">
-            <span class="btn-label"><i class="fas fa-plus-circle"></i> <span class="btn-text">Add task</span></span>
-            <span class="btn-spinner" aria-hidden="true">
-              <i class="fas fa-circle-notch fa-spin"></i>
-            </span>
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div class="modal" id="quickDeliverableModal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="modal-backdrop" data-modal-close></div>
-    <div class="modal-panel">
-      <header class="modal-header">
-        <div>
-          <h2>Add deliverable</h2>
-          <p class="modal-helper" id="quickDeliverableMeta"></p>
-        </div>
-        <button class="ghost modal-close" type="button" data-modal-close>
-          <i class="fas fa-xmark"></i> Close
-        </button>
-      </header>
-      <form id="quickDeliverableForm" class="form-grid">
-        <input type="hidden" id="quickDeliverableProjectId" name="projectId" />
-        <input type="hidden" id="quickDeliverableClientId" name="clientId" />
-        <div class="form-row">
-          <label>Deliverable name</label>
-          <input id="quickDeliverableName" name="name" placeholder="Final render, brand pack..." required />
-        </div>
-        <div class="form-row">
-          <label>Status</label>
-          <select id="quickDeliverableStatus" name="status">
-            <option value="not-started" selected>Not started</option>
-            <option value="in-progress">In progress</option>
-            <option value="ready">Ready</option>
-            <option value="delivered">Delivered</option>
-            <option value="approved">Approved</option>
-            <option value="archived">Archived</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <label>Cover image URL</label>
-          <input id="quickDeliverableCover" name="coverImage" type="url" placeholder="https://..." />
-        </div>
-        <div class="form-row">
-          <label>Description</label>
-          <textarea id="quickDeliverableDescription" name="description" rows="3" placeholder="Context, contents, or delivery notes"></textarea>
-        </div>
-        <div class="form-row">
-          <label>Delivery link</label>
-          <input id="quickDeliverableLink" name="deliveryLink" type="url" placeholder="https://..." />
-        </div>
-        <div class="form-row">
-          <label>Visible to client</label>
-          <input id="quickDeliverableVisible" name="visibleToClient" type="checkbox" />
-        </div>
-        <div class="modal-actions">
-          <button class="ghost" type="button" data-modal-close>Cancel</button>
-          <button class="btn-primary" type="submit" data-default-label="Add deliverable">
-            <span class="btn-label"><i class="fas fa-plus-circle"></i> <span class="btn-text">Add deliverable</span></span>
-            <span class="btn-spinner" aria-hidden="true">
-              <i class="fas fa-circle-notch fa-spin"></i>
-            </span>
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div class="modal" id="projectEditModal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="modal-backdrop" data-modal-close></div>
-    <div class="modal-panel">
-      <header class="modal-header">
-        <div>
-          <h2>Edit project</h2>
-          <p class="modal-helper" id="projectEditMeta"></p>
-        </div>
-        <button class="ghost modal-close" type="button" data-modal-close>
-          <i class="fas fa-xmark"></i> Close
-        </button>
-      </header>
-      <form id="projectEditForm" class="form-grid">
-        <div class="form-row">
-          <label>Project name</label>
-          <input id="projectEditName" name="name" required />
-        </div>
-        <div class="form-row">
-          <label>Description</label>
-          <textarea id="projectEditDescription" name="description" rows="3"></textarea>
-        </div>
-        <div class="form-row">
-          <label>Project date</label>
-          <input id="projectEditDate" name="projectDate" type="date" />
-        </div>
-        <div class="form-row">
-          <label>Status</label>
-          <select id="projectEditStatus" name="status">
-            <option value="not-started">Not started</option>
-            <option value="in-progress">In progress</option>
-            <option value="completed">Completed</option>
-            <option value="blocked">Blocked</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <label>Client</label>
-          <select id="projectEditClient" name="clientId" required></select>
-        </div>
-        <div class="form-row">
-          <label>Drive link</label>
-          <input id="projectEditDrive" name="driveLink" type="url" />
-        </div>
-        <div class="modal-actions">
-          <button class="btn-danger" type="button" id="projectEditDelete">Delete</button>
-          <button class="btn-primary" type="submit" data-default-label="Save changes">
-            <span class="btn-label"><i class="fas fa-floppy-disk"></i> <span class="btn-text">Save changes</span></span>
-            <span class="btn-spinner" aria-hidden="true">
-              <i class="fas fa-circle-notch fa-spin"></i>
-            </span>
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js"></script>
-  <script src="js/dashboard-core.js"></script>
-  <script src="js/projects.js"></script>
-</body>
-</html>
+            <option value="not-started">Not started</option>
+
+            <option value="in-progress">In progress</option>
+
+            <option value="completed">Completed</option>
+
+            <option value="blocked">Blocked</option>
+
+          </select>
+
+        </div>
+
+        <div class="form-row">
+
+          <label>Progress (%)</label>
+
+          <input id="quickTaskProgress" name="progress" type="number" min="0" max="100" value="0" />
+
+        </div>
+
+        <div class="form-row">
+
+          <label>Due date</label>
+
+          <input id="quickTaskDueDate" name="dueDate" type="date" />
+
+        </div>
+
+        <div class="modal-actions">
+
+          <button class="ghost" type="button" data-modal-close>Cancel</button>
+
+          <button class="btn-primary" type="submit" data-default-label="Add task">
+
+            <span class="btn-label"><i class="fas fa-plus-circle"></i> <span class="btn-text">Add task</span></span>
+
+            <span class="btn-spinner" aria-hidden="true">
+
+              <i class="fas fa-circle-notch fa-spin"></i>
+
+            </span>
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="modal" id="quickDeliverableModal" aria-hidden="true" role="dialog" aria-modal="true">
+
+    <div class="modal-backdrop" data-modal-close></div>
+
+    <div class="modal-panel">
+
+      <header class="modal-header">
+
+        <div>
+
+          <h2>Add deliverable</h2>
+
+          <p class="modal-helper" id="quickDeliverableMeta"></p>
+
+        </div>
+
+        <button class="ghost modal-close" type="button" data-modal-close>
+
+          <i class="fas fa-xmark"></i> Close
+
+        </button>
+
+      </header>
+
+      <form id="quickDeliverableForm" class="form-grid">
+
+        <input type="hidden" id="quickDeliverableProjectId" name="projectId" />
+
+        <input type="hidden" id="quickDeliverableClientId" name="clientId" />
+
+        <div class="form-row">
+
+          <label>Deliverable name</label>
+
+          <input id="quickDeliverableName" name="name" placeholder="Final render, brand pack..." required />
+
+        </div>
+
+        <div class="form-row">
+
+          <label>Status</label>
+
+          <select id="quickDeliverableStatus" name="status">
+
+            <option value="not-started">Not started</option>
+
+            <option value="in-progress">In progress</option>
+
+            <option value="ready">Ready</option>
+
+            <option value="delivered">Delivered</option>
+
+            <option value="approved">Approved</option>
+
+            <option value="archived">Archived</option>
+
+          </select>
+
+        </div>
+
+        <div class="form-row">
+
+          <label>Cover image URL</label>
+
+          <input id="quickDeliverableCover" name="coverImage" type="url" placeholder="https://..." />
+
+        </div>
+
+        <div class="form-row">
+
+          <label>Description</label>
+
+          <textarea id="quickDeliverableDescription" name="description" rows="3" placeholder="Context, contents, or delivery notes"></textarea>
+
+        </div>
+
+        <div class="form-row">
+
+          <label>Delivery link</label>
+
+          <input id="quickDeliverableLink" name="deliveryLink" type="url" placeholder="https://..." />
+
+        </div>
+
+        <div class="form-row">
+
+          <label>Visible to client</label>
+
+          <input id="quickDeliverableVisible" name="visibleToClient" type="checkbox" />
+
+        </div>
+
+        <div class="modal-actions">
+
+          <button class="ghost" type="button" data-modal-close>Cancel</button>
+
+          <button class="btn-primary" type="submit" data-default-label="Add deliverable">
+
+            <span class="btn-label"><i class="fas fa-plus-circle"></i> <span class="btn-text">Add deliverable</span></span>
+
+            <span class="btn-spinner" aria-hidden="true">
+
+              <i class="fas fa-circle-notch fa-spin"></i>
+
+            </span>
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="modal" id="projectEditModal" aria-hidden="true" role="dialog" aria-modal="true">
+
+    <div class="modal-backdrop" data-modal-close></div>
+
+    <div class="modal-panel">
+
+      <header class="modal-header">
+
+        <div>
+
+          <h2>Edit project</h2>
+
+          <p class="modal-helper" id="projectEditMeta"></p>
+
+        </div>
+
+        <button class="ghost modal-close" type="button" data-modal-close>
+
+          <i class="fas fa-xmark"></i> Close
+
+        </button>
+
+      </header>
+
+      <form id="projectEditForm" class="form-grid">
+
+        <div class="form-row">
+
+          <label>Project name</label>
+
+          <input id="projectEditName" name="name" required />
+
+        </div>
+
+        <div class="form-row">
+
+          <label>Description</label>
+
+          <textarea id="projectEditDescription" name="description" rows="3"></textarea>
+
+        </div>
+
+        <div class="form-row">
+
+          <label>Project date</label>
+
+          <input id="projectEditDate" name="projectDate" type="date" />
+
+        </div>
+
+        <div class="form-row">
+
+          <label>Status</label>
+
+          <select id="projectEditStatus" name="status">
+
+            <option value="not-started">Not started</option>
+
+            <option value="in-progress">In progress</option>
+
+            <option value="completed">Completed</option>
+
+            <option value="blocked">Blocked</option>
+
+          </select>
+
+        </div>
+
+        <div class="form-row">
+
+          <label>Client</label>
+
+          <select id="projectEditClient" name="clientId" required></select>
+
+        </div>
+
+        <div class="form-row">
+
+          <label>Drive link</label>
+
+          <input id="projectEditDrive" name="driveLink" type="url" />
+
+        </div>
+
+        <div class="modal-actions">
+
+          <button class="btn-danger" type="button" id="projectEditDelete">Delete</button>
+
+          <button class="btn-primary" type="submit" data-default-label="Save changes">
+
+            <span class="btn-label"><i class="fas fa-floppy-disk"></i> <span class="btn-text">Save changes</span></span>
+
+            <span class="btn-spinner" aria-hidden="true">
+
+              <i class="fas fa-circle-notch fa-spin"></i>
+
+            </span>
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="js/supabase-client.js"></script>
+
+  <script src="js/dashboard-core.js"></script>
+
+  <script src="js/projects.js"></script>
+
+</body>
+
+</html>
+

@@ -113,6 +113,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       .join("");
   }
 
+  function getProjectDisplayName(project) {
+    if (!project) return "";
+    return project.name || project.projectName || project.title || project.projectId || "";
+  }
+
   function openProjectModal(project) {
     if (!projectEditModal || !projectEditForm) return;
     currentEditProject = project;
@@ -145,7 +150,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     currentQuickProject = project;
     const client = clients.find((c) => c.clientId === project.clientId);
     if (quickTaskMeta) {
-      const projectLabel = project?.name || "Unknown project";
+      const projectLabel = getProjectDisplayName(project) || "Unknown project";
       const clientLabel = client?.clientName || client?.username || "Unknown client";
       quickTaskMeta.textContent = `${projectLabel} \u2022 ${clientLabel}`;
     }
@@ -175,7 +180,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     currentQuickProject = project;
     const client = clients.find((c) => c.clientId === project.clientId);
     if (quickDeliverableMeta) {
-      const projectLabel = project?.name || "Unknown project";
+      const projectLabel = getProjectDisplayName(project) || "Unknown project";
       const clientLabel = client?.clientName || client?.username || "Unknown client";
       quickDeliverableMeta.textContent = `${projectLabel} \u2022 ${clientLabel}`;
     }
@@ -261,7 +266,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       card.innerHTML = `
         <header>
           <div>
-            <h3>${p.name || "Untitled project"}</h3>
+            <h3>${getProjectDisplayName(p) || "Untitled project"}</h3>
             <p class="project-desc">${p.description || ""}</p>
             <p class="project-desc" style="font-size:0.8rem;margin-top:0.2rem;">
               Client: <strong>${client?.clientName || client?.username || "Unknown"}</strong>
@@ -446,7 +451,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           deliverableId,
           clientId: currentQuickProject.clientId,
           projectId: currentQuickProject.projectId,
-          projectName: currentQuickProject.name || currentQuickProject.projectId,
+          projectName: getProjectDisplayName(currentQuickProject) || currentQuickProject.projectId,
           name,
           status: normalizedStatus,
           coverImage,

@@ -11,6 +11,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const inputs = Array.from(form.querySelectorAll("input, select, textarea"));
 
+  const passwordInput = document.getElementById("password");
+  const passwordToggle = document.querySelector(".password-toggle");
+  if (passwordInput && passwordToggle) {
+    passwordToggle.addEventListener("click", () => {
+      const isHidden = passwordInput.type === "password";
+      passwordInput.type = isHidden ? "text" : "password";
+      passwordToggle.setAttribute("aria-pressed", isHidden ? "true" : "false");
+      passwordToggle.setAttribute("aria-label", isHidden ? "Hide password" : "Show password");
+      const icon = passwordToggle.querySelector("i");
+      if (icon) {
+        icon.classList.toggle("fa-eye", !isHidden);
+        icon.classList.toggle("fa-eye-slash", isHidden);
+      }
+    });
+  }
+
   const setStatus = (message, type = "info") => {
     if (!statusBox) return;
     statusBox.classList.remove("alert-info", "alert-success", "alert-error");

@@ -1411,11 +1411,129 @@ tbody tr:nth-child(even) {
   align-items: center;
   justify-content: center;
   padding: var(--space-4) var(--space-3);
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 10% 10%, rgba(255,106,42,0.08), transparent 40%),
+    radial-gradient(circle at 90% 20%, rgba(255,255,255,0.06), transparent 45%),
+    linear-gradient(180deg, rgba(10,11,16,0.95), rgba(8,9,14,0.98));
 }
 
 .login-panel {
-  max-width: 460px;
+  max-width: 480px;
   width: 100%;
+  padding: 2.4rem 2.2rem 2.1rem;
+  background: linear-gradient(180deg, rgba(16,17,23,0.98), rgba(12,13,18,0.98));
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 28px 60px rgba(0,0,0,0.45);
+}
+
+.login-header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.login-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 7px;
+  object-fit: contain;
+}
+
+.login-kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+}
+
+.login-subtitle {
+  margin: 0.3rem 0 0;
+  color: rgba(255,255,255,0.72);
+  font-size: 0.92rem;
+}
+
+.login-helper {
+  margin: 0.45rem 0 1.2rem;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.88rem;
+}
+
+.login-footer {
+  margin: 1.1rem 0 0;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.55);
+}
+
+.login-panel h1 {
+  margin: 0;
+  font-size: 1.65rem;
+  letter-spacing: -0.02em;
+}
+
+.login-panel .form-grid {
+  gap: 1.1rem;
+}
+
+.login-panel .form-row label {
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.login-panel input {
+  padding: 0.75rem 0.85rem;
+  background: rgba(5,6,10,0.8);
+  border-color: rgba(255,255,255,0.12);
+}
+
+.login-panel .alert {
+  margin-bottom: 0.9rem;
+}
+
+.login-panel .btn-primary {
+  width: 100%;
+  justify-content: center;
+  padding: 0.75rem 1.2rem;
+  font-size: 0.95rem;
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 2.6rem;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-toggle:hover,
+.password-toggle:focus-visible {
+  color: #fff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255,106,42,0.3);
 }
 
 .shell-multi {
@@ -1645,9 +1763,106 @@ tbody tr:nth-child(even) {
   box-shadow: 0 14px 28px rgba(255,106,42,0.12);
 }
 
+
+.task-card.is-draggable .task-card-header {
+  align-items: flex-start;
+}
+
+.task-card.is-draggable .task-card-controls {
+  align-items: center;
+}
+
+.task-card.is-draggable .task-drag-handle {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  color: var(--muted);
+  background: rgba(255,255,255,0.04);
+}
+
+.task-card.is-draggable .task-drag-handle:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.2);
+}
+
+.task-card.is-draggable.is-dragging .task-drag-handle {
+  cursor: grabbing;
+}
+
 .task-card.is-drag-over::before {
   background: var(--accent);
   opacity: 1;
+}
+
+
+.task-card {
+  background: linear-gradient(145deg, rgba(7,8,14,0.95), rgba(14,15,20,0.9));
+  border-color: rgba(255,255,255,0.08);
+}
+
+.task-card.is-subtask {
+  margin-left: 1.8rem;
+  background: rgba(8,9,14,0.7);
+  border-style: dashed;
+  border-color: rgba(255,255,255,0.08);
+}
+
+.task-card.is-subtask .task-card-header h3 {
+  font-size: 0.98rem;
+}
+
+.task-card-controls {
+  gap: 0.5rem;
+}
+
+.task-expand-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+}
+
+.task-expand-toggle i {
+  font-size: 0.7rem;
+}
+
+.task-toggle-count {
+  min-width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: rgba(255,106,42,0.18);
+  color: #ffb68b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  padding: 0 6px;
+}
+
+.task-expand-toggle[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+
+.task-progress {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.task-progress progress {
+  height: 6px;
 }
 
 .task-card-grid {
@@ -2102,6 +2317,66 @@ progress::-moz-progress-bar {
 .client-task-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 14px 24px rgba(0,0,0,0.3);
+}
+
+
+.client-task-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.client-task-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: var(--muted);
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+
+.client-task-progress {
+  margin-top: 0.45rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.client-task-progress progress {
+  height: 6px;
+}
+
+.client-task-toggle i {
+  font-size: 0.7rem;
+}
+
+.client-task-stack {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.client-subtasks {
+  display: none;
+  margin-left: 1.4rem;
+  padding-left: 0.9rem;
+  border-left: 1px dashed rgba(255,255,255,0.12);
+  gap: 0.45rem;
+}
+
+.client-subtasks.is-open {
+  display: grid;
+}
+
+.client-task-card.is-subtask {
+  background: rgba(255,255,255,0.02);
+  border-style: dashed;
+  border-color: rgba(255,255,255,0.12);
 }
 
 .client-task-card strong {

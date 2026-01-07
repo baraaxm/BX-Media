@@ -252,6 +252,9 @@
       if (next.project_date !== undefined && next.projectDate === undefined) next.projectDate = next.project_date;
       if (next.task_id !== undefined && next.taskId === undefined) next.taskId = next.task_id;
       if (next.task_order !== undefined && next.taskOrder === undefined) next.taskOrder = next.task_order;
+      if (next.parent_task_id !== undefined && next.parentTaskId === undefined) {
+        next.parentTaskId = next.parent_task_id;
+      }
       if (next.due_date !== undefined && next.dueDate === undefined) next.dueDate = next.due_date;
       if (next.drive_link !== undefined && next.driveLink === undefined) next.driveLink = next.drive_link;
       if (next.deliverable_id !== undefined && next.deliverableId === undefined) next.deliverableId = next.deliverable_id;

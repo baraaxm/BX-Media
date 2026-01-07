@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BX Media — Login</title>
+  <title>BX Media - Sign in</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="css/dashboard.css" />
@@ -10,21 +10,41 @@
 <body>
   <div class="login-shell">
     <section class="panel login-panel">
-      <h1><i class="fas fa-lock"></i> BX Media Dashboard</h1>
-      <p class="panel-subtitle">Secure access to your BX Media workspace.</p>
-      
+      <div class="login-header">
+        <img class="login-logo" src="../assets/index/7 logo.png" alt="BX Media logo" />
+        <div>
+          <p class="login-kicker">BX Media Portal</p>
+          <h1>Sign in</h1>
+          <p class="login-subtitle">Access your dashboards, tasks, and deliverables.</p>
+        </div>
+      </div>
+      <p class="login-helper">Use your admin or client credentials to continue.</p>
 
       <div id="loginStatus" class="alert alert-info" role="status" aria-live="polite" style="display:none"></div>
-      <div id="loginError" class="alert alert-error" role="alert" aria-live="assertive" style="display:none">Invalid username or password.</div>
+      <div id="loginError" class="alert alert-error" role="alert" aria-live="assertive" style="display:none">
+        Invalid username or password.
+      </div>
 
       <form id="loginForm" class="form-grid">
         <div class="form-row">
           <label for="username"><i class="fas fa-user"></i> Username</label>
-          <input id="username" name="username" type="text" required autocomplete="username" />
+          <input id="username" name="username" type="text" required autocomplete="username" placeholder="your username" />
         </div>
         <div class="form-row">
           <label for="password"><i class="fas fa-key"></i> Password</label>
-          <input id="password" name="password" type="password" required autocomplete="current-password" />
+          <div class="password-field">
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
+              autocomplete="current-password"
+              placeholder="your password"
+            />
+            <button class="password-toggle" type="button" aria-label="Show password" aria-pressed="false">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
         </div>
         <button type="submit" class="btn-primary" data-default-label="Sign in">
           <span class="btn-label"><i class="fas fa-sign-in-alt"></i> <span class="btn-text">Sign in</span></span>
@@ -33,6 +53,7 @@
           </span>
         </button>
       </form>
+      <p class="login-footer">Need access? Contact the BX Media team.</p>
     </section>
   </div>
 

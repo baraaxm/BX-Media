@@ -66,6 +66,8 @@
         </header>
 
         <p class="managed-note">Tasks are managed by BX Media. This view is read-only.</p>
+        <p class="helper tasks-helper">Main tasks can be expanded to reveal subtasks.</p>
+
         <div class="subpanel section-block">
           <div class="tasks-filters">
             <div class="form-row">
@@ -168,7 +170,50 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   const projects = data.projects || [];
-  const tasks = data.tasks || [];
+  const tasks = data.tasks || []
+
+  const expandedTaskIds = new Set();
+
+  const getParentTaskId = (task) => {
+    const raw = task?.parentTaskId ?? task?.parent_task_id ?? null;
+    if (raw === "" || raw === undefined || raw === null) return null;
+    return raw;
+  };
+
+  const isMainTask = (task) => !getParentTaskId(task);
+
+  const buildDerivedTasks = (list) => {
+    const source = list || [];
+    const taskMap = new Map(source.map((t) => [t.taskId, t]));
+    const subtasksByParent = new Map();
+    source.forEach((task) => {
+      const parentId = getParentTaskId(task);
+      if (!parentId || !taskMap.has(parentId)) return;
+      if (!subtasksByParent.has(parentId)) subtasksByParent.set(parentId, []);
+      subtasksByParent.get(parentId).push(task);
+    });
+
+    return source
+      .filter((task) => {
+        const parentId = getParentTaskId(task);
+        if (!parentId) return true;
+        return taskMap.has(parentId);
+      })
+      .map((task) => {
+        const next = { ...task };
+        const parentId = getParentTaskId(next);
+        if (!parentId) {
+          const subs = subtasksByParent.get(next.taskId) || [];
+          if (subs.length) {
+            const total = subs.reduce((sum, sub) => sum + Number(sub.progress || 0), 0);
+            next.progress = Math.round(total / subs.length);
+          }
+        }
+        return next;
+      });
+  };
+
+
   const deliverables = data.deliverables || [];
 
   const params = new URLSearchParams(window.location.search);
@@ -446,9 +491,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
+  const derivedTasks = buildDerivedTasks(tasks);
+
   const tasksToRender = selectedProject
-    ? tasks.filter((t) => t.projectId === selectedProject.projectId)
-    : tasks.slice();
+    ? derivedTasks.filter((t) => t.projectId === selectedProject.projectId)
+    : derivedTasks.slice();
   const assigneeFilter =
     assigneeFilterSelect && assigneeFilterSelect.value !== "all"
       ? assigneeFilterSelect.value
@@ -458,6 +505,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     : tasksToRender;
 
   const getProjectNameForTask = (task) => {
+ = (task) => {
     const project = projects.find((p) => p.projectId === task.projectId);
     return project?.name || project?.projectId || "";
   };
@@ -466,96 +514,131 @@ document.addEventListener("DOMContentLoaded", async () => {
   const list = document.createElement("div");
   list.className = "tasks-group-list";
 
-  const statusGroups = [
-    {
-      key: "in-progress",
-      label: "In Progress",
-      icon: "fas fa-bolt",
-      emptyTitle: "No active tasks",
-      emptyHint: "Next step: we will notify you when work begins.",
-    },
-    {
-      key: "completed",
-      label: "Completed",
-      icon: "fas fa-check",
-      emptyTitle: "No completed tasks yet",
-      emptyHint: "Next step: completed work will appear after delivery.",
-    },
-  ];
+  const sortByExplicitOrder = (list, orderMap) =>
+    (list || []).slice().sort((a, b) => {
+      const aKey = normalizeTaskTitle(a.title);
+      const bKey = normalizeTaskTitle(b.title);
+      const aIndex = orderMap.has(aKey) ? orderMap.get(aKey) : Number.MAX_SAFE_INTEGER;
+      const bIndex = orderMap.has(bKey) ? orderMap.get(bKey) : Number.MAX_SAFE_INTEGER;
+      if (aIndex !== bIndex) return aIndex - bIndex;
+      return aKey.localeCompare(bKey);
+    });
 
-  statusGroups.forEach((group) => {
-    const useOrder = Boolean(selectedProjectId);
-    const groupTasks = filteredTasks
-      .filter((t) => {
-        const status = t.status || "not-started";
-        if (group.key === "in-progress") {
-          return status !== "completed";
-        }
-        return status === group.key;
-      })
-      .sort((a, b) => {
-        if (useOrder) {
-          const aOrder = Number.isFinite(Number(a.taskOrder)) ? Number(a.taskOrder) : Number.MAX_SAFE_INTEGER;
-          const bOrder = Number.isFinite(Number(b.taskOrder)) ? Number(b.taskOrder) : Number.MAX_SAFE_INTEGER;
-          if (aOrder !== bOrder) return aOrder - bOrder;
-        } else {
-          const projectA = getProjectNameForTask(a).toLowerCase();
-          const projectB = getProjectNameForTask(b).toLowerCase();
-          const projectDiff = projectA.localeCompare(projectB);
-          if (projectDiff !== 0) return projectDiff;
-          const aOrder = Number.isFinite(Number(a.taskOrder)) ? Number(a.taskOrder) : Number.MAX_SAFE_INTEGER;
-          const bOrder = Number.isFinite(Number(b.taskOrder)) ? Number(b.taskOrder) : Number.MAX_SAFE_INTEGER;
-          if (aOrder !== bOrder) return aOrder - bOrder;
-        }
-        return new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0);
-      });
+  const sortSubtasksForParent = (parentTitle, list) => {
+    const subOrder = SUBTASK_ORDER[normalizeTaskTitle(parentTitle)] || [];
+    const subOrderMap = buildOrderMap(subOrder);
+    return sortByExplicitOrder(list, subOrderMap);
+  };
 
-    const section = document.createElement("section");
-    section.className = "client-task-group";
-    section.innerHTML = `
-      <header class="client-task-group-header">
-        <h3>${group.label}</h3>
-        <span class="badge ${group.key}">${groupTasks.length}</span>
-      </header>
-    `;
+  const buildTaskCard = (task, options = {}) => {
+    const dueLabel = BXCore.formatDate(task.dueDate) || "No due date";
+    const assigneeLabel = task.assignee === "client" ? "Client" : "BX Media";
+    const description = task.description || "";
+    const statusValue = task.status || "not-started";
+    const progressValue = Math.max(0, Math.min(100, Number(task.progress || 0)));
+    const toggleMarkup = options.showToggle
+      ? `
+        <button
+          class="client-task-toggle"
+          type="button"
+          data-task-id="${task.taskId}"
+          aria-expanded="${options.isExpanded ? "true" : "false"}"
+          aria-label="${options.isExpanded ? "Collapse" : "Expand"} subtasks"
+        >
+          <i class="fas fa-chevron-${options.isExpanded ? "down" : "right"}"></i>
+          <span>${options.subtaskCount}</span>
+        </button>
+      `
+      : "";
 
-    if (!groupTasks.length) {
-      const empty = document.createElement("div");
-      empty.className = "empty-state";
-      empty.innerHTML = `
-        <div class="empty-icon"><i class="${group.icon}"></i></div>
+    return `
+      <div class="client-task-card${options.isSubtask ? " is-subtask" : ""}">
         <div>
-          <h3>${group.emptyTitle}</h3>
-          <p>We'll surface updates here as soon as they are ready.</p>
-          <p class="empty-hint">${group.emptyHint}</p>
+          <strong>${task.title || "Task"}</strong>
+          ${description ? `<div class="client-task-desc">${description}</div>` : ""}
+          <div class="client-task-meta">Due: ${dueLabel} | Assignee: ${assigneeLabel}</div>
+          ${options.isSubtask ? "" : `
+            <div class="client-task-progress">
+              <progress max="100" value="${progressValue}"></progress>
+              <span>${progressValue}%</span>
+            </div>
+          `}
         </div>
-      `;
-      section.appendChild(empty);
-    } else {
-      groupTasks.forEach((task) => {
-        const item = document.createElement("div");
-        item.className = "client-task-card";
-        const dueLabel = BXCore.formatDate(task.dueDate) || "No due date";
-        const assigneeLabel = task.assignee === "client" ? "Client" : "BX Media";
-        const description = task.description || "";
-        item.innerHTML = `
-          <div>
-            <strong>${task.title || "Task"}</strong>
-            ${description ? `<div class="client-task-desc">${description}</div>` : ""}
-            <div class="client-task-meta">Due: ${dueLabel} | Assignee: ${assigneeLabel}</div>
-          </div>
-          <span class="badge ${task.status || "not-started"}">
-            ${(task.status || "not-started").replace("-", " ")}
-          </span>
-        `;
-        section.appendChild(item);
-      });
-    }
+        <div class="client-task-actions">
+          ${toggleMarkup}
+          <span class="badge ${statusValue}">${statusValue.replace("-", " ")}</span>
+        </div>
+      </div>
+    `;
+  };
 
-    list.appendChild(section);
+  const subtaskMap = new Map();
+  filteredTasks.forEach((task) => {
+    const parentId = getParentTaskId(task);
+    if (!parentId) return;
+    if (!subtaskMap.has(parentId)) subtaskMap.set(parentId, []);
+    subtaskMap.get(parentId).push(task);
   });
 
-  wrapper.appendChild(list);
+  const mainTasks = filteredTasks.filter(isMainTask);
+  const orderedMainTasks = sortByExplicitOrder(mainTasks, MAIN_TASK_ORDER_MAP);
+
+  if (!orderedMainTasks.length) {
+    wrapper.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon"><i class="fas fa-filter"></i></div>
+        <div>
+          <h3>No tasks match the filters</h3>
+          <p>Adjust filters or check back after the next update.</p>
+        </div>
+      </div>
+    `;
+  } else {
+    orderedMainTasks.forEach((task) => {
+      const subtasks = subtaskMap.get(task.taskId) || [];
+      const isExpanded = expandedTaskIds.has(task.taskId);
+      const wrapperEl = document.createElement("div");
+      wrapperEl.className = "client-task-stack";
+      wrapperEl.innerHTML = buildTaskCard(task, {
+        showToggle: subtasks.length > 0,
+        subtaskCount: subtasks.length,
+        isExpanded,
+      });
+      if (subtasks.length) {
+        const subWrap = document.createElement("div");
+        subWrap.className = `client-subtasks${isExpanded ? " is-open" : ""}`;
+        subWrap.dataset.parentId = task.taskId;
+        subWrap.innerHTML = sortSubtasksForParent(task.title, subtasks)
+          .map((subtask) => buildTaskCard(subtask, { isSubtask: true }))
+          .join("");
+        wrapperEl.appendChild(subWrap);
+      }
+      list.appendChild(wrapperEl);
+    });
+
+    wrapper.appendChild(list);
+
+    wrapper.addEventListener("click", (e) => {
+      const toggle = e.target.closest(".client-task-toggle");
+      if (!toggle) return;
+      const taskId = toggle.dataset.taskId;
+      if (!taskId) return;
+      const subWrap = wrapper.querySelector(`.client-subtasks[data-parent-id="${taskId}"]`);
+      if (!subWrap) return;
+      const isOpen = subWrap.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      const icon = toggle.querySelector("i");
+      if (icon) {
+        icon.classList.toggle("fa-chevron-down", isOpen);
+        icon.classList.toggle("fa-chevron-right", !isOpen);
+      }
+      if (isOpen) {
+        expandedTaskIds.add(taskId);
+      } else {
+        expandedTaskIds.delete(taskId);
+      }
+    });
+  }
 
   populateProjectFilter();
   if (projectFilterSelect) {
