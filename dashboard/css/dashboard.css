@@ -1020,7 +1020,7 @@ button[disabled],
   font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: 0.3px;
-  text-transform: none;
+  text-transform: capitalize;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
   user-select: none;

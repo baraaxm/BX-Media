@@ -23,6 +23,7 @@
     return supabaseClient;
   }
 
+
   function ensurePageLoader() {
     if (document.getElementById("pageLoader")) return;
     const mount = () => {
@@ -258,8 +259,6 @@
       if (next.project_name !== undefined && next.projectName === undefined) next.projectName = next.project_name;
       if (next.cover_image_url !== undefined && next.coverImage === undefined) next.coverImage = next.cover_image_url;
       if (next.delivery_link !== undefined && next.deliveryLink === undefined) next.deliveryLink = next.delivery_link;
-      if (next.comment_id !== undefined && next.commentId === undefined) next.commentId = next.comment_id;
-      if (next.text !== undefined && next.body === undefined) next.body = next.text;
       return next;
     });
   }
@@ -320,16 +319,6 @@
     };
   }
 
-  function getCommentColumnMap(sample = {}) {
-    return {
-      commentId: "comment_id",
-      taskId: "task_id",
-      projectId: "project_id",
-      body: "text",
-      createdAt: "created_at",
-      updatedAt: "updated_at",
-    };
-  }
 
   function getAccountColumnMap(sample = {}) {
     return {
@@ -370,7 +359,6 @@
       let clientsRes;
       let projectsRes;
       let tasksRes;
-      let commentsRes;
       let deliverablesRes;
 
       if (isAdmin) {
@@ -379,12 +367,12 @@
           supabase.from("clients").select("*"),
           supabase.from("projects").select("*"),
           supabase.from("tasks").select("*"),
-          supabase.from("comments").select("*"),
           supabase.from("deliverables").select("*"),
         ];
         const results = await Promise.all(requests);
-        [accountsRes, clientsRes, projectsRes, tasksRes, commentsRes, deliverablesRes] = results;
-        const firstError = results.find((res) => res.error)?.error;
+        [accountsRes, clientsRes, projectsRes, tasksRes, deliverablesRes] = results;
+        const firstError = [accountsRes, clientsRes, projectsRes, tasksRes, deliverablesRes]
+          .find((res) => res && res.error)?.error;
         if (firstError) throw firstError;
       } else {
         accountsRes = await supabase.from("accounts").select("*").eq("username", sess.username);
@@ -402,14 +390,10 @@
           tasksRes = await supabase.from("tasks").select("*").in("project_id", projectIds);
           if (tasksRes.error) throw tasksRes.error;
 
-          commentsRes = await supabase.from("comments").select("*").in("project_id", projectIds);
-          if (commentsRes.error) throw commentsRes.error;
-
           deliverablesRes = await supabase.from("deliverables").select("*").in("project_id", projectIds);
           if (deliverablesRes.error) throw deliverablesRes.error;
         } else {
           tasksRes = { data: [] };
-          commentsRes = { data: [] };
           deliverablesRes = { data: [] };
         }
       }
@@ -433,7 +417,6 @@
         clients: normalizedClients,
         projects: withClientIdAliases(projectsRes.data || []),
         tasks: withClientIdAliases(tasksRes.data || []),
-        comments: withClientIdAliases(commentsRes.data || []),
         deliverables: withClientIdAliases(deliverablesRes.data || []),
       };
 
@@ -463,7 +446,7 @@
         .select("*")
         .eq("username", username)
         .eq("password", password)
-        .eq("status", "active")
+        .or("status.eq.active,status.is.null")
         .maybeSingle();
       console.log("LOGIN RESPONSE", { data: response.data, error: response.error });
 
@@ -510,9 +493,6 @@
       "addDeliverable",
       "updateDeliverable",
       "deleteDeliverable",
-      "addUpdate",
-      "updateUpdate",
-      "deleteUpdate",
     ]);
     if (adminOnlyActions.has(action) && sess.role !== "admin") {
       return { ok: false, error: "Access denied" };
@@ -659,11 +639,9 @@
       const projectSample = (cachedData?.projects || []).find((row) => row) || {};
       const taskSample = (cachedData?.tasks || []).find((row) => row) || {};
       const deliverableSample = (cachedData?.deliverables || []).find((row) => row) || {};
-      const commentSample = (cachedData?.comments || []).find((row) => row) || {};
       const projectMap = getProjectColumnMap(projectSample);
       const taskMap = getTaskColumnMap(taskSample);
       const deliverableMap = getDeliverableColumnMap(deliverableSample);
-      const commentMap = getCommentColumnMap(commentSample);
       const projectId = payload.projectId;
 
       const taskDelete = await supabase.from("tasks").delete().eq(taskMap.projectId, projectId);
@@ -674,12 +652,6 @@
         .delete()
         .eq(deliverableMap.projectId, projectId);
       if (deliverableDelete.error) return { ok: false, error: deliverableDelete.error.message };
-
-      const commentDelete = await supabase
-        .from("comments")
-        .delete()
-        .eq(commentMap.projectId, projectId);
-      if (commentDelete.error) return { ok: false, error: commentDelete.error.message };
 
       response = await supabase.from("projects").delete().eq(projectMap.projectId, projectId);
     } else if (action === "addTask") {
@@ -756,30 +728,6 @@
       const deliverableSample = (cachedData?.deliverables || []).find((row) => row) || {};
       const columnMap = getDeliverableColumnMap(deliverableSample);
       response = await supabase.from("deliverables").delete().eq(columnMap.deliverableId, payload.deliverableId);
-    } else if (action === "addUpdate") {
-      const commentSample = (cachedData?.comments || []).find((row) => row) || {};
-      const columnMap = getCommentColumnMap(commentSample);
-      const data = pickDefined({
-        [columnMap.commentId]: payload.commentId,
-        [columnMap.taskId]: payload.taskId,
-        [columnMap.projectId]: payload.projectId,
-        [columnMap.body]: payload.body,
-        [columnMap.createdAt]: payload.createdAt,
-        [columnMap.updatedAt]: payload.updatedAt,
-      });
-      response = await supabase.from("comments").insert([data]);
-    } else if (action === "updateUpdate") {
-      const commentSample = (cachedData?.comments || []).find((row) => row) || {};
-      const columnMap = getCommentColumnMap(commentSample);
-      const data = pickDefined({
-        [columnMap.body]: payload.body,
-        [columnMap.updatedAt]: payload.updatedAt,
-      });
-      response = await supabase.from("comments").update(data).eq(columnMap.commentId, payload.commentId);
-    } else if (action === "deleteUpdate") {
-      const commentSample = (cachedData?.comments || []).find((row) => row) || {};
-      const columnMap = getCommentColumnMap(commentSample);
-      response = await supabase.from("comments").delete().eq(columnMap.commentId, payload.commentId);
     } else {
       return { ok: false, error: "Unknown action" };
     }
