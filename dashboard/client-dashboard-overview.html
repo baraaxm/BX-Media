@@ -24,7 +24,6 @@
       <a href="client-dashboard-overview.html" id="navOverview"><i class="fas fa-grid-2"></i> Dashboard</a>
       <a href="client-dashboard-projects.html" id="navProjectsLink"><i class="fas fa-diagram-project"></i> My Projects</a>
       <a href="client-dashboard-tasks.html" id="navTasksLink"><i class="fas fa-list-check"></i> My Tasks</a>
-      <a href="client-dashboard-deliverables.html" id="navDeliverablesLink"><i class="fas fa-box-open"></i> Deliverables</a>
     </nav>
 
     <div class="sidebar-section-title">Account</div>
@@ -32,14 +31,6 @@
       <button id="logoutBtn"><i class="fas fa-arrow-right-from-bracket"></i> Log out</button>
     </nav>
 
-    <div class="sidebar-section-title stats-title">Overview</div>
-    <div class="sidebar-stats-grid">
-      <div class="stat-card"><span>Total projects</span><strong id="statTotalProjects">&mdash;</strong></div>
-      <div class="stat-card"><span>Total tasks</span><strong id="statTotalTasks">&mdash;</strong></div>
-      <div class="stat-card"><span>In progress</span><strong id="statInProgress">&mdash;</strong></div>
-      <div class="stat-card"><span>Completed</span><strong id="statCompleted">&mdash;</strong></div>
-      <div class="stat-card"><span>Not started</span><strong id="statNotStarted">&mdash;</strong></div>
-    </div>
   </aside>
 
   <!-- MAIN -->
@@ -73,7 +64,7 @@
         <!-- CLIENT PROJECTS -->
         <section class="subpanel section-block">
           <h2>Active Projects</h2>
-          <div id="overviewActiveProjects" class="project-grid"></div>
+          <div id="overviewActiveProjects"></div>
         </section>
 
         <!-- CLIENT TASKS -->

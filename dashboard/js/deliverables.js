@@ -360,7 +360,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       filtered = filtered.filter((d) => d.projectId === selectedProject);
     }
     if (selectedStatus !== "all") {
-      filtered = filtered.filter((d) => (d.status || "not-started") === selectedStatus);
+      filtered = filtered.filter((d) => normalizeStatus(d.status) === selectedStatus);
     }
 
     if (!filtered.length) {

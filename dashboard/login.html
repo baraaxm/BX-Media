@@ -9,8 +9,8 @@
 </head>
 <body>
   <div class="login-shell">
-    <section class="panel login-panel">
-      <div class="login-header">
+    <section class="login-panel">
+      <div class="login-brand">
         <img class="login-logo" src="../assets/index/7 logo.png" alt="BX Media logo" />
         <div>
           <p class="login-kicker">BX Media Portal</p>
@@ -18,21 +18,28 @@
           <p class="login-subtitle">Access your dashboards, tasks, and deliverables.</p>
         </div>
       </div>
-      <p class="login-helper">Use your admin or client credentials to continue.</p>
+
+      <div class="login-notice">
+        <p>Use your admin or client credentials to continue.</p>
+      </div>
 
       <div id="loginStatus" class="alert alert-info" role="status" aria-live="polite" style="display:none"></div>
       <div id="loginError" class="alert alert-error" role="alert" aria-live="assertive" style="display:none">
         Invalid username or password.
       </div>
 
-      <form id="loginForm" class="form-grid">
+      <form id="loginForm" class="login-form">
         <div class="form-row">
-          <label for="username"><i class="fas fa-user"></i> Username</label>
-          <input id="username" name="username" type="text" required autocomplete="username" placeholder="your username" />
+          <label for="username">Username</label>
+          <div class="input-with-icon">
+            <i class="fas fa-user"></i>
+            <input id="username" name="username" type="text" required autocomplete="username" placeholder="your username" />
+          </div>
         </div>
         <div class="form-row">
-          <label for="password"><i class="fas fa-key"></i> Password</label>
-          <div class="password-field">
+          <label for="password">Password</label>
+          <div class="password-field input-with-icon">
+            <i class="fas fa-key"></i>
             <input
               id="password"
               name="password"
@@ -53,7 +60,10 @@
           </span>
         </button>
       </form>
-      <p class="login-footer">Need access? Contact the BX Media team.</p>
+
+      <div class="login-footer">
+        <span>Need access? Contact the BX Media team.</span>
+      </div>
     </section>
   </div>
 
