@@ -45,63 +45,87 @@
     <main class="content">
       <div class="page-container">
         <section class="panel">
-          <header class="panel-header">
+          <header class="panel-header clients-header">
             <div class="header-title-row">
               <label for="sidebarToggle" class="sidebar-toggle-btn" aria-label="Open navigation">
                 <i class="fas fa-bars"></i>
               </label>
               <div>
-                <h1>Clients</h1>
-                <p class="panel-subtitle">Create and manage client access and contact details.</p>
+                <h1>Clients <span class="count-badge" id="clientsCount">0</span></h1>
+                <p class="panel-subtitle">Manage client access, projects, and account status.</p>
               </div>
+            </div>
+            <div class="panel-actions">
+              <button class="btn-primary" type="button" id="addClientBtn">
+                <i class="fas fa-plus"></i> Add client
+              </button>
             </div>
           </header>
           <div id="clientsActionStatus" class="alert alert-success" style="display:none"></div>
 
-          <div class="layout-2col section-block">
-            <div class="column">
-              <section class="subpanel">
-                <h2><i class="fas fa-user-plus"></i> Add client</h2>
-                <form id="addClientForm" class="form-grid">
-                  <div class="form-row">
-                    <label>Client name</label>
-                    <input name="clientName" required />
-                  </div>
-
-                  <div class="form-row">
-                    <label>Username (used for login)</label>
-                    <input name="username" required />
-                  </div>
-
-                  <div class="form-row">
-                    <label>Password</label>
-                    <input name="password" type="password" required />
-                  </div>
-
-                  <button class="btn-primary" type="submit" data-default-label="Add client">
-                    <span class="btn-label"><i class="fas fa-plus-circle"></i> <span class="btn-text">Add client</span></span>
-                    <span class="btn-spinner" aria-hidden="true">
-                      <i class="fas fa-circle-notch fa-spin"></i>
-                    </span>
-                  </button>
-                </form>
-
-                <div id="addClientStatus" class="alert alert-success" style="display:none">
-                  Client added successfully.
-                </div>
-              </section>
+          <div class="section-block clients-toolbar">
+            <div class="filters-row">
+              <div class="filters-left">
+                <select class="filter-pill" id="clientsStatusFilter">
+                  <option value="">Status</option>
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+              </div>
+              <div class="search-field">
+                <i class="fas fa-search"></i>
+                <input id="clientsSearch" type="search" placeholder="Search clients" />
+              </div>
             </div>
+          </div>
 
-            <div class="column">
-              <section class="subpanel">
-                <h2><i class="fas fa-users"></i> Clients</h2>
-                <div id="clientsTableWrapper"></div>
-              </section>
-            </div>
+          <div class="section-block">
+            <section class="subpanel">
+              <div id="clientsTableWrapper"></div>
+            </section>
           </div>
         </section>
       </div>
     </main>
+  </div>
+
+  <div id="addClientModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-panel add-client-modal" role="dialog" aria-modal="true" aria-labelledby="addClientTitle">
+      <div class="modal-header">
+        <div>
+          <h2 id="addClientTitle">Add client</h2>
+          <p class="modal-helper">Create a new client login and assign access.</p>
+        </div>
+        <button class="btn-secondary" type="button" id="addClientModalClose"><i class="fas fa-xmark"></i> Close</button>
+      </div>
+      <div id="addClientStatus" class="alert alert-success" style="display:none">
+        Client added successfully.
+      </div>
+      <form id="addClientForm" class="form-grid">
+        <div class="form-row">
+          <label>Client name</label>
+          <input name="clientName" required />
+        </div>
+
+        <div class="form-row">
+          <label>Username (used for login)</label>
+          <input name="username" required />
+        </div>
+
+        <div class="form-row">
+          <label>Password</label>
+          <input name="password" type="password" required />
+        </div>
+
+        <button class="btn-primary" type="submit" data-default-label="Add client">
+          <span class="btn-label"><i class="fas fa-plus-circle"></i> <span class="btn-text">Add client</span></span>
+          <span class="btn-spinner" aria-hidden="true">
+            <i class="fas fa-circle-notch fa-spin"></i>
+          </span>
+        </button>
+      </form>
+    </div>
   </div>
 
   <div id="clientDetailModal" class="modal" aria-hidden="true">
@@ -110,7 +134,7 @@
       <div class="modal-header">
         <div>
           <h2 id="clientModalTitle">Client</h2>
-          <p class="modal-helper" id="clientModalSubtitle">Overview of projects and tasks.</p>
+          <p class="modal-helper" id="clientModalSubtitle">Project and task totals for this client.</p>
         </div>
         <button class="btn-secondary" type="button" id="clientModalClose"><i class="fas fa-xmark"></i> Close</button>
       </div>

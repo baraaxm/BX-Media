@@ -14,10 +14,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const addVisibleInput = document.getElementById("addDeliverableVisible");
   const addDeliveryLinkInput = document.getElementById("addDeliverableLink");
   const actionStatusEl = document.getElementById("deliverablesActionStatus");
-  const toggleAddDeliverableBtn = document.getElementById("toggleAddDeliverable");
-  const addDeliverablePanel = document.getElementById("addDeliverablePanel");
+  const addDeliverableModal = document.getElementById("addDeliverableModal");
   const openAddDeliverableInline = document.getElementById("openAddDeliverableInline");
-  const cancelAddDeliverableBtn = document.getElementById("cancelAddDeliverable");
 
   const modal = document.getElementById("deliverableModal");
   const modalTitle = document.getElementById("deliverableModalTitle");
@@ -55,10 +53,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const ALLOWED_DELIVERABLE_STATUSES = [
     "not-started",
     "in-progress",
-    "ready",
     "delivered",
     "approved",
-    "archived",
   ];
 
   const showEditStatus = (message, type = "success") => {
@@ -210,7 +206,29 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const normalizeStatus = (status) => {
     const val = String(status || "").trim().toLowerCase();
+    if (val === "ready") return "in-progress";
+    if (val === "archived") return "not-started";
     return ALLOWED_DELIVERABLE_STATUSES.includes(val) ? val : "not-started";
+  };
+
+  const getDeliverableDisplayStatus = (status) => normalizeStatus(status);
+
+  const formatStatusLabel = (status) =>
+    String(status || "not-started").replace("-", " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
+  const openAddModal = () => {
+    if (!addDeliverableModal) return;
+    addDeliverableModal.classList.add("is-open");
+    addDeliverableModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+  };
+
+  const closeAddModal = () => {
+    if (!addDeliverableModal) return;
+    addDeliverableModal.classList.remove("is-open");
+    addDeliverableModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+    if (addStatusEl) addStatusEl.style.display = "none";
   };
 
   const openModal = (deliverable) => {
@@ -295,30 +313,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  if (toggleAddDeliverableBtn && addDeliverablePanel) {
-    toggleAddDeliverableBtn.addEventListener("click", () => {
-      const isCollapsed = addDeliverablePanel.classList.toggle("is-collapsed");
-      toggleAddDeliverableBtn.textContent = isCollapsed ? "Show" : "Hide";
-      addDeliverablePanel.setAttribute("aria-hidden", isCollapsed ? "true" : "false");
+  if (openAddDeliverableInline) {
+    openAddDeliverableInline.addEventListener("click", openAddModal);
+  }
+
+  if (addDeliverableModal) {
+    addDeliverableModal.addEventListener("click", (e) => {
+      if (e.target.closest("[data-modal-close]")) {
+        closeAddModal();
+      }
     });
   }
 
-  if (openAddDeliverableInline && addDeliverablePanel) {
-    openAddDeliverableInline.addEventListener("click", () => {
-      addDeliverablePanel.classList.remove("is-collapsed");
-      addDeliverablePanel.setAttribute("aria-hidden", "false");
-      toggleAddDeliverableBtn.textContent = "Hide";
-      addDeliverablePanel.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  }
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && addDeliverableModal?.classList.contains("is-open")) {
+      closeAddModal();
+    }
+  });
 
-  if (cancelAddDeliverableBtn && addDeliverablePanel) {
-    cancelAddDeliverableBtn.addEventListener("click", () => {
-      addDeliverablePanel.classList.add("is-collapsed");
-      addDeliverablePanel.setAttribute("aria-hidden", "true");
-      toggleAddDeliverableBtn.textContent = "Show";
-    });
-  }
+  const storageKey = `bxm_deliverables_${sess.username || sess.client_id || sess.clientId || "user"}`;
+  const collapsedProjectsKey = `${storageKey}_collapsed_projects`;
+  const collapsedProjectIds = new Set(
+    JSON.parse(localStorage.getItem(collapsedProjectsKey) || "[]")
+  );
+
+  const persistCollapsedProjects = () => {
+    localStorage.setItem(collapsedProjectsKey, JSON.stringify([...collapsedProjectIds]));
+  };
 
   const renderDeliverables = () => {
     deliverablesGrid.innerHTML = "";
@@ -348,95 +369,125 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="empty-icon"><i class="fas fa-box-open"></i></div>
           <div>
             <h3>No deliverables yet</h3>
-            <p>Use the filters to refine your view or add the first asset.</p>
+            <p>Track your first delivery to keep assets organized.</p>
+            <button class="btn-primary" type="button" id="emptyAddDeliverable">
+              <i class="fas fa-plus"></i> Add first deliverable
+            </button>
           </div>
         </div>
       `;
+      const addBtn = document.getElementById("emptyAddDeliverable");
+      if (addBtn) addBtn.addEventListener("click", openAddModal);
       return;
     }
 
-    filtered
-      .slice()
-      .sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0))
-      .forEach((d) => {
-        const project = getProject(d.projectId);
-        const clientId = d.clientId || project?.clientId;
-        const statusValue = d.status || "not-started";
-        const card = document.createElement("article");
-        card.className = "deliverable-card";
-        card.dataset.deliverableId = d.deliverableId;
-        card.innerHTML = `
-          <div class="deliverable-cover" style="${
-            d.coverImage ? `background-image:url('${d.coverImage}')` : ""
-          }">
-            <span class="badge ${statusValue}">${statusValue.replace("-", " ")}</span>
+    const grouped = new Map();
+    filtered.forEach((d) => {
+      if (!grouped.has(d.projectId)) grouped.set(d.projectId, []);
+      grouped.get(d.projectId).push(d);
+    });
+
+    grouped.forEach((items, projectId) => {
+      const project = getProject(projectId);
+      const projectLabel = project?.name || "Unknown project";
+      const isCollapsed = collapsedProjectIds.has(projectId);
+      const section = document.createElement("section");
+      section.className = "deliverables-project";
+      section.dataset.projectId = projectId;
+      section.innerHTML = `
+        <button class="deliverables-project-header" type="button" data-project-id="${projectId}" aria-expanded="${!isCollapsed}">
+          <div>
+            <h3>${projectLabel}</h3>
+            <span class="deliverables-project-meta">${items.length} deliverables</span>
           </div>
-          <div class="deliverable-body">
-            <h3>${d.name || "Untitled deliverable"}</h3>
-            <div class="deliverable-meta">
-              <span>${getProjectName(d.projectId)}</span>
-              <span>${getClientName(clientId)}</span>
+          <i class="fas fa-chevron-${isCollapsed ? "right" : "down"}"></i>
+        </button>
+        <div class="deliverables-project-body ${isCollapsed ? "is-collapsed" : ""}">
+          <div class="deliverables-list"></div>
+        </div>
+      `;
+      const list = section.querySelector(".deliverables-list");
+      items
+        .slice()
+        .sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0))
+        .forEach((d) => {
+          const clientId = d.clientId || project?.clientId;
+          const statusValue = getDeliverableDisplayStatus(d.status);
+          const updatedLabel = d.updatedAt ? BXCore.formatDateTime(d.updatedAt) : "Updated recently";
+          const row = document.createElement("div");
+          row.className = "deliverable-row";
+          row.dataset.deliverableId = d.deliverableId;
+          row.innerHTML = `
+            <div class="deliverable-row-main">
+              <div class="deliverable-thumb ${d.coverImage ? "" : "is-empty"}" style="${
+                d.coverImage ? `background-image:url('${d.coverImage}')` : ""
+              }"></div>
+              <div class="deliverable-info">
+                <div class="deliverable-title">${d.name || "Untitled deliverable"}</div>
+                <div class="deliverable-meta">
+                  <span class="deliverable-status ${statusValue}">${formatStatusLabel(statusValue)}</span>
+                  <span class="deliverable-updated">${updatedLabel}</span>
+                </div>
+              </div>
             </div>
             <div class="deliverable-actions">
-              <button class="btn-secondary" type="button" data-action="edit">Edit</button>
-              <button class="btn-danger" type="button" data-action="delete">Delete</button>
+              <button class="btn-secondary btn-compact" type="button" data-action="view">View</button>
+              <button class="btn-secondary btn-compact" type="button" data-action="edit">Edit</button>
+              <button class="btn-secondary btn-compact" type="button" data-action="replace">Replace</button>
+              ${
+                d.deliveryLink
+                  ? `<a class="ghost btn-compact" href="${d.deliveryLink}" target="_blank" rel="noopener">Download</a>`
+                  : ""
+              }
             </div>
-          </div>
-        `;
-        deliverablesGrid.appendChild(card);
-      });
+          `;
+          list.appendChild(row);
+        });
+      deliverablesGrid.appendChild(section);
+    });
   };
 
   deliverablesGrid.addEventListener("click", async (e) => {
-    const card = e.target.closest(".deliverable-card");
-    if (!card) return;
-    const deliverableId = card.dataset.deliverableId;
+    const projectToggle = e.target.closest(".deliverables-project-header");
+    if (projectToggle) {
+      const projectId = projectToggle.dataset.projectId;
+      const body = projectToggle.parentElement?.querySelector(".deliverables-project-body");
+      const isCollapsed = body?.classList.toggle("is-collapsed");
+      const icon = projectToggle.querySelector("i");
+      if (icon) icon.className = `fas fa-chevron-${isCollapsed ? "right" : "down"}`;
+      projectToggle.setAttribute("aria-expanded", String(!isCollapsed));
+      if (isCollapsed) {
+        collapsedProjectIds.add(projectId);
+      } else {
+        collapsedProjectIds.delete(projectId);
+      }
+      persistCollapsedProjects();
+      return;
+    }
+
+    const row = e.target.closest(".deliverable-row");
+    if (!row) return;
+    const deliverableId = row.dataset.deliverableId;
     const deliverable = deliverables.find((d) => d.deliverableId === deliverableId);
     if (!deliverable) return;
 
     const actionBtn = e.target.closest("[data-action]");
     if (actionBtn) {
       const action = actionBtn.dataset.action;
+      if (action === "view") {
+        openModal(deliverable);
+        return;
+      }
       if (action === "edit") {
         openModal(deliverable);
         return;
       }
-      if (action === "delete") {
-        const confirmDelete = await BXCore.confirmAction({
-          title: "Delete deliverable?",
-          message: "This will permanently remove the deliverable.",
-          confirmLabel: "Delete deliverable",
-          tone: "danger",
-        });
-        if (!confirmDelete) return;
-        BXCore.setButtonLoading(actionBtn, true, "Deleting...");
-        try {
-          const resp = await BXCore.apiPost({
-            action: "deleteDeliverable",
-            deliverableId,
-          });
-          if (!resp.ok) throw new Error(resp.error || "Delete failed");
-          data = await BXCore.apiGetAll(true);
-          BXCore.updateSidebarStats(data);
-          clients = data.clients || [];
-          projects = data.projects || [];
-          deliverables = data.deliverables || [];
-          populateClientSelects();
-          populateProjectSelect(projectSelect, clientSelect.value, { value: "all", label: "All projects" });
-          updateAddProjectSelect();
-          renderDeliverables();
-          showActionStatus("Deliverable deleted. The list is up to date.", "success");
-        } catch (err) {
-          console.error(err);
-          showActionStatus("Couldn't delete the deliverable. Please try again.", "error");
-        } finally {
-          BXCore.setButtonLoading(actionBtn, false);
-        }
+      if (action === "replace") {
+        openModal(deliverable);
+        setTimeout(() => editDeliveryLink?.focus(), 0);
         return;
       }
     }
-
-    openModal(deliverable);
   });
 
   clientSelect.addEventListener("change", () => {
@@ -514,6 +565,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         setTimeout(() => (addStatusEl.style.display = "none"), 2000);
       }
       showActionStatus("Deliverable saved. The list is refreshed.", "success");
+      closeAddModal();
       data = await BXCore.apiGetAll(true);
       BXCore.updateSidebarStats(data);
       clients = data.clients || [];
@@ -604,12 +656,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (quickProject) {
       addClientSelect.value = quickProject.clientId;
       updateAddProjectSelect(quickProjectId);
-      if (addDeliverablePanel) {
-        addDeliverablePanel.classList.remove("is-collapsed");
-        addDeliverablePanel.setAttribute("aria-hidden", "false");
-        toggleAddDeliverableBtn.textContent = "Hide";
-        addDeliverablePanel.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+      openAddModal();
     }
   }
 

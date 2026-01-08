@@ -6,6 +6,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   const statusEl = document.getElementById("addClientStatus");
   const actionStatusEl = document.getElementById("clientsActionStatus");
   const clientsTableWrapper = document.getElementById("clientsTableWrapper");
+  const clientsCountEl = document.getElementById("clientsCount");
+  const addClientBtn = document.getElementById("addClientBtn");
+  const addClientModal = document.getElementById("addClientModal");
+  const addClientModalClose = document.getElementById("addClientModalClose");
+  const searchInput = document.getElementById("clientsSearch");
+  const statusFilter = document.getElementById("clientsStatusFilter");
   const detailModal = document.getElementById("clientDetailModal");
   const detailClose = document.getElementById("clientModalClose");
   const detailBody = document.getElementById("clientModalBody");
@@ -28,9 +34,147 @@ document.addEventListener("DOMContentLoaded", async () => {
     BXCore.showToast(message, type);
   };
 
+  const palette = ["#3e3c41", "#2e3b44", "#3c2e44", "#2f3c33", "#3b3232"];
+  const getInitials = (name) => {
+    const parts = String(name || "").trim().split(/\s+/).filter(Boolean);
+    if (!parts.length) return "--";
+    const first = parts[0][0] || "";
+    const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
+    return (first + last).toUpperCase();
+  };
+  const getAvatarColor = (seed) => {
+    const str = String(seed || "");
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = (hash * 31 + str.charCodeAt(i)) % palette.length;
+    }
+    return palette[hash] || palette[0];
+  };
+  const formatStatus = (status = "active") => String(status || "active").replace("-", " ");
+  const getStatusTone = (status = "active") => {
+    const val = String(status || "active");
+    if (val === "active") return "status-active";
+    if (val === "inactive") return "status-inactive";
+    if (val === "blocked") return "status-blocked";
+    return "status-archived";
+  };
+
+  const openAddClientModal = () => {
+    if (!addClientModal) return;
+    addClientModal.classList.add("is-open");
+    addClientModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+  };
+
+  const closeAddClientModal = () => {
+    if (!addClientModal) return;
+    addClientModal.classList.remove("is-open");
+    addClientModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+  };
+
+  const getFilteredClients = () => {
+    let list = [...clients];
+    const query = String(searchInput?.value || "").trim().toLowerCase();
+    const status = String(statusFilter?.value || "").trim();
+    if (status) {
+      list = list.filter((c) => (c.status || "active") === status);
+    }
+    if (query) {
+      list = list.filter((c) => {
+        const name = String(c.clientName || "").toLowerCase();
+        const username = String(c.username || "").toLowerCase();
+        return name.includes(query) || username.includes(query);
+      });
+    }
+    return list;
+  };
+
+  const closeAllMenus = () => {
+    document.querySelectorAll(".row-menu.is-open").forEach((menu) => {
+      menu.classList.remove("is-open");
+    });
+  };
+
   /* ---------------------------------------------------------
      RENDER CLIENTS TABLE
   --------------------------------------------------------- */
+  function renderClientsTable() {
+    if (!clientsTableWrapper) return;
+    clientsTableWrapper.innerHTML = "";
+    if (clientsCountEl) clientsCountEl.textContent = clients.length;
+
+    const filtered = getFilteredClients();
+    if (!filtered.length) {
+      clientsTableWrapper.innerHTML = '<div class="empty">No clients found.</div>';
+      return;
+    }
+
+    const cardsWrap = document.createElement("div");
+    cardsWrap.className = "clients-cards";
+
+    filtered.forEach((c) => {
+      const clientProjects = projects.filter((p) => p.clientId === c.clientId);
+      const clientTasks = tasks.filter((t) =>
+        clientProjects.some((p) => p.projectId === t.projectId)
+      );
+      const displayName = c.clientName || c.username || "Unknown";
+      const initials = getInitials(displayName);
+      const avatarColor = getAvatarColor(displayName);
+      const username = c.username || "Unknown";
+      const statusTone = getStatusTone(c.status || "active");
+      const joined = BXCore.formatDate(c.createdAt) || "--";
+
+      const card = document.createElement("article");
+      card.className = "client-card";
+      card.dataset.clientId = c.clientId;
+      card.innerHTML = `
+        <div class="client-card-top">
+          <div class="client-cell">
+            <span class="client-avatar" style="--avatar-color: ${avatarColor}">${initials}</span>
+            <div class="client-identity">
+              <strong>${displayName}</strong>
+              <span class="muted">${username}</span>
+            </div>
+          </div>
+          <div class="client-card-actions">
+            <span class="status-pill ${statusTone}">
+              <span class="status-dot"></span>${formatStatus(c.status || "active")}
+            </span>
+            <div class="row-menu" data-menu="${c.clientId}">
+              <button class="menu-trigger" type="button" data-menu-trigger="${c.clientId}" aria-label="Client actions">
+                <i class="fas fa-ellipsis"></i>
+              </button>
+              <div class="menu-dropdown" role="menu">
+                <button type="button" class="menu-item" data-action="edit" data-client="${c.clientId}">Edit client</button>
+                <button type="button" class="menu-item" data-action="toggle" data-client="${c.clientId}">
+                  ${(c.status || "active") === "active" ? "Deactivate" : "Activate"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="client-card-metrics">
+          <div class="client-metric">
+            <span>Projects</span>
+            <strong>${clientProjects.length}</strong>
+          </div>
+          <div class="client-metric">
+            <span>Tasks</span>
+            <strong>${clientTasks.length}</strong>
+          </div>
+          <div class="client-metric">
+            <span>Joined</span>
+            <strong>${joined}</strong>
+          </div>
+        </div>
+      `;
+      cardsWrap.appendChild(card);
+    });
+
+    clientsTableWrapper.appendChild(cardsWrap);
+  }
+
   async function renderClients() {
     if (!clientsTableWrapper) return;
     BXCore.renderSkeleton(clientsTableWrapper, "table", 1);
@@ -50,58 +194,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     projects = data.projects || [];
     tasks = data.tasks || [];
 
-    clientsTableWrapper.innerHTML = "";
-
-    if (!clients.length) {
-      clientsTableWrapper.innerHTML = '<div class="empty">No clients found.</div>';
-      return;
-    }
-
-    const tableWrap = document.createElement("div");
-    tableWrap.className = "table-wrapper";
-
-    const table = document.createElement("table");
-    table.innerHTML = `
-      <thead>
-        <tr>
-          <th>Client</th>
-          <th>Username</th>
-          <th>Status</th>
-          <th>Projects</th>
-          <th>Tasks</th>
-          <th>Manage</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    `;
-
-    const tbody = table.querySelector("tbody");
-
-    clients.forEach((c) => {
-      const clientProjects = projects.filter((p) => p.clientId === c.clientId);
-      const clientTasks = tasks.filter((t) =>
-        clientProjects.some((p) => p.projectId === t.projectId)
-      );
-
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td><strong>${c.clientName || "Unknown"}</strong></td>
-        <td>${c.username || "Unknown"}</td>
-        <td><span class="badge ${c.status || "active"}">${(c.status || "active").replace("-", " ")}</span></td>
-        <td>${clientProjects.length}</td>
-        <td>${clientTasks.length}</td>
-        <td>
-          <button class="btn-secondary btn-compact" data-manage="${c.clientId}">
-            <i class="fas fa-gear"></i> Manage
-          </button>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-
-    // Delete button handler
-    tableWrap.appendChild(table);
-    clientsTableWrapper.appendChild(tableWrap);
+    renderClientsTable();
   }
 
   function renderClientDetail(client, clientProjects, clientTasks, options = {}) {
@@ -115,24 +208,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (detailTitle) detailTitle.textContent = client.clientName || client.username || "Client";
     if (detailSubtitle)
-      detailSubtitle.textContent = `${clientProjects.length} projects, ${clientTasks.length} tasks for this client.`;
-
-    const projectNameById = clientProjects.reduce((map, p) => {
-      map[p.projectId] = p.name || p.projectId || "Project";
-      return map;
-    }, {});
-    const tasksByProject = clientProjects.map((project) => {
-      const list = clientTasks.filter((t) => t.projectId === project.projectId);
-      const ordered = list
-        .slice()
-        .sort((a, b) => {
-          const aOrder = Number.isFinite(Number(a.taskOrder)) ? Number(a.taskOrder) : Number.MAX_SAFE_INTEGER;
-          const bOrder = Number.isFinite(Number(b.taskOrder)) ? Number(b.taskOrder) : Number.MAX_SAFE_INTEGER;
-          if (aOrder !== bOrder) return aOrder - bOrder;
-          return new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0);
-        });
-      return { project, tasks: ordered };
-    });
+      detailSubtitle.textContent = `${clientProjects.length} projects, ${clientTasks.length} tasks total.`;
 
     detailBody.innerHTML = `
       <div class="client-summary-grid">
@@ -159,58 +235,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         <div class="client-summary-card">
           <span>Status</span>
           <strong>${clientStatus}</strong>
-        </div>
-      </div>
-      <div class="client-lists">
-        <div class="client-list">
-          <h3>Projects</h3>
-          ${
-            clientProjects.length
-              ? `<ul>${clientProjects
-                  .map(
-                    (p) =>
-                      `<li><span>${p.name || "Untitled"}</span><span class="badge ${p.status ||
-                        "not-started"}">${(p.status || "not-started").replace("-", " ")}</span></li>`
-                  )
-                  .join("")}</ul>`
-              : "<p class='empty'>No projects yet.</p>"
-          }
-        </div>
-        <div class="client-list">
-          <h3>Tasks</h3>
-          ${
-            clientTasks.length
-              ? tasksByProject
-                  .map(({ project, tasks }) => {
-                    if (!tasks.length) return "";
-                    const projectLabel = projectNameById[project.projectId] || "Project";
-                    return `
-                      <div class="client-task-project" data-project-id="${project.projectId}">
-                        <div class="client-task-project-title">${projectLabel}</div>
-                        <ul class="client-task-list" data-project-id="${project.projectId}">
-                          ${tasks
-                            .map((t) => {
-                              const status = t.status || "not-started";
-                              return `
-                                <li class="client-task-row" data-task-id="${t.taskId}" data-project-id="${t.projectId}">
-                                  <button class="task-drag-handle" type="button" aria-label="Drag to reorder">
-                                    <i class="fas fa-grip-lines"></i>
-                                  </button>
-                                  <div class="client-task-copy">
-                                    <span class="client-task-title">${t.title || "Untitled task"}</span>
-                                  </div>
-                                  <span class="badge ${status}">${status.replace("-", " ")}</span>
-                                </li>
-                              `;
-                            })
-                            .join("")}
-                        </ul>
-                      </div>
-                    `;
-                  })
-                  .join("")
-              : "<p class='empty'>No tasks yet.</p>"
-          }
         </div>
       </div>
       <div class="client-admin">
@@ -261,11 +285,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     detailModal.setAttribute("aria-hidden", "false");
     document.body.classList.add("modal-open");
 
-    detailBody.querySelectorAll(".client-task-list").forEach((list) => {
-      const projectId = list.dataset.projectId;
-      bindClientTaskOrdering(list, projectId);
-    });
-
     if (options.focusEdit) {
       const focusInput = detailBody.querySelector("#editClientName");
       if (focusInput) setTimeout(() => focusInput.focus(), 0);
@@ -279,144 +298,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.body.classList.remove("modal-open");
   }
 
-  function bindClientTaskOrdering(listEl, projectId) {
-    let dragItem = null;
-    let dragDidDrop = false;
-    const getAfterElement = (container, y) => {
-      const items = [...container.querySelectorAll(".client-task-row:not(.is-dragging)")];
-      return items.reduce(
-        (closest, child) => {
-          const box = child.getBoundingClientRect();
-          const offset = y - box.top - box.height / 2;
-          if (offset < 0 && offset > closest.offset) {
-            return { offset, element: child };
-          }
-          return closest;
-        },
-        { offset: Number.NEGATIVE_INFINITY, element: null }
-      ).element;
-    };
-
-    listEl.querySelectorAll(".client-task-row").forEach((row) => {
-      row.setAttribute("draggable", "true");
-    });
-    const saveOrder = async () => {
-      const ordered = [...listEl.querySelectorAll(".client-task-row")];
-      const updates = ordered.map((row, index) => ({
-        taskId: row.dataset.taskId,
-        taskOrder: index + 1,
-        projectId,
-      }));
-
-      updates.forEach((update) => {
-        const task = tasks.find((t) => t.taskId === update.taskId);
-        if (task) task.taskOrder = update.taskOrder;
-      });
-
-      try {
-        const responses = await Promise.all(
-          updates.map((u) =>
-            BXCore.apiPost({
-              action: "updateTask",
-              taskId: u.taskId,
-              taskOrder: u.taskOrder,
-            })
-          )
-        );
-        const failed = responses.find((resp) => !resp?.ok);
-        if (failed) throw new Error(failed.error || "Update failed");
-        BXCore.showToast("Task order updated.", "success");
-      } catch (err) {
-        console.error(err);
-        BXCore.showToast("Couldn't save task order. Please try again.", "error");
-      } finally {
-        listEl.querySelectorAll(".client-task-row").forEach((row) => {
-          row.classList.remove("is-dragging", "is-drag-over");
-        });
-        dragItem = null;
-      }
-    };
-
-    listEl.addEventListener("dragstart", (e) => {
-      const row = e.target.closest(".client-task-row");
-      if (!row || !e.target.closest(".task-drag-handle")) {
-        e.preventDefault();
-        return;
-      }
-      dragItem = row;
-      dragDidDrop = false;
-      row.classList.add("is-dragging");
-      e.dataTransfer.effectAllowed = "move";
-      e.dataTransfer.setData("text/plain", row.dataset.taskId || "");
-    });
-
-    listEl.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      const row = e.target.closest(".client-task-row");
-      listEl.querySelectorAll(".client-task-row").forEach((el) => el.classList.remove("is-drag-over"));
-      if (row && row !== dragItem) row.classList.add("is-drag-over");
-      const after = getAfterElement(listEl, e.clientY);
-      if (!dragItem) return;
-      if (after == null) {
-        listEl.appendChild(dragItem);
-      } else {
-        listEl.insertBefore(dragItem, after);
-      }
-    });
-
-    listEl.addEventListener("drop", async (e) => {
-      e.preventDefault();
-      if (!dragItem) return;
-      dragDidDrop = true;
-      await saveOrder();
-    });
-
-    listEl.addEventListener("dragend", () => {
-      listEl.querySelectorAll(".client-task-row").forEach((row) => {
-        row.classList.remove("is-dragging", "is-drag-over");
-      });
-      if (dragItem && !dragDidDrop) {
-        saveOrder();
-      }
-      dragItem = null;
-      dragDidDrop = false;
-    });
-
-    listEl.addEventListener("pointerdown", (e) => {
-      const handle = e.target.closest(".task-drag-handle");
-      if (!handle) return;
-      const row = handle.closest(".client-task-row");
-      if (!row) return;
-      e.preventDefault();
-      dragItem = row;
-      row.classList.add("is-dragging");
-      const onMove = (ev) => {
-        const target = document.elementFromPoint(ev.clientX, ev.clientY);
-        const hover = target ? target.closest(".client-task-row") : null;
-        listEl.querySelectorAll(".client-task-row").forEach((el) => el.classList.remove("is-drag-over"));
-        if (hover && hover !== dragItem) hover.classList.add("is-drag-over");
-        const after = getAfterElement(listEl, ev.clientY);
-        if (!dragItem) return;
-        if (after == null) {
-          listEl.appendChild(dragItem);
-        } else {
-          listEl.insertBefore(dragItem, after);
-        }
-      };
-      const onUp = async () => {
-        document.removeEventListener("pointermove", onMove);
-        document.removeEventListener("pointerup", onUp);
-        await saveOrder();
-      };
-      document.addEventListener("pointermove", onMove);
-      document.addEventListener("pointerup", onUp, { once: true });
-    });
-  }
-
   /* ---------------------------------------------------------
      ADD CLIENT HANDLER
   --------------------------------------------------------- */
-  document.getElementById("addClientForm").addEventListener("submit", async (e) => {
+  const addClientForm = document.getElementById("addClientForm");
+  if (addClientForm) addClientForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (statusEl) statusEl.style.display = "none";
     const submitBtn = e.target.querySelector("button[type=\"submit\"]");
@@ -457,6 +343,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         setTimeout(() => (statusEl.style.display = "none"), 2000);
       }
       showActionStatus("Client added. You can assign projects now.", "success");
+      closeAddClientModal();
 
       // Refresh sidebar counters
       const fresh = await BXCore.apiGetAll(true);
@@ -475,6 +362,23 @@ document.addEventListener("DOMContentLoaded", async () => {
   /* ---------------------------------------------------------
      INITIAL LOAD
   --------------------------------------------------------- */
+  if (addClientBtn) addClientBtn.addEventListener("click", openAddClientModal);
+  if (addClientModalClose) addClientModalClose.addEventListener("click", closeAddClientModal);
+  if (addClientModal) {
+    const backdrop = addClientModal.querySelector(".modal-backdrop");
+    if (backdrop) backdrop.addEventListener("click", closeAddClientModal);
+  }
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    if (addClientModal?.classList.contains("is-open")) closeAddClientModal();
+  });
+
+  [searchInput, statusFilter].forEach((el) => {
+    if (!el) return;
+    el.addEventListener("input", renderClientsTable);
+    el.addEventListener("change", renderClientsTable);
+  });
+
   renderClients();
 
   if (detailClose && detailModal) {
@@ -592,17 +496,61 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (clientsTableWrapper && !actionsBound) {
     actionsBound = true;
     clientsTableWrapper.addEventListener("click", async (e) => {
-      const manageBtn = e.target.closest("button[data-manage]");
+      const menuTrigger = e.target.closest("[data-menu-trigger]");
+      if (menuTrigger) {
+        const menuId = menuTrigger.getAttribute("data-menu-trigger");
+        const menu = clientsTableWrapper.querySelector(`.row-menu[data-menu="${menuId}"]`);
+        if (!menu) return;
+        const isOpen = menu.classList.contains("is-open");
+        closeAllMenus();
+        if (!isOpen) menu.classList.add("is-open");
+        return;
+      }
 
-      if (manageBtn) {
-        const clientId = manageBtn.getAttribute("data-manage");
+      const menuItem = e.target.closest(".menu-item");
+      if (menuItem) {
+        const action = menuItem.getAttribute("data-action");
+        const clientId = menuItem.getAttribute("data-client");
+        if (!clientId) return;
         const client = clients.find((c) => c.clientId === clientId);
         const clientProjects = projects.filter((p) => p.clientId === clientId);
         const clientTasks = tasks.filter((t) =>
           clientProjects.some((p) => p.projectId === t.projectId)
         );
-        renderClientDetail(client, clientProjects, clientTasks, { focusEdit: true });
+
+        if (action === "edit") {
+          renderClientDetail(client, clientProjects, clientTasks, { focusEdit: true });
+        } else if (action === "toggle" && client) {
+          const nextStatus = (client.status || "active") === "active" ? "inactive" : "active";
+          try {
+            const resp = await BXCore.apiPost({
+              action: "updateClient",
+              clientId: client.clientId,
+              clientName: client.clientName,
+              username: client.username,
+              status: nextStatus,
+              updatedAt: new Date().toISOString(),
+            });
+            if (!resp.ok) throw new Error(resp.error || "Update failed");
+            data = await BXCore.apiGetAll(true);
+            BXCore.updateSidebarStats(data);
+            clients = BXCore.validateClientsSchema(data.clients || []);
+            projects = data.projects || [];
+            tasks = data.tasks || [];
+            renderClientsTable();
+            showActionStatus(`Client ${nextStatus}.`, "success");
+          } catch (err) {
+            console.error(err);
+            showActionStatus("Couldn't update the client. Please try again.", "error");
+          }
+        }
+        closeAllMenus();
       }
+    });
+
+    document.addEventListener("click", (e) => {
+      if (e.target.closest(".row-menu")) return;
+      closeAllMenus();
     });
   }
 });

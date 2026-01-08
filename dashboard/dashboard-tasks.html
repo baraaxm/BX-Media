@@ -61,116 +61,31 @@
               </button>
             </div>
           </header>
-          <p class="helper tasks-helper">Expand a main task to view subtasks. Drag handles reorder main tasks only.</p>
+          <p class="helper tasks-helper">Group tasks by project. Expand a main task to view subtasks.</p>
           <div id="tasksActionStatus" class="alert alert-success" style="display:none"></div>
 
-          <section class="subpanel section-block">
-            <h2><i class="fas fa-filter"></i> Filters</h2>
-            <div class="tasks-filters">
-              <div class="form-row" id="tasksClientRow">
-                <label>Client</label>
-                <select id="tasksClientSelect"></select>
-              </div>
-              <div class="form-row">
-                <label>Project</label>
-                <select id="tasksProjectSelect"></select>
-              </div>
-              <div class="form-row">
-                <label>Status</label>
-                <select id="tasksStatusFilter">
-                  <option value="all" selected>All</option>
-                  <option value="not-started">Not started</option>
-                  <option value="in-progress">In progress</option>
-                  <option value="completed">Completed</option>
-                  <option value="blocked">Blocked</option>
-                </select>
-              </div>
-              <div class="form-row">
-                <label>Assignee</label>
-                <select id="tasksAssigneeFilter">
-                  <option value="all" selected>All</option>
-                  <option value="bx-media">BX Media</option>
-                  <option value="client">Client</option>
-                </select>
-              </div>
+          <section class="section-block">
+            <div class="tasks-filters-bar" id="tasksClientRow">
+              <select id="tasksClientSelect" aria-label="Filter by client"></select>
+              <select id="tasksProjectSelect" aria-label="Filter by project"></select>
+              <select id="tasksStatusFilter" aria-label="Filter by status">
+                <option value="all" selected>Status</option>
+                <option value="not-started">Not started</option>
+                <option value="in-progress">In progress</option>
+                <option value="completed">Completed</option>
+                <option value="blocked">Blocked</option>
+              </select>
+              <select id="tasksAssigneeFilter" aria-label="Filter by assignee">
+                <option value="all" selected>Assignee</option>
+                <option value="bx-media">BX Media</option>
+                <option value="client">Client</option>
+              </select>
             </div>
           </section>
 
-          <div class="layout-2col section-block">
-            <section class="subpanel column">
-              <div class="subpanel-header">
-                <h2><i class="fas fa-list-check"></i> Add task</h2>
-                <button class="btn-secondary btn-compact" id="toggleAddTask" type="button">Hide</button>
-              </div>
-              <div id="addTaskPanel" class="collapsible" aria-hidden="false">
-                <form id="addTaskForm" class="form-grid">
-                  <div class="form-row">
-                    <label>Client</label>
-                    <select id="addTaskClientSelect" name="clientId" required></select>
-                  </div>
-                  <div class="form-row">
-                    <label>Project</label>
-                    <select id="addTaskProjectSelect" name="projectId" required></select>
-                  </div>
-                  <div class="form-row">
-                    <label>Title</label>
-                    <input name="title" placeholder="Design homepage hero" required />
-                  </div>
-                  <div class="form-row">
-                    <label>Description</label>
-                    <textarea name="description" rows="3" placeholder="Context, owners, links"></textarea>
-                  </div>
-                  <div class="form-row">
-                    <label>Assignee</label>
-                    <select name="assignee">
-                      <option value="bx-media" selected>BX Media</option>
-                      <option value="client">Client</option>
-                    </select>
-                  </div>
-                  <div class="form-row">
-                    <label>Status</label>
-                    <select name="status">
-                      <option value="not-started" selected>Not started</option>
-                      <option value="in-progress">In progress</option>
-                      <option value="completed">Completed</option>
-                      <option value="blocked">Blocked</option>
-                    </select>
-                  </div>
-                  <div class="form-row">
-                    <label>Progress (%)</label>
-                    <input name="progress" type="number" min="0" max="100" value="10" />
-                  </div>
-                  <div class="form-row">
-                    <label>Due date</label>
-                    <input name="dueDate" type="date" />
-                  </div>
-                  <div class="modal-actions">
-                    <button class="ghost" type="button" id="cancelAddTask">Cancel</button>
-                    <button class="btn-primary" type="submit" data-default-label="Add task">
-                      <span class="btn-label"><i class="fas fa-plus-circle"></i> <span class="btn-text">Add task</span></span>
-                      <span class="btn-spinner" aria-hidden="true">
-                        <i class="fas fa-circle-notch fa-spin"></i>
-                      </span>
-                    </button>
-                  </div>
-                </form>
-                <div id="addTaskStatus" class="alert alert-success" style="display:none">
-                  Task added successfully.
-                </div>
-              </div>
-
-            </section>
-
-            <section class="subpanel column">
-              <div class="subpanel-header">
-                <div>
-                  <h2><i class="fas fa-table"></i> Tasks</h2>
-                  <p class="helper">Edit inline, delete, and keep delivery in sync.</p>
-                </div>
-              </div>
-              <div id="tasksTableWrapper"></div>
-            </section>
-          </div>
+          <section class="section-block">
+            <div id="tasksTableWrapper" class="tasks-hierarchy"></div>
+          </section>
         </section>
       </div>
     </main>
@@ -218,6 +133,10 @@
           <select id="taskEditProject" name="projectId"></select>
         </div>
         <div class="form-row">
+          <label>Parent main task</label>
+          <select id="taskEditParent" name="parentTaskId"></select>
+        </div>
+        <div class="form-row">
           <label>Progress (%)</label>
           <input id="taskEditProgress" name="progress" type="number" min="0" max="100" />
         </div>
@@ -238,6 +157,81 @@
     </div>
   </div>
 
+  <div class="modal" id="addTaskModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-modal-close></div>
+    <div class="modal-panel">
+      <header class="modal-header">
+        <div>
+          <h2>Add task</h2>
+          <p class="modal-helper">Choose a project and assign a main task or subtask.</p>
+        </div>
+        <button class="ghost modal-close" type="button" data-modal-close>
+          <i class="fas fa-xmark"></i> Close
+        </button>
+      </header>
+      <div id="addTaskStatus" class="alert alert-success" style="display:none">
+        Task added successfully.
+      </div>
+      <form id="addTaskForm" class="form-grid">
+        <div class="form-row">
+          <label>Client</label>
+          <select id="addTaskClientSelect" name="clientId" required></select>
+        </div>
+        <div class="form-row">
+          <label>Project</label>
+          <select id="addTaskProjectSelect" name="projectId" required></select>
+        </div>
+        <div class="form-row">
+          <label>Task type</label>
+          <select id="addTaskType" name="taskType">
+            <option value="main" selected>Main task</option>
+            <option value="subtask">Subtask</option>
+          </select>
+        </div>
+        <div class="form-row" id="addTaskParentRow">
+          <label>Parent main task</label>
+          <select id="addTaskMainSelect" name="mainTask"></select>
+        </div>
+        <div class="form-row">
+          <label>Task title</label>
+          <input id="addTaskTitle" name="title" placeholder="Design homepage hero" required />
+        </div>
+        <div class="form-row">
+          <label>Assignee</label>
+          <select id="addTaskAssignee" name="assignee">
+            <option value="bx-media" selected>BX Media</option>
+            <option value="client">Client</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Status</label>
+          <select id="addTaskStatusSelect" name="status">
+            <option value="not-started" selected>Not started</option>
+            <option value="in-progress">In progress</option>
+            <option value="completed">Completed</option>
+            <option value="blocked">Blocked</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Progress (%)</label>
+          <input id="addTaskProgress" name="progress" type="number" min="0" max="100" value="10" />
+        </div>
+        <div class="form-row">
+          <label>Due date</label>
+          <input id="addTaskDueDate" name="dueDate" type="date" />
+        </div>
+        <div class="modal-actions">
+          <button class="ghost" type="button" data-modal-close>Cancel</button>
+          <button class="btn-primary" type="submit" data-default-label="Add task">
+            <span class="btn-label"><i class="fas fa-plus-circle"></i> <span class="btn-text">Add task</span></span>
+            <span class="btn-spinner" aria-hidden="true">
+              <i class="fas fa-circle-notch fa-spin"></i>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-client.js"></script>
   <script src="js/dashboard-core.js"></script>

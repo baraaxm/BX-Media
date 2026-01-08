@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const isAdmin = sess.role === "admin";
 
-  const clientRow = document.getElementById("tasksClientRow");
   const clientSelect = document.getElementById("tasksClientSelect");
   const projectSelect = document.getElementById("tasksProjectSelect");
   const statusFilter = document.getElementById("tasksStatusFilter");
@@ -15,10 +14,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   const addTaskStatus = document.getElementById("addTaskStatus");
   const tasksTableWrapper = document.getElementById("tasksTableWrapper");
   const actionStatusEl = document.getElementById("tasksActionStatus");
-  const toggleAddTaskBtn = document.getElementById("toggleAddTask");
-  const addTaskPanel = document.getElementById("addTaskPanel");
+  const addTaskModal = document.getElementById("addTaskModal");
   const openAddTaskInline = document.getElementById("openAddTaskInline");
-  const cancelAddTaskBtn = document.getElementById("cancelAddTask");
+  const addTaskType = document.getElementById("addTaskType");
+  const addTaskMainSelect = document.getElementById("addTaskMainSelect");
+  const addTaskParentRow = document.getElementById("addTaskParentRow");
+  const addTaskTitle = document.getElementById("addTaskTitle");
+  const addTaskAssignee = document.getElementById("addTaskAssignee");
+  const addTaskStatusSelect = document.getElementById("addTaskStatusSelect");
+  const addTaskProgress = document.getElementById("addTaskProgress");
+  const addTaskDueDate = document.getElementById("addTaskDueDate");
   const taskEditModal = document.getElementById("taskEditModal");
   const taskEditMeta = document.getElementById("taskEditMeta");
   const taskEditForm = document.getElementById("taskEditForm");
@@ -27,6 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const taskEditAssignee = document.getElementById("taskEditAssignee");
   const taskEditStatus = document.getElementById("taskEditStatus");
   const taskEditProject = document.getElementById("taskEditProject");
+  const taskEditParent = document.getElementById("taskEditParent");
   const taskEditProgress = document.getElementById("taskEditProgress");
   const taskEditDueDate = document.getElementById("taskEditDueDate");
   const taskEditDelete = document.getElementById("taskEditDelete");
@@ -61,42 +67,58 @@ document.addEventListener("DOMContentLoaded", async () => {
   let projects = data.projects || [];
   let tasks = pruneOrphanedSubtasks(data.tasks || []);
   let currentEditTask = null;
-  const expandedTaskIds = new Set();
+  const storageKeyBase = `bxm_tasks_${sess.username || sess.client_id || sess.clientId || "user"}`;
+  const projectCollapseKey = `${storageKeyBase}_projects_collapsed`;
+  const mainExpandKey = `${storageKeyBase}_main_expanded`;
+  const collapsedProjectIds = new Set(
+    JSON.parse(localStorage.getItem(projectCollapseKey) || "[]")
+  );
+  const expandedMainTaskIds = new Set(
+    JSON.parse(localStorage.getItem(mainExpandKey) || "[]")
+  );
+
+  const persistSet = (key, set) => {
+    localStorage.setItem(key, JSON.stringify([...set]));
+  };
 
   let currentClientId = null;
   let currentProjectId = null;
   const quickProjectId = new URLSearchParams(window.location.search).get("projectId");
 
   if (!isAdmin) {
-    if (clientRow) clientRow.style.display = "none";
+    if (clientSelect) clientSelect.style.display = "none";
     const client =
       clients.find((c) => c.clientId === sess.clientId) ||
       clients.find((c) => c.username === sess.username);
     currentClientId = client?.clientId || null;
   }
 
-  if (toggleAddTaskBtn && addTaskPanel) {
-    toggleAddTaskBtn.addEventListener("click", () => {
-      const isCollapsed = addTaskPanel.classList.toggle("is-collapsed");
-      toggleAddTaskBtn.textContent = isCollapsed ? "Show" : "Hide";
-      addTaskPanel.setAttribute("aria-hidden", isCollapsed ? "true" : "false");
-    });
+  const openAddTaskModal = () => {
+    if (!addTaskModal) return;
+    addTaskModal.classList.add("is-open");
+    addTaskModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    if (addTaskType) addTaskType.value = "main";
+    populateAddTaskMainSelect(addTaskProjectSelect?.value);
+    updateAddTaskMainVisibility();
+  };
+
+  const closeAddTaskModal = () => {
+    if (!addTaskModal) return;
+    addTaskModal.classList.remove("is-open");
+    addTaskModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+  };
+
+  if (openAddTaskInline) {
+    openAddTaskInline.addEventListener("click", openAddTaskModal);
   }
 
-  if (openAddTaskInline && addTaskPanel) {
-    openAddTaskInline.addEventListener("click", () => {
-      addTaskPanel.classList.remove("is-collapsed");
-      addTaskPanel.setAttribute("aria-hidden", "false");
-      if (toggleAddTaskBtn) toggleAddTaskBtn.textContent = "Hide";
-      addTaskPanel.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  }
-
-  if (cancelAddTaskBtn && addTaskPanel) {
-    cancelAddTaskBtn.addEventListener("click", () => {
-      addTaskPanel.classList.add("is-collapsed");
-      addTaskPanel.setAttribute("aria-hidden", "true");
-      if (toggleAddTaskBtn) toggleAddTaskBtn.textContent = "Show";
+  if (addTaskModal) {
+    addTaskModal.addEventListener("click", (e) => {
+      if (e.target.closest("[data-modal-close]")) {
+        closeAddTaskModal();
+      }
     });
   }
 
@@ -140,6 +162,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       opt.textContent = c.clientName || c.username || c.clientId;
       addTaskClientSelect.appendChild(opt);
     });
+    if (!isAdmin && currentClientId) {
+      addTaskClientSelect.value = currentClientId;
+      addTaskClientSelect.disabled = true;
+    } else {
+      addTaskClientSelect.disabled = false;
+    }
   }
 
   function populateAddTaskProjectSelect(selectedProjectId) {
@@ -153,6 +181,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       opt.value = "";
       opt.textContent = "Select client first";
       addTaskProjectSelect.appendChild(opt);
+      populateAddTaskMainSelect(null);
       return;
     }
 
@@ -163,6 +192,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       opt.value = "";
       opt.textContent = "No projects for this client";
       addTaskProjectSelect.appendChild(opt);
+      populateAddTaskMainSelect(null);
       return;
     }
 
@@ -180,6 +210,54 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (selectedProjectId) {
       addTaskProjectSelect.value = selectedProjectId;
     }
+    populateAddTaskMainSelect(addTaskProjectSelect.value);
+  }
+
+  function updateAddTaskMainVisibility() {
+    if (!addTaskMainSelect || !addTaskParentRow || !addTaskTitle || !addTaskType) return;
+    const isSubtask = addTaskType.value === "subtask";
+    const titleRow = addTaskTitle.closest(".form-row");
+    if (addTaskMainSelect.disabled) {
+      addTaskParentRow.style.display = "none";
+      if (titleRow) titleRow.style.display = "none";
+      addTaskTitle.required = false;
+      return;
+    }
+    addTaskParentRow.style.display = isSubtask ? "block" : "none";
+    if (titleRow) titleRow.style.display = "block";
+    addTaskTitle.required = true;
+  }
+
+  function populateAddTaskMainSelect(projectId) {
+    if (!addTaskMainSelect) return;
+    addTaskMainSelect.innerHTML = "";
+    if (!projectId) {
+      const placeholder = document.createElement("option");
+      placeholder.value = "";
+      placeholder.textContent = "Select project first";
+      addTaskMainSelect.appendChild(placeholder);
+      addTaskMainSelect.disabled = true;
+      updateAddTaskMainVisibility();
+      return;
+    }
+    addTaskMainSelect.disabled = false;
+    const noneOpt = document.createElement("option");
+    noneOpt.value = "";
+    noneOpt.textContent = "Select main task";
+    addTaskMainSelect.appendChild(noneOpt);
+
+    const mainTasks = tasks
+      .filter((t) => isMainTask(t) && (!projectId || t.projectId === projectId))
+      .sort((a, b) => getTaskOrderValue(a) - getTaskOrderValue(b));
+
+    mainTasks.forEach((task) => {
+      const opt = document.createElement("option");
+      opt.value = task.taskId;
+      opt.textContent = task.title || task.taskId;
+      addTaskMainSelect.appendChild(opt);
+    });
+    addTaskMainSelect.value = "";
+    updateAddTaskMainVisibility();
   }
 
   function buildProjectOptions(selectedId) {
@@ -191,6 +269,17 @@ document.addEventListener("DOMContentLoaded", async () => {
           }</option>`
       )
       .join("");
+  }
+
+  function buildParentTaskOptions(projectId, currentTaskId) {
+    const mainTasks = tasks.filter((t) => isMainTask(t) && t.projectId === projectId);
+    const options = ['<option value="">None (main task)</option>'];
+    mainTasks.forEach((task) => {
+      if (task.taskId === currentTaskId) return;
+      const label = task.title || task.taskId;
+      options.push(`<option value="${task.taskId}">${label}</option>`);
+    });
+    return options.join("");
   }
 
   function openTaskModal(task) {
@@ -208,6 +297,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (taskEditAssignee) taskEditAssignee.value = task.assignee || "bx-media";
     if (taskEditStatus) taskEditStatus.value = task.status || "not-started";
     if (taskEditProject) taskEditProject.innerHTML = buildProjectOptions(task.projectId);
+    if (taskEditParent) {
+      taskEditParent.innerHTML = buildParentTaskOptions(task.projectId, task.taskId);
+      taskEditParent.value = getParentTaskId(task) || "";
+    }
     if (taskEditProgress) taskEditProgress.value = Number.isFinite(task.progress) ? task.progress : 0;
     if (taskEditDueDate) taskEditDueDate.value = task.dueDate || "";
 
@@ -299,7 +392,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
   function getTaskOrderValue(task) {
-    const val = Number(task.taskOrder);
+    const raw =
+      task.orderIndex ?? task.order_index ?? task.order_index ?? task.taskOrder ?? task.task_order;
+    const val = Number(raw);
     if (Number.isFinite(val)) return val;
     const fallback = new Date(task.updatedAt || task.createdAt || 0).getTime();
     return Number.isFinite(fallback) ? fallback : Number.MAX_SAFE_INTEGER;
@@ -379,10 +474,31 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function keepExpandedIdsFor(tasksList) {
     const mainIds = new Set(tasksList.filter(isMainTask).map((t) => t.taskId));
-    [...expandedTaskIds].forEach((taskId) => {
-      if (!mainIds.has(taskId)) expandedTaskIds.delete(taskId);
+    [...expandedMainTaskIds].forEach((taskId) => {
+      if (!mainIds.has(taskId)) expandedMainTaskIds.delete(taskId);
     });
+    persistSet(mainExpandKey, expandedMainTaskIds);
   }
+
+  const formatStatusLabel = (status) =>
+    String(status || "not-started").replace("-", " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
+  const computeStatusFromTasks = (list) => {
+    if (!list.length) return "not-started";
+    const statuses = list.map((t) => t.status || "not-started");
+    if (statuses.every((s) => s === "completed")) return "completed";
+    if (statuses.some((s) => s === "in-progress" || s === "blocked" || s === "completed"))
+      return "in-progress";
+    return "not-started";
+  };
+
+  const computeProgressFromTasks = (list) => {
+    if (!list.length) return 0;
+    const total = list.reduce((sum, t) => sum + Number(t.progress || 0), 0);
+    return Math.round(total / list.length);
+  };
+
+  const getAssigneeLabel = (assignee) => (assignee === "client" ? "Client" : "BX Media");
 
   function renderTasks() {
     tasksTableWrapper.innerHTML = "";
@@ -401,15 +517,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
       `;
       const emptyAddBtn = document.getElementById("emptyAddTask");
-      if (emptyAddBtn) {
-        emptyAddBtn.addEventListener("click", () => {
-          if (!addTaskPanel) return;
-          addTaskPanel.classList.remove("is-collapsed");
-          addTaskPanel.setAttribute("aria-hidden", "false");
-          if (toggleAddTaskBtn) toggleAddTaskBtn.textContent = "Hide";
-          addTaskPanel.scrollIntoView({ behavior: "smooth", block: "start" });
-        });
-      }
+      if (emptyAddBtn) emptyAddBtn.addEventListener("click", openAddTaskModal);
       return;
     }
 
@@ -444,9 +552,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const wrap = document.createElement("div");
-    wrap.className = "task-cards";
-    const useOrder = projectSelect.value !== "all";
+    wrap.className = "tasks-groups";
     const canReorder = isAdmin;
+
+    const filteredTaskIds = new Set(filtered.map((task) => task.taskId));
     const subtaskMap = new Map();
     filtered.forEach((task) => {
       const parentId = getParentTaskId(task);
@@ -454,12 +563,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!subtaskMap.has(parentId)) subtaskMap.set(parentId, []);
       subtaskMap.get(parentId).push(task);
     });
-    const filteredTaskIds = new Set(filtered.map((task) => task.taskId));
-    const mainTasks = derivedTasks
+
+    const visibleMainTasks = derivedTasks
       .filter(isMainTask)
       .filter((task) => filteredTaskIds.has(task.taskId) || subtaskMap.has(task.taskId));
-    const orderedMainTasks = sortMainTasks(mainTasks);
-    keepExpandedIdsFor(mainTasks);
+    keepExpandedIdsFor(visibleMainTasks);
+
+    const visibleProjects = getVisibleProjects().filter((p) => {
+      if (projectSelect.value !== "all") return p.projectId === projectSelect.value;
+      return true;
+    });
 
     const sortSubtasksForParent = (parentTitle, list) => {
       if (hasManualOrder(list)) return sortByManualOrder(list);
@@ -468,163 +581,178 @@ document.addEventListener("DOMContentLoaded", async () => {
       return sortByExplicitOrder(list, subOrderMap);
     };
 
-    const buildTaskCard = (task, options = {}) => {
-      const clientName = getClientNameForTask(task);
-      const projectName = getProjectNameForTask(task);
-      const statusValue = task.status || "not-started";
-      const dueLabel = BXCore.formatDate(task.dueDate) || "TBD";
-      const assigneeLabel = task.assignee === "client" ? "Client" : "BX Media";
-      const card = document.createElement("article");
-      card.className = "task-card";
-      if (options.isSubtask) card.classList.add("is-subtask");
-      card.dataset.taskId = task.taskId;
-      card.dataset.taskRole = options.isSubtask ? "subtask" : "main";
-      if (options.isSubtask && options.parentTaskId) {
-        card.dataset.parentTaskId = options.parentTaskId;
-      }
-      card.draggable = Boolean(canReorder);
-      if (canReorder) card.classList.add("is-draggable");
+    let hasGroups = false;
+    visibleProjects.forEach((project) => {
+      const projectMainTasks = visibleMainTasks.filter((task) => task.projectId === project.projectId);
+      if (!projectMainTasks.length) return;
+      hasGroups = true;
 
-      const toggleMarkup = options.showToggle
-        ? `
-          <button
-            class="btn-secondary btn-compact task-expand-toggle"
-            type="button"
-            data-task-id="${task.taskId}"
-            aria-expanded="${options.isExpanded ? "true" : "false"}"
-            aria-label="${options.isExpanded ? "Collapse" : "Expand"} subtasks" title="${options.isExpanded ? "Collapse" : "Expand"} subtasks"
-            ${options.subtaskCount ? "" : "disabled"}
-          >
-            <i class="fas fa-chevron-${options.isExpanded ? "down" : "right"}"></i>
-            <span class="task-toggle-count">${options.subtaskCount ? options.subtaskCount : 0}</span>
+      const projectStatusSource = projectMainTasks.map((task) => {
+        const subs = subtaskMap.get(task.taskId) || [];
+        if (!subs.length) return task;
+        return { status: computeStatusFromTasks(subs), progress: computeProgressFromTasks(subs) };
+      });
+      const projectStatus = computeStatusFromTasks(projectStatusSource);
+      const projectProgress = computeProgressFromTasks(projectStatusSource);
+      const isProjectCollapsed = collapsedProjectIds.has(project.projectId);
+
+      const projectGroup = document.createElement("section");
+      projectGroup.className = "task-project-group";
+      projectGroup.dataset.projectId = project.projectId;
+      projectGroup.innerHTML = `
+        <button class="task-project-header" type="button" data-project-id="${project.projectId}" aria-expanded="${!isProjectCollapsed}">
+          <div class="task-project-title">
+            <h3>${project.name || project.projectId}</h3>
+            <span class="task-project-status ${projectStatus}">${formatStatusLabel(projectStatus)}</span>
+          </div>
+          <div class="task-project-progress">
+            <progress max="100" value="${projectProgress}"></progress>
+            <span>${projectProgress}%</span>
+          </div>
+        </button>
+        <div class="task-project-body ${isProjectCollapsed ? "is-collapsed" : ""}">
+          <div class="task-main-list"></div>
+        </div>
+      `;
+
+      const mainList = projectGroup.querySelector(".task-main-list");
+      const orderedMainTasks = sortMainTasks(projectMainTasks);
+
+      orderedMainTasks.forEach((task) => {
+        const visibleSubs = subtaskMap.get(task.taskId) || [];
+        const isExpanded = expandedMainTaskIds.has(task.taskId);
+        const mainStatus = visibleSubs.length ? computeStatusFromTasks(visibleSubs) : task.status || "not-started";
+        const mainProgress = visibleSubs.length
+          ? computeProgressFromTasks(visibleSubs)
+          : Math.max(0, Math.min(100, Number(task.progress || 0)));
+        const dueLabel = BXCore.formatDate(task.dueDate);
+        const mainRow = document.createElement("div");
+        mainRow.className = "task-row task-main-row";
+        mainRow.dataset.taskId = task.taskId;
+        mainRow.dataset.taskRole = "main";
+        mainRow.dataset.projectId = project.projectId;
+        mainRow.draggable = Boolean(canReorder);
+        if (canReorder) mainRow.classList.add("is-draggable");
+
+        mainRow.innerHTML = `
+          <button class="task-toggle" type="button" data-task-id="${task.taskId}" aria-expanded="${isExpanded}" ${visibleSubs.length ? "" : "disabled"}>
+            <i class="fas fa-chevron-${isExpanded ? "down" : "right"}"></i>
           </button>
-        `
-        : "";
+          <div class="task-main-info">
+            <div class="task-title">${task.title || "Untitled task"}</div>
+            <div class="task-meta">
+              <span>${getAssigneeLabel(task.assignee)}</span>
+              ${dueLabel ? `<span class="task-dot">•</span><span>${dueLabel}</span>` : ""}
+            </div>
+          </div>
+          <div class="task-main-progress">
+            <progress max="100" value="${mainProgress}"></progress>
+            <span>${mainProgress}%</span>
+          </div>
+          <span class="task-status ${mainStatus}">${formatStatusLabel(mainStatus)}</span>
+          ${isAdmin ? `<button class="btn-secondary btn-compact task-edit-open" type="button">Edit</button>` : ""}
+          ${canReorder ? `<span class="task-drag-handle" title="Drag to reorder"><i class="fas fa-grip-lines"></i></span>` : ""}
+        `;
+        mainList.appendChild(mainRow);
 
-      card.innerHTML = `
-        <header class="task-card-header">
+        const subtaskList = document.createElement("div");
+        subtaskList.className = `task-subtasks ${isExpanded ? "is-open" : ""}`;
+        subtaskList.dataset.parentTaskId = task.taskId;
+        if (visibleSubs.length) {
+          sortSubtasksForParent(task.title, visibleSubs).forEach((subtask) => {
+            const subRow = document.createElement("div");
+            subRow.className = "task-row task-subtask-row";
+            subRow.dataset.taskId = subtask.taskId;
+            subRow.dataset.taskRole = "subtask";
+            subRow.dataset.parentTaskId = task.taskId;
+            subRow.dataset.projectId = project.projectId;
+            subRow.draggable = Boolean(canReorder);
+            if (canReorder) subRow.classList.add("is-draggable");
+            const subStatus = subtask.status || "not-started";
+            subRow.innerHTML = `
+              <div class="task-subtask-title">${subtask.title || "Untitled subtask"}</div>
+              ${subtask.assignee ? `<span class="task-subtask-assignee">${getAssigneeLabel(subtask.assignee)}</span>` : ""}
+              <span class="task-status ${subStatus}">${formatStatusLabel(subStatus)}</span>
+              ${isAdmin ? `<button class="btn-secondary btn-compact task-edit-open" type="button">Edit</button>` : ""}
+              ${canReorder ? `<span class="task-drag-handle" title="Drag to reorder"><i class="fas fa-grip-lines"></i></span>` : ""}
+            `;
+            subtaskList.appendChild(subRow);
+          });
+        }
+        mainList.appendChild(subtaskList);
+      });
+
+      wrap.appendChild(projectGroup);
+    });
+
+    if (!hasGroups) {
+      tasksTableWrapper.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon"><i class="fas fa-list-check"></i></div>
           <div>
-            <h3>${task.title || "Untitled task"}</h3>
-            <p class="task-card-meta">
-              <span>${projectName}</span>
-              <span class="task-card-sep">&gt;</span>
-              <span>${clientName}</span>
-            </p>
-          </div>
-          <div class="task-card-controls">
-            ${toggleMarkup}
-            ${canReorder ? `<span class="task-drag-handle" title="Drag to reorder"><i class="fas fa-grip-lines"></i></span>` : ""}
-            <span class="badge ${statusValue}">${statusValue.replace("-", " ")}</span>
-            ${
-              isAdmin
-                ? `<button class="btn-secondary btn-compact task-edit-open" type="button">Edit</button>`
-                : ""
-            }
-          </div>
-        </header>
-        <div class="task-card-grid task-view">
-          <div class="form-row">
-            <label>Project</label>
-            <div class="task-static">${projectName}</div>
-          </div>
-          <div class="form-row">
-            <label>Progress</label>
-            ${options.isSubtask ? `<div class="task-static">${task.progress || 0}%</div>` : `
-              <div class="task-progress">
-                <progress max="100" value="${Math.max(0, Math.min(100, Number(task.progress || 0)))}"></progress>
-                <span>${task.progress || 0}%</span>
-              </div>
-            `}
-          </div>
-          <div class="form-row">
-            <label>Due date</label>
-            <div class="task-static">${dueLabel}</div>
-          </div>
-          <div class="form-row">
-            <label>Assignee</label>
-            <div class="task-static">${assigneeLabel}</div>
-          </div>
-          <div class="form-row">
-            <label>Updated</label>
-            <div class="task-static">${BXCore.formatDateTime(task.updatedAt)}</div>
+            <h3>No tasks match the filters</h3>
+            <p>Adjust filters or create a new task.</p>
           </div>
         </div>
       `;
-      return card;
-    };
-
-    orderedMainTasks.forEach((task) => {
-      const subtasks = subtaskMap.get(task.taskId) || [];
-      const isExpanded = expandedTaskIds.has(task.taskId);
-      const mainCard = buildTaskCard(task, {
-        showToggle: true,
-        subtaskCount: subtasks.length,
-        isExpanded,
-      });
-      wrap.appendChild(mainCard);
-      if (isExpanded && subtasks.length) {
-        sortSubtasksForParent(task.title, subtasks).forEach((subtask) => {
-          const subtaskCard = buildTaskCard(subtask, {
-            isSubtask: true,
-            parentTaskId: task.taskId,
-          });
-          wrap.appendChild(subtaskCard);
-        });
-      }
-    });
+      return;
+    }
 
     wrap.addEventListener("click", (e) => {
-      const toggle = e.target.closest(".task-expand-toggle");
-      if (!toggle) return;
-      const taskId = toggle.dataset.taskId;
-      if (!taskId) return;
-      if (expandedTaskIds.has(taskId)) {
-        expandedTaskIds.delete(taskId);
-      } else {
-        expandedTaskIds.add(taskId);
+      const projectToggle = e.target.closest(".task-project-header");
+      if (projectToggle) {
+        const projectId = projectToggle.dataset.projectId;
+        if (!projectId) return;
+        const body = projectToggle.parentElement?.querySelector(".task-project-body");
+        const isCollapsed = body?.classList.toggle("is-collapsed");
+        projectToggle.setAttribute("aria-expanded", String(!isCollapsed));
+        if (isCollapsed) {
+          collapsedProjectIds.add(projectId);
+        } else {
+          collapsedProjectIds.delete(projectId);
+        }
+        persistSet(projectCollapseKey, collapsedProjectIds);
+        return;
       }
-      renderTasks();
-    });
 
-    if (isAdmin) {
-      wrap.addEventListener("click", async (e) => {
-        const card = e.target.closest("article.task-card");
-        if (!card) return;
-        const taskId = card.dataset.taskId;
+      const toggle = e.target.closest(".task-toggle");
+      if (toggle) {
+        const taskId = toggle.dataset.taskId;
+        if (!taskId) return;
+        if (expandedMainTaskIds.has(taskId)) {
+          expandedMainTaskIds.delete(taskId);
+        } else {
+          expandedMainTaskIds.add(taskId);
+        }
+        persistSet(mainExpandKey, expandedMainTaskIds);
+        renderTasks();
+        return;
+      }
 
-        const openBtn = e.target.closest(".task-edit-open");
-        if (!openBtn) return;
+      const editBtn = e.target.closest(".task-edit-open");
+      if (editBtn) {
+        const row = editBtn.closest(".task-row");
+        const taskId = row?.dataset.taskId;
+        if (!taskId) return;
         const task = derivedTasks.find((item) => item.taskId === taskId);
         if (task) openTaskModal(task);
-      });
-    }
+      }
+    });
+
     if (canReorder) {
-      let dragCard = null;
-      let dragDidDrop = false;
+      let dragRow = null;
       let dragRole = null;
       let dragParentId = null;
-
-      const isInteractiveElement = (target) =>
-        Boolean(target.closest("button, a, input, select, textarea"));
+      let dragProjectId = null;
+      let dragSnapshot = null;
 
       const isDragHandle = (target) => Boolean(target.closest(".task-drag-handle"));
 
-      const getEligibleCards = () => {
-        if (!dragRole) return [];
-        if (dragRole === "main") {
-          return [
-            ...wrap.querySelectorAll('.task-card[data-task-role="main"]:not(.is-dragging)'),
-          ];
-        }
-        return [
-          ...wrap.querySelectorAll(
-            `.task-card[data-task-role="subtask"][data-parent-task-id="${dragParentId}"]:not(.is-dragging)`
-          ),
-        ];
-      };
+      const getEligibleRows = (container) =>
+        [...container.querySelectorAll(`.task-row[data-task-role="${dragRole}"]:not(.is-dragging)`)];
 
-      const getCardAfter = (container, y, cards) => {
-        return (cards || []).reduce(
+      const getRowAfter = (container, y, rows) =>
+        (rows || []).reduce(
           (closest, child) => {
             const box = child.getBoundingClientRect();
             const offset = y - box.top - box.height / 2;
@@ -635,47 +763,28 @@ document.addEventListener("DOMContentLoaded", async () => {
           },
           { offset: Number.NEGATIVE_INFINITY, element: null }
         ).element;
-      };
 
-      const insertDragCard = (after, eligibleCards) => {
-        if (!dragCard) return;
-        if (!eligibleCards.length) return;
-        if (after == null) {
-          const last = eligibleCards[eligibleCards.length - 1];
-          if (last && last.nextSibling) {
-            wrap.insertBefore(dragCard, last.nextSibling);
-          } else {
-            wrap.appendChild(dragCard);
-          }
-        } else {
-          wrap.insertBefore(dragCard, after);
-        }
-      };
-
-      const saveOrder = async () => {
-        const updates = [];
-        const mainCards = [...wrap.querySelectorAll('.task-card[data-task-role="main"]')];
-        mainCards.forEach((card, index) => {
-          updates.push({ taskId: card.dataset.taskId, taskOrder: index + 1 });
-        });
-
-        const subtaskGroups = new Map();
-        wrap.querySelectorAll('.task-card[data-task-role="subtask"]').forEach((card) => {
-          const parentId = card.dataset.parentTaskId;
-          if (!parentId) return;
-          if (!subtaskGroups.has(parentId)) subtaskGroups.set(parentId, []);
-          subtaskGroups.get(parentId).push(card);
-        });
-        subtaskGroups.forEach((cards) => {
-          cards.forEach((card, index) => {
-            updates.push({ taskId: card.dataset.taskId, taskOrder: index + 1 });
-          });
-        });
-
+      const applyOrderUpdates = async (updates) => {
+        const prev = new Map(tasks.map((t) => [t.taskId, t.taskOrder]));
+        dragSnapshot = prev;
         const updateMap = new Map(updates.map((u) => [u.taskId, u.taskOrder]));
+        const parentMap = new Map(
+          updates
+            .filter((u) => u.parentTaskId !== undefined)
+            .map((u) => [u.taskId, u.parentTaskId])
+        );
         tasks = tasks.map((task) => {
           if (!updateMap.has(task.taskId)) return task;
-          return { ...task, taskOrder: updateMap.get(task.taskId) };
+          const nextParent = parentMap.has(task.taskId)
+            ? parentMap.get(task.taskId)
+            : getParentTaskId(task);
+          return {
+            ...task,
+            taskOrder: updateMap.get(task.taskId),
+            order_index: updateMap.get(task.taskId),
+            parentTaskId: nextParent,
+            parent_task_id: nextParent,
+          };
         });
 
         try {
@@ -685,6 +794,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 action: "updateTask",
                 taskId: u.taskId,
                 taskOrder: u.taskOrder,
+                order_index: u.taskOrder,
+                parentTaskId: u.parentTaskId,
+                parent_task_id: u.parentTaskId,
               })
             )
           );
@@ -693,95 +805,188 @@ document.addEventListener("DOMContentLoaded", async () => {
           BXCore.showToast("Task order updated.", "success");
         } catch (err) {
           console.error(err);
+          tasks = tasks.map((task) => {
+            if (!dragSnapshot || !dragSnapshot.has(task.taskId)) return task;
+            return { ...task, taskOrder: dragSnapshot.get(task.taskId), order_index: dragSnapshot.get(task.taskId) };
+          });
           BXCore.showToast("Couldn't save task order. Please try again.", "error");
         } finally {
           renderTasks();
         }
       };
 
-      const beginDrag = (card) => {
-        dragCard = card;
-        dragRole = card.dataset.taskRole;
-        dragParentId = card.dataset.parentTaskId || null;
-        dragDidDrop = false;
-        card.classList.add("is-dragging");
+      const beginDrag = (row) => {
+        dragRow = row;
+        dragRole = row.dataset.taskRole;
+        dragParentId = row.dataset.parentTaskId || null;
+        dragProjectId = row.dataset.projectId || null;
+        row.classList.add("is-dragging");
       };
 
       wrap.addEventListener("dragstart", (e) => {
-        const card = e.target.closest(".task-card");
-        if (!card) return;
-        if (isInteractiveElement(e.target) || !isDragHandle(e.target)) {
+        const row = e.target.closest(".task-row");
+        if (!row || !isDragHandle(e.target)) {
           e.preventDefault();
           return;
         }
-        beginDrag(card);
+        beginDrag(row);
         e.dataTransfer.effectAllowed = "move";
-        e.dataTransfer.setData("text/plain", card.dataset.taskId || "");
+        e.dataTransfer.setData("text/plain", row.dataset.taskId || "");
       });
 
       wrap.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        if (!dragCard) return;
-        const eligibleCards = getEligibleCards();
-        if (!eligibleCards.length) return;
-        const hover = e.target.closest(".task-card");
-        wrap.querySelectorAll(".task-card").forEach((el) => el.classList.remove("is-drag-over"));
-        if (hover && hover !== dragCard && eligibleCards.includes(hover)) {
-          hover.classList.add("is-drag-over");
+        if (!dragRow) return;
+        let container = dragRole === "main"
+          ? dragRow.closest(".task-main-list")
+          : wrap.querySelector(`.task-subtasks[data-parent-task-id="${dragParentId}"]`);
+        if (!container) return;
+        const overRow = e.target.closest(".task-row");
+        const overProjectId = overRow?.dataset.projectId;
+        let overParentId = overRow?.dataset.parentTaskId || null;
+        if (dragRole === "subtask") {
+          if (overRow?.classList.contains("task-main-row")) {
+            overParentId = overRow.dataset.taskId || null;
+          }
+          if (overParentId) {
+            container =
+              wrap.querySelector(`.task-subtasks[data-parent-task-id="${overParentId}"]`) || container;
+          }
         }
-        const after = getCardAfter(wrap, e.clientY, eligibleCards);
-        insertDragCard(after, eligibleCards);
+
+        const isValid =
+          dragRole === "main"
+            ? overProjectId === dragProjectId
+            : overProjectId === dragProjectId;
+
+        if (!isValid) {
+          document.body.classList.add("drag-invalid");
+          if (e.dataTransfer) e.dataTransfer.dropEffect = "none";
+          return;
+        }
+        document.body.classList.remove("drag-invalid");
+        e.preventDefault();
+        const eligible = getEligibleRows(container);
+        const after = getRowAfter(container, e.clientY, eligible);
+        if (after == null) {
+          container.appendChild(dragRow);
+        } else {
+          container.insertBefore(dragRow, after);
+        }
+        eligible.forEach((row) => row.classList.remove("is-drag-over"));
+        if (overRow && overRow !== dragRow && eligible.includes(overRow)) {
+          overRow.classList.add("is-drag-over");
+        }
       });
 
-      wrap.addEventListener("drop", async (e) => {
+      wrap.addEventListener("drop", (e) => {
+        if (!dragRow) return;
         e.preventDefault();
-        if (!dragCard) return;
-        dragDidDrop = true;
-        await saveOrder();
+        let container = dragRole === "main"
+          ? dragRow.closest(".task-main-list")
+          : wrap.querySelector(`.task-subtasks[data-parent-task-id="${dragParentId}"]`);
+        if (!container) return;
+        let nextParentId = dragParentId;
+        if (dragRole === "subtask") {
+          const overRow = e.target.closest(".task-row");
+          if (overRow?.classList.contains("task-main-row")) {
+            nextParentId = overRow.dataset.taskId || dragParentId;
+            container = wrap.querySelector(`.task-subtasks[data-parent-task-id="${nextParentId}"]`) || container;
+          } else if (overRow?.dataset.parentTaskId) {
+            nextParentId = overRow.dataset.parentTaskId;
+            container = wrap.querySelector(`.task-subtasks[data-parent-task-id="${nextParentId}"]`) || container;
+          }
+        }
+        const rows = [...container.querySelectorAll(`.task-row[data-task-role="${dragRole}"]`)];
+        const updates = rows.map((row, index) => ({
+          taskId: row.dataset.taskId,
+          taskOrder: index + 1,
+          parentTaskId: dragRole === "subtask" ? nextParentId : undefined,
+        }));
+        applyOrderUpdates(updates);
       });
 
       wrap.addEventListener("dragend", () => {
-        wrap.querySelectorAll(".task-card").forEach((el) => {
-          el.classList.remove("is-dragging", "is-drag-over");
+        document.body.classList.remove("drag-invalid");
+        wrap.querySelectorAll(".task-row").forEach((row) => {
+          row.classList.remove("is-dragging", "is-drag-over");
         });
-        if (dragCard && !dragDidDrop) {
-          saveOrder();
-        }
-        dragCard = null;
-        dragDidDrop = false;
+        dragRow = null;
         dragRole = null;
         dragParentId = null;
+        dragProjectId = null;
+        dragSnapshot = null;
       });
 
       wrap.addEventListener("pointerdown", (e) => {
-        const card = e.target.closest(".task-card");
-        if (!card) return;
-        if (isInteractiveElement(e.target) || !isDragHandle(e.target)) return;
+        const row = e.target.closest(".task-row");
+        if (!row || !isDragHandle(e.target)) return;
         e.preventDefault();
-        beginDrag(card);
+        beginDrag(row);
+        let container = dragRole === "main"
+          ? row.closest(".task-main-list")
+          : wrap.querySelector(`.task-subtasks[data-parent-task-id="${dragParentId}"]`);
+        if (!container) return;
+        let nextParentId = dragParentId;
+
         const onMove = (ev) => {
           const target = document.elementFromPoint(ev.clientX, ev.clientY);
-          const hover = target ? target.closest(".task-card") : null;
-          const eligibleCards = getEligibleCards();
-          if (!eligibleCards.length) return;
-          wrap.querySelectorAll(".task-card").forEach((el) => el.classList.remove("is-drag-over"));
-          if (hover && hover !== dragCard && eligibleCards.includes(hover)) {
+          const hover = target ? target.closest(".task-row") : null;
+          const hoverProjectId = hover?.dataset.projectId;
+          let hoverParentId = hover?.dataset.parentTaskId || null;
+          if (dragRole === "subtask") {
+            if (hover?.classList.contains("task-main-row")) {
+              hoverParentId = hover.dataset.taskId || null;
+            }
+            if (hoverParentId) {
+              container =
+                wrap.querySelector(`.task-subtasks[data-parent-task-id="${hoverParentId}"]`) ||
+                container;
+            }
+          }
+          const isValid =
+            dragRole === "main"
+              ? hoverProjectId === dragProjectId
+              : hoverProjectId === dragProjectId;
+
+          if (!isValid) {
+            document.body.classList.add("drag-invalid");
+            return;
+          }
+          document.body.classList.remove("drag-invalid");
+          const eligible = getEligibleRows(container);
+          const after = getRowAfter(container, ev.clientY, eligible);
+          if (after == null) {
+            container.appendChild(dragRow);
+          } else {
+            container.insertBefore(dragRow, after);
+          }
+          eligible.forEach((r) => r.classList.remove("is-drag-over"));
+          if (hover && hover !== dragRow && eligible.includes(hover)) {
             hover.classList.add("is-drag-over");
           }
-          const after = getCardAfter(wrap, ev.clientY, eligibleCards);
-          insertDragCard(after, eligibleCards);
+          nextParentId = hoverParentId || dragParentId;
         };
-        const onUp = async () => {
+
+        const onUp = () => {
           document.removeEventListener("pointermove", onMove);
           document.removeEventListener("pointerup", onUp);
-          wrap.querySelectorAll(".task-card").forEach((el) => {
-            el.classList.remove("is-dragging", "is-drag-over");
+          document.body.classList.remove("drag-invalid");
+          wrap.querySelectorAll(".task-row").forEach((r) => {
+            r.classList.remove("is-dragging", "is-drag-over");
           });
-          await saveOrder();
-          dragCard = null;
+          const rows = [...container.querySelectorAll(`.task-row[data-task-role="${dragRole}"]`)];
+          const updates = rows.map((r, index) => ({
+            taskId: r.dataset.taskId,
+            taskOrder: index + 1,
+            parentTaskId: dragRole === "subtask" ? nextParentId : undefined,
+          }));
+          dragRow = null;
           dragRole = null;
           dragParentId = null;
+          dragProjectId = null;
+          applyOrderUpdates(updates);
         };
+
         document.addEventListener("pointermove", onMove);
         document.addEventListener("pointerup", onUp, { once: true });
       });
@@ -807,6 +1012,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
+  if (addTaskProjectSelect) {
+    addTaskProjectSelect.addEventListener("change", () => {
+      populateAddTaskMainSelect(addTaskProjectSelect.value);
+    });
+  }
+
+  if (addTaskMainSelect) {
+    addTaskMainSelect.addEventListener("change", updateAddTaskMainVisibility);
+  }
+
+  if (addTaskType) {
+    addTaskType.addEventListener("change", updateAddTaskMainVisibility);
+  }
+
   statusFilter.addEventListener("change", renderTasks);
   if (assigneeFilter) {
     assigneeFilter.addEventListener("change", renderTasks);
@@ -820,9 +1039,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
+  if (taskEditProject && taskEditParent) {
+    taskEditProject.addEventListener("change", () => {
+      if (!currentEditTask) return;
+      taskEditParent.innerHTML = buildParentTaskOptions(taskEditProject.value, currentEditTask.taskId);
+      taskEditParent.value = getParentTaskId(currentEditTask) || "";
+    });
+  }
+
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && taskEditModal?.classList.contains("is-open")) {
       closeTaskModal();
+    }
+    if (e.key === "Escape" && addTaskModal?.classList.contains("is-open")) {
+      closeAddTaskModal();
     }
   });
 
@@ -875,6 +1105,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       const nextAssignee = taskEditAssignee ? taskEditAssignee.value : "bx-media";
       const nextStatus = taskEditStatus ? taskEditStatus.value : "not-started";
       const nextProjectId = taskEditProject ? taskEditProject.value : currentEditTask.projectId;
+      const nextParentId = taskEditParent ? taskEditParent.value : "";
+      if (nextParentId && nextParentId === currentEditTask.taskId) {
+        showActionStatus("A task cannot be its own parent.", "error");
+        return;
+      }
       const nextProgress = taskEditProgress ? Number(taskEditProgress.value || 0) : 0;
       const nextDueDate = taskEditDueDate && taskEditDueDate.value ? taskEditDueDate.value : null;
 
@@ -890,6 +1125,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           status: nextStatus,
           progress: Number.isFinite(nextProgress) ? nextProgress : 0,
           dueDate: nextDueDate,
+          parentTaskId: nextParentId || null,
+          parent_task_id: nextParentId || null,
           updatedAt: new Date().toISOString(),
         });
         if (!resp.ok) throw new Error(resp.error || "Update failed");
@@ -917,12 +1154,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     const fd = new FormData(e.target);
     const clientId = String(fd.get("clientId") || "").trim();
     const projectId = String(fd.get("projectId") || "").trim();
+    const taskType = String(fd.get("taskType") || "main").trim();
+    const mainSelection = String(fd.get("mainTask") || "").trim();
     if (!clientId) {
       showActionStatus("Please select a client before adding a task.", "error");
       return;
     }
     if (!projectId) {
       showActionStatus("Please select a project before adding a task.", "error");
+      return;
+    }
+    if (taskType === "subtask" && !mainSelection) {
+      showActionStatus("Please select a parent main task.", "error");
       return;
     }
     const projectMatch = projects.find((p) => p.projectId === projectId);
@@ -940,9 +1183,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     const progress = Number(fd.get("progress") || 0);
     const dueDate = String(fd.get("dueDate") || "").trim();
     const normalizedDueDate = dueDate ? dueDate : null;
+    let parentTaskId = null;
+    const finalTitle = title;
+    if (!finalTitle) {
+      showActionStatus("Please enter a task title.", "error");
+      BXCore.setButtonLoading(submitBtn, false);
+      return;
+    }
+    if (taskType === "subtask") {
+      parentTaskId = mainSelection || null;
+    }
+
     const projectTasks = tasks.filter((t) => t.projectId === projectId);
-    const maxOrder = projectTasks.reduce((max, t) => {
-      const val = Number(t.taskOrder);
+    const scopedTasks = parentTaskId
+      ? projectTasks.filter((t) => getParentTaskId(t) === parentTaskId)
+      : projectTasks.filter((t) => isMainTask(t));
+    const scopedMaxOrder = scopedTasks.reduce((max, t) => {
+      const val = getTaskOrderValue(t);
       return Number.isFinite(val) ? Math.max(max, val) : max;
     }, 0);
 
@@ -951,13 +1208,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         action: "addTask",
         taskId,
         projectId,
-        title,
+        title: finalTitle,
         description,
         assignee,
         status,
         progress: Number.isFinite(progress) ? progress : 0,
         dueDate: normalizedDueDate,
-        taskOrder: maxOrder + 1,
+        taskOrder: scopedMaxOrder + 1,
+        order_index: scopedMaxOrder + 1,
+        parentTaskId,
+        parent_task_id: parentTaskId,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       });
@@ -971,6 +1231,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         setTimeout(() => (addTaskStatus.style.display = "none"), 2000);
       }
       showActionStatus("Task saved. The list is refreshed.", "success");
+      closeAddTaskModal();
 
       data = await BXCore.apiGetAll(true);
       BXCore.updateSidebarStats(data);
@@ -979,6 +1240,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       populateProjectSelects();
       populateAddTaskClientSelect();
       populateAddTaskProjectSelect();
+      populateAddTaskMainSelect(addTaskProjectSelect?.value);
       renderTasks();
     } catch (err) {
       console.error(err);
@@ -992,6 +1254,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   populateProjectSelects();
   populateAddTaskClientSelect();
   populateAddTaskProjectSelect();
+  populateAddTaskMainSelect(addTaskProjectSelect?.value);
 
   if (quickProjectId) {
     const quickProject = projects.find((p) => p.projectId === quickProjectId);
@@ -1000,12 +1263,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         addTaskClientSelect.value = quickProject.clientId;
       }
       populateAddTaskProjectSelect(quickProjectId);
-      if (addTaskPanel) {
-        addTaskPanel.classList.remove("is-collapsed");
-        addTaskPanel.setAttribute("aria-hidden", "false");
-        if (toggleAddTaskBtn) toggleAddTaskBtn.textContent = "Hide";
-        addTaskPanel.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+      openAddTaskModal();
     }
   }
 

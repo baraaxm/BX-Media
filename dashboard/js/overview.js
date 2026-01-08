@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const renderSummaryCards = (cards) => {
     if (!summaryEl) return;
     summaryEl.innerHTML = "";
-    cards.forEach(({ label, value, icon, tone, helper }) => {
+    cards.forEach(({ label, value, icon, tone }) => {
       const showEmpty = Number(value) === 0;
       const div = document.createElement("div");
       div.className = `summary-card ${tone}`;
@@ -87,7 +87,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         <div>
           <span>${label}</span>
           <strong>${showEmpty ? "--" : value}</strong>
-          ${showEmpty ? `<span class="summary-helper">${helper}</span>` : ""}
         </div>
       `;
       summaryEl.appendChild(div);
@@ -198,45 +197,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     const manageAllowed = !!allowManage;
     const disabledAttr = manageAllowed ? "" : "disabled aria-disabled=\"true\"";
     const disabledClass = manageAllowed ? "" : " is-disabled";
-    const disabledCopy = manageAllowed
-      ? ""
-      : "Managed by BX Media. Contact your producer for changes.";
-    const latestUpdate = (tasks || [])
-      .slice()
-      .sort(
-        (a, b) => new Date(b.updatedAt || b.createdAt || 0) - new Date(a.updatedAt || a.createdAt || 0)
-      )
-      .find((t) => t.updatedAt || t.createdAt);
-    const updatesLabel = latestUpdate
-      ? `Last activity ${BXCore.formatDateTime(latestUpdate.updatedAt || latestUpdate.createdAt)}`
-      : "No updates yet. Activity will show here once work starts.";
 
     quickActionsEl.innerHTML = `
-      <button class="quick-card accent${disabledClass}" type="button" data-quick="project" ${disabledAttr}>
+      <button class="quick-card${disabledClass}" type="button" data-quick="project" ${disabledAttr}>
         <span class="quick-icon"><i class="fas fa-plus"></i></span>
         <div class="quick-copy">
           <strong>Add project</strong>
-          <span>${disabledCopy || (projects && projects.length
-              ? "Create the next phase or a new client build."
-              : "Start your first project and align the team.")}</span>
         </div>
       </button>
-      <button class="quick-card${disabledClass}" type="button" data-quick="task" ${disabledAttr}>
+      <button class="quick-card accent${disabledClass}" type="button" data-quick="task" ${disabledAttr}>
         <span class="quick-icon"><i class="fas fa-list-check"></i></span>
         <div class="quick-copy">
           <strong>Add task</strong>
-          <span>${disabledCopy || (tasks && tasks.length
-              ? "Log the next deliverable with owners and due dates."
-              : "Capture the first task to begin tracking progress.")}</span>
         </div>
       </button>
       <button class="quick-card neutral${disabledClass}" type="button" data-quick="client" ${disabledAttr}>
         <span class="quick-icon"><i class="fas fa-user-plus"></i></span>
         <div class="quick-copy">
           <strong>Add client</strong>
-          <span>${disabledCopy || (projects && projects.length
-              ? "Onboard a new client and link their projects."
-              : "Add your first client to get projects and tasks organized.")}</span>
         </div>
       </button>
     `;

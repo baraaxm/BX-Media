@@ -3,17 +3,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   const sess = BXCore.requireAuth({ role: "admin" });
   if (!sess) return;
 
-  const clientFilterRow = document.getElementById("projectsClientRow");
   const clientFilterSelect = document.getElementById("projectsClientSelect");
   const statusFilter = document.getElementById("projectsStatusFilter");
   const addProjectClientSelect = document.getElementById("addProjectClientSelect");
   const projectsList = document.getElementById("projectsList");
   const statusBox = document.getElementById("addProjectStatus");
   const actionStatusEl = document.getElementById("projectsActionStatus");
-  const toggleAddProjectBtn = document.getElementById("toggleAddProject");
-  const addProjectPanel = document.getElementById("addProjectPanel");
+  const addProjectModal = document.getElementById("addProjectModal");
   const openAddProjectInline = document.getElementById("openAddProjectInline");
-  const cancelAddProjectBtn = document.getElementById("cancelAddProject");
   const quickTaskModal = document.getElementById("quickTaskModal");
   const quickTaskMeta = document.getElementById("quickTaskMeta");
   const quickTaskForm = document.getElementById("quickTaskForm");
@@ -80,11 +77,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   let currentQuickProject = null;
 
   const openAddProject = () => {
-    if (!addProjectPanel) return;
-    addProjectPanel.classList.remove("is-collapsed");
-    addProjectPanel.setAttribute("aria-hidden", "false");
-    if (toggleAddProjectBtn) toggleAddProjectBtn.textContent = "Hide";
-    addProjectPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (!addProjectModal) return;
+    addProjectModal.classList.add("is-open");
+    addProjectModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+  };
+
+  const closeAddProject = () => {
+    if (!addProjectModal) return;
+    addProjectModal.classList.remove("is-open");
+    addProjectModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
   };
 
   function populateClientSelects() {
@@ -116,6 +119,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   function getProjectDisplayName(project) {
     if (!project) return "";
     return project.name || project.projectName || project.title || project.projectId || "";
+  }
+
+  function getProjectStatusMeta(status) {
+    const normalized = ["in-progress", "completed", "not-started"].includes(status)
+      ? status
+      : "not-started";
+    const labelMap = {
+      "in-progress": "In Progress",
+      "completed": "Completed",
+      "not-started": "Not Started",
+    };
+    return { value: normalized, label: labelMap[normalized] };
   }
 
   function openProjectModal(project) {
@@ -258,53 +273,28 @@ document.addEventListener("DOMContentLoaded", async () => {
       const pTasks = tasks.filter((t) => t.projectId === p.projectId);
       const progress = BXCore.computeProjectProgress(pTasks);
       const client = clients.find((c) => c.clientId === p.clientId);
-      const projectDateRaw = p.projectDate || p.project_date || "";
-      const projectDateLabel = projectDateRaw ? BXCore.formatDate(projectDateRaw) : "TBD";
+      const statusMeta = getProjectStatusMeta(p.status || "not-started");
       const card = document.createElement("article");
-      card.className = "project-card";
+      card.className = "project-card project-card-compact";
       card.dataset.projectId = p.projectId;
       card.innerHTML = `
-        <header>
+        <header class="project-card-header">
           <div>
             <h3>${getProjectDisplayName(p) || "Untitled project"}</h3>
-            <p class="project-desc">${p.description || ""}</p>
-            <p class="project-desc" style="font-size:0.8rem;margin-top:0.2rem;">
-              Client: <strong>${client?.clientName || client?.username || "Unknown"}</strong>
-            </p>
-            <p class="project-desc" style="font-size:0.8rem;margin-top:0.2rem;">
-              Project date: <strong>${projectDateLabel}</strong>
-            </p>
+            <p class="project-client">${client?.clientName || client?.username || "Unknown client"}</p>
           </div>
-          <div class="project-card-actions">
-            <span class="badge ${p.status || "in-progress"}">
-              ${(p.status || "in-progress").replace("-", " ")}
-            </span>
-            <div class="project-actions">
-              <button class="btn-secondary btn-compact project-edit-open" type="button">Edit</button>
-            </div>
+          <div class="project-card-meta">
+            <span class="project-status ${statusMeta.value}">${statusMeta.label}</span>
+            <span class="project-task-count" title="Tasks">${pTasks.length}</span>
           </div>
         </header>
-        <div class="project-meta">
-          <div style="flex:1">
-            <progress max="100" value="${progress}"></progress>
-          </div>
-          <span class="progress-label">${progress}%</span>
-          ${
-            p.driveLink
-              ? `<a class="ghost" href="${p.driveLink}" target="_blank" rel="noopener">Drive</a>`
-              : ""
-          }
+        <p class="project-card-desc">${p.description || ""}</p>
+        <div class="project-progress-row">
+          <progress max="100" value="${progress}"></progress>
+          <span class="project-progress-value">${progress}%</span>
         </div>
-        <div class="project-desc" style="font-size:0.8rem;margin-top:0.3rem;">
-          ${pTasks.length} tasks
-        </div>
-        <div class="project-actions" style="margin-top:0.4rem;">
-          <button class="btn-secondary btn-compact project-quick-task" type="button">
-            <i class="fas fa-plus"></i> Add task
-          </button>
-          <button class="btn-secondary btn-compact project-quick-deliverable" type="button">
-            <i class="fas fa-box-open"></i> Add deliverable
-          </button>
+        <div class="project-card-actions">
+          <button class="btn-primary btn-compact project-edit-open" type="button">Edit</button>
         </div>
       `;
       projectsList.appendChild(card);
@@ -313,25 +303,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!projectActionsBound) {
       projectActionsBound = true;
       projectsList.addEventListener("click", async (e) => {
-        const quickTaskBtn = e.target.closest(".project-quick-task");
-        const quickDeliverableBtn = e.target.closest(".project-quick-deliverable");
-        if (quickTaskBtn || quickDeliverableBtn) {
-          const card = e.target.closest(".project-card");
-          if (!card) return;
-          const projectId = card.dataset.projectId;
-          const project = projects.find((item) => item.projectId === projectId);
-          if (!project) return;
-          if (quickTaskBtn) {
-            openQuickTaskModal(project);
-          } else {
-            openQuickDeliverableModal(project);
-          }
-          return;
-        }
-
-        const openBtn = e.target.closest(".project-edit-open");
-        if (!openBtn) return;
-        const card = openBtn.closest(".project-card");
+        const editBtn = e.target.closest(".project-edit-open");
+        if (!editBtn) return;
+        const card = editBtn.closest(".project-card");
         if (!card) return;
         const projectId = card.dataset.projectId;
         const project = projects.find((item) => item.projectId === projectId);
@@ -339,6 +313,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
   }
+
+  if (openAddProjectInline) {
+    openAddProjectInline.addEventListener("click", openAddProject);
+  }
+
+  if (addProjectModal) {
+    addProjectModal.addEventListener("click", (e) => {
+      if (e.target.closest("[data-modal-close]")) {
+        closeAddProject();
+      }
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && addProjectModal?.classList.contains("is-open")) {
+      closeAddProject();
+    }
+  });
 
   clientFilterSelect.addEventListener("change", renderProjects);
   statusFilter.addEventListener("change", renderProjects);
@@ -581,28 +573,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  if (toggleAddProjectBtn && addProjectPanel) {
-    toggleAddProjectBtn.addEventListener("click", () => {
-      const isCollapsed = addProjectPanel.classList.toggle("is-collapsed");
-      toggleAddProjectBtn.textContent = isCollapsed ? "Show" : "Hide";
-      addProjectPanel.setAttribute("aria-hidden", isCollapsed ? "true" : "false");
-    });
-  }
-
-  if (openAddProjectInline && addProjectPanel) {
-    openAddProjectInline.addEventListener("click", () => {
-      openAddProject();
-    });
-  }
-
-  if (cancelAddProjectBtn && addProjectPanel) {
-    cancelAddProjectBtn.addEventListener("click", () => {
-      addProjectPanel.classList.add("is-collapsed");
-      addProjectPanel.setAttribute("aria-hidden", "true");
-      toggleAddProjectBtn.textContent = "Show";
-    });
-  }
-
   document.getElementById("addProjectForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     if (statusBox) statusBox.style.display = "none";
@@ -647,6 +617,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         setTimeout(() => (statusBox.style.display = "none"), 2000);
       }
       showActionStatus("Project saved. The list is refreshed.", "success");
+      closeAddProject();
 
       data = await BXCore.apiGetAll(true);
       BXCore.updateSidebarStats(data);

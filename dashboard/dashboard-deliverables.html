@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="css/dashboard.css" />
 </head>
-<body>
+<body class="page-deliverables">
   <div class="shell shell-multi">
     <input type="checkbox" id="sidebarToggle" class="sidebar-toggle" />
     <aside class="sidebar">
@@ -50,7 +50,6 @@
               </label>
               <div>
                 <h1>Deliverables</h1>
-                <p class="panel-subtitle">Package and ship final assets with clear project attribution.</p>
               </div>
             </div>
             <div class="panel-actions">
@@ -62,105 +61,23 @@
 
           <div id="deliverablesActionStatus" class="alert alert-success" style="display:none"></div>
 
-          <section class="subpanel section-block">
-            <h2><i class="fas fa-filter"></i> Filters</h2>
-            <div class="tasks-filters">
-              <div class="form-row">
-                <label>Client</label>
-                <select id="deliverablesClientSelect"></select>
-              </div>
-              <div class="form-row">
-                <label>Project</label>
-                <select id="deliverablesProjectSelect"></select>
-              </div>
-              <div class="form-row">
-                <label>Status</label>
-                <select id="deliverablesStatusFilter">
-                  <option value="all">All</option>
-                  <option value="not-started" selected>Not started</option>
-                  <option value="in-progress">In progress</option>
-                  <option value="ready">Ready</option>
-                  <option value="delivered">Delivered</option>
-                  <option value="approved">Approved</option>
-                  <option value="archived">Archived</option>
-                </select>
-              </div>
+          <section class="section-block">
+            <div class="deliverables-filters-bar">
+              <select id="deliverablesClientSelect" aria-label="Filter by client"></select>
+              <select id="deliverablesProjectSelect" aria-label="Filter by project"></select>
+              <select id="deliverablesStatusFilter" aria-label="Filter by status">
+                <option value="all">Status</option>
+                <option value="not-started">Not started</option>
+                <option value="in-progress">In progress</option>
+                <option value="delivered">Delivered</option>
+                <option value="approved">Approved</option>
+              </select>
             </div>
           </section>
 
-          <div class="layout-2col section-block">
-            <section class="subpanel column">
-              <div class="subpanel-header">
-                <h2><i class="fas fa-box-open"></i> Add deliverable</h2>
-                <button class="btn-secondary btn-compact" id="toggleAddDeliverable" type="button">Hide</button>
-              </div>
-              <div id="addDeliverablePanel" class="collapsible" aria-hidden="false">
-                <form id="addDeliverableForm" class="form-grid">
-                  <div class="form-row">
-                    <label>Client</label>
-                    <select id="addDeliverableClientSelect" name="clientId" required></select>
-                  </div>
-                  <div class="form-row">
-                    <label>Project</label>
-                    <select id="addDeliverableProjectSelect" name="projectId" required></select>
-                  </div>
-                  <div class="form-row">
-                    <label>Deliverable name</label>
-                    <input name="name" placeholder="Final render, brand pack..." required />
-                  </div>
-                  <div class="form-row">
-                    <label>Status</label>
-                    <select name="status">
-                      <option value="not-started" selected>Not started</option>
-                      <option value="in-progress">In progress</option>
-                      <option value="ready">Ready</option>
-                      <option value="delivered">Delivered</option>
-                      <option value="approved">Approved</option>
-                      <option value="archived">Archived</option>
-                    </select>
-                  </div>
-                  <div class="form-row">
-                    <label>Cover image URL</label>
-                    <input id="addDeliverableCoverUrl" name="coverImage" type="url" placeholder="https://..." />
-                  </div>
-                  <div class="form-row">
-                    <label>Description</label>
-                    <textarea name="description" rows="3" placeholder="Context, contents, or delivery notes"></textarea>
-                  </div>
-                  <div class="form-row">
-                    <label>Delivery link</label>
-                    <input id="addDeliverableLink" name="deliveryLink" type="url" placeholder="https://..." />
-                  </div>
-                  <div class="form-row">
-                    <label>Visible to client</label>
-                    <input id="addDeliverableVisible" name="visibleToClient" type="checkbox" />
-                  </div>
-                  <div class="modal-actions">
-                    <button class="ghost" type="button" id="cancelAddDeliverable">Cancel</button>
-                    <button class="btn-primary" type="submit" data-default-label="Add deliverable">
-                      <span class="btn-label"><i class="fas fa-plus-circle"></i> <span class="btn-text">Add deliverable</span></span>
-                      <span class="btn-spinner" aria-hidden="true">
-                        <i class="fas fa-circle-notch fa-spin"></i>
-                      </span>
-                    </button>
-                  </div>
-                </form>
-                <div id="addDeliverableStatus" class="alert alert-success" style="display:none">
-                  Deliverable added successfully.
-                </div>
-              </div>
-            </section>
-
-            <section class="subpanel column">
-              <div class="subpanel-header">
-                <div>
-                  <h2><i class="fas fa-grid-2"></i> Deliverables</h2>
-                  <p class="helper">Review covers, statuses, and links in one place.</p>
-                </div>
-              </div>
-              <div id="deliverablesGrid" class="deliverables-grid"></div>
-            </section>
-          </div>
+          <section class="section-block">
+            <div id="deliverablesGrid" class="deliverables-groups"></div>
+          </section>
         </section>
       </div>
     </main>
@@ -210,10 +127,8 @@
                     <select id="editDeliverableStatus" name="status">
                       <option value="not-started">Not started</option>
                       <option value="in-progress">In progress</option>
-                      <option value="ready">Ready</option>
-                      <option value="delivered">Delivered</option>
-                      <option value="approved">Approved</option>
-              <option value="archived">Archived</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="approved">Approved</option>
             </select>
           </div>
           <div class="form-row">
@@ -241,6 +156,72 @@
         </form>
         <div id="deliverableEditStatus" class="alert alert-success" style="display:none"></div>
       </section>
+    </div>
+  </div>
+
+  <div class="modal" id="addDeliverableModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-modal-close></div>
+    <div class="modal-panel">
+      <header class="modal-header">
+        <div>
+          <h2>Add deliverable</h2>
+          <p class="modal-helper">Create and assign a deliverable to a project.</p>
+        </div>
+        <button class="ghost modal-close" type="button" data-modal-close>
+          <i class="fas fa-xmark"></i> Close
+        </button>
+      </header>
+      <div id="addDeliverableStatus" class="alert alert-success" style="display:none">
+        Deliverable added successfully.
+      </div>
+      <form id="addDeliverableForm" class="form-grid">
+        <div class="form-row">
+          <label>Client</label>
+          <select id="addDeliverableClientSelect" name="clientId" required></select>
+        </div>
+        <div class="form-row">
+          <label>Project</label>
+          <select id="addDeliverableProjectSelect" name="projectId" required></select>
+        </div>
+        <div class="form-row">
+          <label>Deliverable name</label>
+          <input name="name" placeholder="Final render, brand pack..." required />
+        </div>
+        <div class="form-row">
+          <label>Status</label>
+          <select name="status">
+            <option value="not-started" selected>Not started</option>
+            <option value="in-progress">In progress</option>
+            <option value="delivered">Delivered</option>
+            <option value="approved">Approved</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Cover image URL</label>
+          <input id="addDeliverableCoverUrl" name="coverImage" type="url" placeholder="https://..." />
+        </div>
+        <div class="form-row">
+          <label>Description</label>
+          <textarea name="description" rows="3" placeholder="Context, contents, or delivery notes"></textarea>
+        </div>
+        <div class="form-row">
+          <label>Delivery link</label>
+          <input id="addDeliverableLink" name="deliveryLink" type="url" placeholder="https://..." />
+        </div>
+        <div class="form-row">
+          <label>Visible to client</label>
+          <input id="addDeliverableVisible" name="visibleToClient" type="checkbox" />
+        </div>
+        <div class="modal-actions">
+          <button class="ghost" type="button" data-modal-close>Cancel</button>
+          <button class="btn-primary" type="submit" data-default-label="Add deliverable">
+            <span class="btn-label"><i class="fas fa-plus-circle"></i> <span class="btn-text">Add deliverable</span></span>
+            <span class="btn-spinner" aria-hidden="true">
+              <i class="fas fa-circle-notch fa-spin"></i>
+            </span>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 

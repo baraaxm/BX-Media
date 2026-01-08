@@ -1,50 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>BX Media — Overview</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="css/dashboard.css" />
-</head>
-<body>
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <title>BX Media — Overview</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="css/dashboard.css" />
+
+</head>
+
+<body>
+
   <div class="shell shell-multi">
     <input type="checkbox" id="sidebarToggle" class="sidebar-toggle" />
-    
-    <aside class="sidebar">
-      <div class="logo">
-        <img src="../assets/index/7 logo.png" alt="BX Media" />
-        <span>BX Media</span>
-      </div>
-
-      <div class="sidebar-section-title">Main</div>
-      <nav class="nav nav-main">
-        <a href="dashboard-overview.html" id="navOverview"><i class="fas fa-grid-2"></i> Overview</a>
-        <a href="dashboard-clients.html" id="navClientsLink"><i class="fas fa-users"></i> Clients</a>
-        <a href="dashboard-projects.html" id="navProjectsLink"><i class="fas fa-diagram-project"></i> Projects</a>
-        <a href="dashboard-tasks.html" id="navTasksLink"><i class="fas fa-list-check"></i> Tasks</a>
-        <a href="dashboard-deliverables.html" id="navDeliverablesLink"><i class="fas fa-box-open"></i> Deliverables</a>
-      </nav>
-
-      <div class="sidebar-section-title">Account</div>
-      <nav class="nav nav-account">
-        <button id="logoutBtn"><i class="fas fa-arrow-right-from-bracket"></i> Log out</button>
-      </nav>
-
-      <div class="sidebar-section-title stats-title">Overview</div>
-      <div class="sidebar-stats-grid">
-        <div class="stat-card"><span>Total projects</span><strong id="statTotalProjects">0</strong></div>
-        <div class="stat-card"><span>Total tasks</span><strong id="statTotalTasks">0</strong></div>
-        <div class="stat-card"><span>In progress</span><strong id="statInProgress">0</strong></div>
-        <div class="stat-card"><span>Completed</span><strong id="statCompleted">0</strong></div>
-        <div class="stat-card"><span>Not started</span><strong id="statNotStarted">0</strong></div>
-      </div>
-
-    </aside>
-
-    <main class="content">
-      <div class="page-container">
-        <section class="panel">
+    
+
+    <aside class="sidebar">
+
+      <div class="logo">
+
+        <img src="../assets/index/7 logo.png" alt="BX Media" />
+
+        <span>BX Media</span>
+
+      </div>
+
+
+
+      <div class="sidebar-section-title">Main</div>
+
+      <nav class="nav nav-main">
+
+        <a href="dashboard-overview.html" id="navOverview"><i class="fas fa-grid-2"></i> Overview</a>
+
+        <a href="dashboard-clients.html" id="navClientsLink"><i class="fas fa-users"></i> Clients</a>
+
+        <a href="dashboard-projects.html" id="navProjectsLink"><i class="fas fa-diagram-project"></i> Projects</a>
+
+        <a href="dashboard-tasks.html" id="navTasksLink"><i class="fas fa-list-check"></i> Tasks</a>
+
+        <a href="dashboard-deliverables.html" id="navDeliverablesLink"><i class="fas fa-box-open"></i> Deliverables</a>
+
+      </nav>
+
+
+
+      <div class="sidebar-section-title">Account</div>
+
+      <nav class="nav nav-account">
+
+        <button id="logoutBtn"><i class="fas fa-arrow-right-from-bracket"></i> Log out</button>
+
+      </nav>
+
+
+
+      <div class="sidebar-section-title stats-title">Overview</div>
+
+      <div class="sidebar-stats-grid">
+
+        <div class="stat-card"><span>Total projects</span><strong id="statTotalProjects">0</strong></div>
+
+        <div class="stat-card"><span>Total tasks</span><strong id="statTotalTasks">0</strong></div>
+
+        <div class="stat-card"><span>In progress</span><strong id="statInProgress">0</strong></div>
+
+        <div class="stat-card"><span>Completed</span><strong id="statCompleted">0</strong></div>
+
+        <div class="stat-card"><span>Not started</span><strong id="statNotStarted">0</strong></div>
+
+      </div>
+
+
+
+    </aside>
+
+
+
+    <main class="content">
+
+      <div class="page-container">
+
+        <section class="panel">
+
           <header class="panel-header">
             <div class="header-title-row">
               <label for="sidebarToggle" class="sidebar-toggle-btn" aria-label="Open navigation">
@@ -56,103 +101,194 @@
               </div>
             </div>
           </header>
-          <div id="overviewStatus" class="alert alert-error" role="alert" style="display:none"></div>
-
-          <section id="overviewSummary" class="summary-row"></section>
-
-          <div class="section-block">
-            <div class="section-header">
-              <h2 class="section-title">Quick actions</h2>
-              <p class="section-helper">Move faster with the essentials at your fingertips.</p>
-            </div>
-            <div id="overviewQuickActions" class="quick-actions">
-              <button class="quick-card accent" type="button" data-quick="project">
-                <span class="quick-icon"><i class="fas fa-plus"></i></span>
-                <div class="quick-copy">
-                  <strong>Add project</strong>
-                  <span>Spin up a new client engagement and get the team aligned.</span>
-                </div>
-              </button>
-              <button class="quick-card" type="button" data-quick="task">
-                <span class="quick-icon"><i class="fas fa-list-check"></i></span>
-                <div class="quick-copy">
-                  <strong>Add task</strong>
-                  <span>Capture the next deliverable with owners, dates, and status.</span>
-                </div>
-              </button>
-              <button class="quick-card neutral" type="button" data-quick="client">
-                <span class="quick-icon"><i class="fas fa-user-plus"></i></span>
-                <div class="quick-copy">
-                  <strong>Add client</strong>
-                  <span>Onboard a new client and link their projects.</span>
-                </div>
-              </button>
-            </div>
-          </div>
-
-          <div class="section-block" id="recent-updates">
-            <div class="section-header">
-              <h2 class="section-title">Recent updates</h2>
-              <p class="section-helper">Latest task activity across every project.</p>
-            </div>
-            <div id="overviewTasks"></div>
-          </div>
-        </section>
-      </div>
-    </main>
-  </div>
-
-  <div id="quickActionModal" class="modal" aria-hidden="true">
-    <div class="modal-backdrop"></div>
-    <div class="modal-panel quick-modal" role="dialog" aria-modal="true" aria-labelledby="quickModalTitle">
-      <div class="modal-header">
-        <div>
-          <h2 id="quickModalTitle">Quick add</h2>
-          <p class="modal-helper" id="quickModalHelper">Create projects, tasks, or clients without leaving overview.</p>
-        </div>
-        <button class="btn-secondary" type="button" id="quickModalClose"><i class="fas fa-xmark"></i> Close</button>
-      </div>
-      <div id="quickModalStatus" class="alert alert-error" role="alert" style="display:none"></div>
-
-      <form id="quickProjectForm" class="quick-form" data-type="project">
-        <div class="form-grid">
-          <div class="form-row">
-            <label for="quickProjectClient">Client</label>
-            <select id="quickProjectClient" name="clientId" required></select>
-          </div>
-          <div class="form-row">
-            <label for="quickProjectName">Project name</label>
-            <input id="quickProjectName" name="name" placeholder="Website redesign" required />
-          </div>
-          <div class="form-row">
-            <label for="quickProjectDesc">Description</label>
-            <textarea id="quickProjectDesc" name="description" rows="2" placeholder="Scope, goals, or a short note"></textarea>
-          </div>
-          <div class="form-row">
-            <label for="quickProjectDate">Project date</label>
-            <input id="quickProjectDate" name="projectDate" type="date" />
-          </div>
-          <div class="form-row">
-            <label for="quickProjectDrive">Drive link (optional)</label>
-            <input id="quickProjectDrive" name="driveLink" type="url" placeholder="https://drive.google.com/..." />
-          </div>
-        </div>
-        <div class="modal-actions">
-          <button type="button" class="ghost" data-close-modal>Cancel</button>
-          <button type="submit" class="btn-primary"><span class="btn-text">Save project</span></button>
-        </div>
-      </form>
-
-      <form id="quickTaskForm" class="quick-form" data-type="task" style="display:none">
-        <div class="form-grid">
-          <div class="form-row">
-            <label for="quickTaskProject">Project</label>
-            <select id="quickTaskProject" name="projectId" required></select>
-          </div>
-          <div class="form-row">
-            <label for="quickTaskTitle">Task title</label>
-            <input id="quickTaskTitle" name="title" placeholder="Design homepage hero" required />
-          </div>
+          <div id="overviewStatus" class="alert alert-error" role="alert" style="display:none"></div>
+
+
+
+          <section id="overviewSummary" class="summary-row"></section>
+
+
+
+          <div class="section-block">
+
+            <div class="section-header">
+
+              <h2 class="section-title">Quick actions</h2>
+
+              <p class="section-helper">Move faster with the essentials at your fingertips.</p>
+
+            </div>
+
+            <div id="overviewQuickActions" class="quick-actions">
+
+              <button class="quick-card" type="button" data-quick="project">
+
+                <span class="quick-icon"><i class="fas fa-plus"></i></span>
+
+                <div class="quick-copy">
+
+                  <strong>Add project</strong>
+
+                </div>
+
+              </button>
+
+              <button class="quick-card accent" type="button" data-quick="task">
+
+                <span class="quick-icon"><i class="fas fa-list-check"></i></span>
+
+                <div class="quick-copy">
+
+                  <strong>Add task</strong>
+
+                </div>
+
+              </button>
+
+              <button class="quick-card neutral" type="button" data-quick="client">
+
+                <span class="quick-icon"><i class="fas fa-user-plus"></i></span>
+
+                <div class="quick-copy">
+
+                  <strong>Add client</strong>
+
+                </div>
+
+              </button>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="section-block" id="recent-updates">
+
+            <div class="section-header">
+
+              <h2 class="section-title">Recent updates</h2>
+
+              <p class="section-helper">Latest task activity across every project.</p>
+
+            </div>
+
+            <div id="overviewTasks"></div>
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+
+  <div id="quickActionModal" class="modal" aria-hidden="true">
+
+    <div class="modal-backdrop"></div>
+
+    <div class="modal-panel quick-modal" role="dialog" aria-modal="true" aria-labelledby="quickModalTitle">
+
+      <div class="modal-header">
+
+        <div>
+
+          <h2 id="quickModalTitle">Quick add</h2>
+
+          <p class="modal-helper" id="quickModalHelper">Create projects, tasks, or clients without leaving overview.</p>
+
+        </div>
+
+        <button class="btn-secondary" type="button" id="quickModalClose"><i class="fas fa-xmark"></i> Close</button>
+
+      </div>
+
+      <div id="quickModalStatus" class="alert alert-error" role="alert" style="display:none"></div>
+
+
+
+      <form id="quickProjectForm" class="quick-form" data-type="project">
+
+        <div class="form-grid">
+
+          <div class="form-row">
+
+            <label for="quickProjectClient">Client</label>
+
+            <select id="quickProjectClient" name="clientId" required></select>
+
+          </div>
+
+          <div class="form-row">
+
+            <label for="quickProjectName">Project name</label>
+
+            <input id="quickProjectName" name="name" placeholder="Website redesign" required />
+
+          </div>
+
+          <div class="form-row">
+
+            <label for="quickProjectDesc">Description</label>
+
+            <textarea id="quickProjectDesc" name="description" rows="2" placeholder="Scope, goals, or a short note"></textarea>
+
+          </div>
+
+          <div class="form-row">
+
+            <label for="quickProjectDate">Project date</label>
+
+            <input id="quickProjectDate" name="projectDate" type="date" />
+
+          </div>
+
+          <div class="form-row">
+
+            <label for="quickProjectDrive">Drive link (optional)</label>
+
+            <input id="quickProjectDrive" name="driveLink" type="url" placeholder="https://drive.google.com/..." />
+
+          </div>
+
+        </div>
+
+        <div class="modal-actions">
+
+          <button type="button" class="ghost" data-close-modal>Cancel</button>
+
+          <button type="submit" class="btn-primary"><span class="btn-text">Save project</span></button>
+
+        </div>
+
+      </form>
+
+
+
+      <form id="quickTaskForm" class="quick-form" data-type="task" style="display:none">
+
+        <div class="form-grid">
+
+          <div class="form-row">
+
+            <label for="quickTaskProject">Project</label>
+
+            <select id="quickTaskProject" name="projectId" required></select>
+
+          </div>
+
+          <div class="form-row">
+
+            <label for="quickTaskTitle">Task title</label>
+
+            <input id="quickTaskTitle" name="title" placeholder="Design homepage hero" required />
+
+          </div>
+
           <div class="form-row">
             <label for="quickTaskDesc">Description</label>
             <textarea id="quickTaskDesc" name="description" rows="2" placeholder="Context, owners, links"></textarea>
@@ -167,53 +303,103 @@
           <div class="form-row">
             <label for="quickTaskStatus">Status</label>
             <select id="quickTaskStatus" name="status">
-              <option value="not-started">Not started</option>
-              <option value="in-progress" selected>In progress</option>
-              <option value="completed">Completed</option>
-              <option value="blocked">Blocked</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <label for="quickTaskProgress">Progress (%)</label>
-            <input id="quickTaskProgress" name="progress" type="number" min="0" max="100" value="0" />
-          </div>
-          <div class="form-row">
-            <label for="quickTaskDue">Due date (optional)</label>
-            <input id="quickTaskDue" name="dueDate" type="date" />
-          </div>
-        </div>
-        <div class="modal-actions">
-          <button type="button" class="ghost" data-close-modal>Cancel</button>
-          <button type="submit" class="btn-primary"><span class="btn-text">Save task</span></button>
-        </div>
-      </form>
-
-      <form id="quickClientForm" class="quick-form" data-type="client" style="display:none">
-        <div class="form-grid">
-          <div class="form-row">
-            <label for="quickClientName">Client name</label>
-            <input id="quickClientName" name="clientName" placeholder="Acme Co." required />
-          </div>
-          <div class="form-row">
-            <label for="quickClientUsername">Username</label>
-            <input id="quickClientUsername" name="username" placeholder="acme.client" required />
-          </div>
-          <div class="form-row">
-            <label for="quickClientPassword">Password</label>
-            <input id="quickClientPassword" name="password" type="password" placeholder="Temporary password" required />
-          </div>
-        </div>
-        <div class="modal-actions">
-          <button type="button" class="ghost" data-close-modal>Cancel</button>
-          <button type="submit" class="btn-primary"><span class="btn-text">Save client</span></button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js"></script>
-  <script src="js/dashboard-core.js"></script>
-  <script src="js/overview.js"></script>
-</body>
-</html>
+              <option value="not-started">Not started</option>
+
+              <option value="in-progress" selected>In progress</option>
+
+              <option value="completed">Completed</option>
+
+              <option value="blocked">Blocked</option>
+
+            </select>
+
+          </div>
+
+          <div class="form-row">
+
+            <label for="quickTaskProgress">Progress (%)</label>
+
+            <input id="quickTaskProgress" name="progress" type="number" min="0" max="100" value="0" />
+
+          </div>
+
+          <div class="form-row">
+
+            <label for="quickTaskDue">Due date (optional)</label>
+
+            <input id="quickTaskDue" name="dueDate" type="date" />
+
+          </div>
+
+        </div>
+
+        <div class="modal-actions">
+
+          <button type="button" class="ghost" data-close-modal>Cancel</button>
+
+          <button type="submit" class="btn-primary"><span class="btn-text">Save task</span></button>
+
+        </div>
+
+      </form>
+
+
+
+      <form id="quickClientForm" class="quick-form" data-type="client" style="display:none">
+
+        <div class="form-grid">
+
+          <div class="form-row">
+
+            <label for="quickClientName">Client name</label>
+
+            <input id="quickClientName" name="clientName" placeholder="Acme Co." required />
+
+          </div>
+
+          <div class="form-row">
+
+            <label for="quickClientUsername">Username</label>
+
+            <input id="quickClientUsername" name="username" placeholder="acme.client" required />
+
+          </div>
+
+          <div class="form-row">
+
+            <label for="quickClientPassword">Password</label>
+
+            <input id="quickClientPassword" name="password" type="password" placeholder="Password" required />
+
+          </div>
+
+        </div>
+
+        <div class="modal-actions">
+
+          <button type="button" class="ghost" data-close-modal>Cancel</button>
+
+          <button type="submit" class="btn-primary"><span class="btn-text">Save client</span></button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="js/supabase-client.js"></script>
+
+  <script src="js/dashboard-core.js"></script>
+
+  <script src="js/overview.js"></script>
+
+</body>
+
+</html>
+
