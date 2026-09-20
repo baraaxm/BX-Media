@@ -1,0 +1,10 @@
+# Netlify redirects: old query-param project URLs -> static /work/ pages (301)
+/project-details.html  id=1  /work/albassami-seven-car-lounge/  301
+/project-details.html  id=2  /work/arabgt-samf/                 301
+/project-details.html  id=3  /work/hongqi-striveme/             301
+/project-details.html  id=4  /work/toyota-lc300-hev-max/        301
+/project-details.html  id=5  /work/feynlab-riyadh-campaign/     301
+/project-details.html  id=6  /work/vip-quick-service/           301
+
+# Fallback for any other/missing id
+/project-details.html  /#projects  301

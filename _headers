@@ -1,0 +1,5 @@
+# Netlify custom headers
+
+# Keep the client/admin dashboard out of search indexes
+/dashboard/*
+  X-Robots-Tag: noindex, nofollow

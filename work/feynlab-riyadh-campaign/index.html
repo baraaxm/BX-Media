@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feynlab Riyadh Campaign | BX Media Automotive</title>
+  <meta name="description" content="Produced a series of polished reels for Feynlab Riyadh, showcasing their premium detailing and protection services.">
+  <link rel="canonical" href="https://bx.media/work/feynlab-riyadh-campaign/" />
+  <link rel="stylesheet" href="/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://player.vimeo.com/api/player.js"></script>
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Feynlab Riyadh Campaign | BX Media Automotive" />
+  <meta property="og:description" content="Produced a series of polished reels for Feynlab Riyadh, showcasing their premium detailing and protection services." />
+  <meta property="og:url" content="https://bx.media/work/feynlab-riyadh-campaign/" />
+  <meta property="og:image" content="https://bx.media/assets/Projects/feynlab0001.jpg" />
+  <meta property="og:site_name" content="BX Media Automotive" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Feynlab Riyadh Campaign | BX Media Automotive" />
+  <meta name="twitter:description" content="Produced a series of polished reels for Feynlab Riyadh, showcasing their premium detailing and protection services." />
+  <meta name="twitter:image" content="https://bx.media/assets/Projects/feynlab0001.jpg" />
+
+  <style>
+    .project-detail-container {
+      max-width: 900px;
+      margin: 120px auto 60px;
+      padding: 0 20px;
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .project-detail-container h1 {
+      color: #fff;
+      text-align: center;
+      margin-bottom: 0.75rem;
+      font-size: 2.5rem;
+      animation: slideDown 0.8s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .project-detail-container > p {
+      max-width: 720px;
+      margin: 0 auto 2rem;
+      text-align: center;
+      color: #bbb;
+      line-height: 1.8;
+      animation: fadeIn 0.8s ease 0.2s backwards;
+    }
+
+    .project-detail-container h3 {
+      color: #fff;
+      text-align: center;
+      margin: 1.25rem auto 0.75rem;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: min(900px, 100%);
+      margin: 0 auto 24px;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      border: 2px solid #ff6600;
+      transition: all 0.4s ease;
+      animation: scaleIn 0.6s ease;
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .video-wrapper:hover {
+      border-color: #ffa64d;
+      box-shadow: 0 0 20px rgba(255, 102, 0, 0.6);
+      transform: scale(1.02);
+    }
+
+    .video-wrapper iframe {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      border: 0 !important;
+    }
+
+    .video-wrapper.tall {
+      aspect-ratio: 9 / 16;
+      max-width: 400px;
+      margin: 0 auto 24px;
+    }
+
+    .video-gallery {
+      max-width: 980px;
+      margin: 24px auto 80px;
+      padding: 0 12px;
+      animation: fadeIn 1s ease 0.4s backwards;
+    }
+
+    .video-main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .video-main .video-wrapper {
+      position: relative;
+      width: min(900px, 100%);
+      aspect-ratio: 16 / 9;
+      background: #000;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 2px solid #ff6600;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      transition: all 0.4s ease;
+    }
+
+    .video-main .video-wrapper.tall {
+      aspect-ratio: 9 / 16;
+      width: min(540px, 100%);
+    }
+
+    .video-main .video-wrapper:hover {
+      border-color: #ffa64d;
+      box-shadow: 0 0 20px rgba(255, 102, 0, 0.6);
+      transform: scale(1.01);
+    }
+
+    .video-thumbs {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+      align-items: start;
+    }
+
+    .video-thumb {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border: 2px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      animation: thumbSlide 0.5s ease;
+      animation-delay: calc(var(--index) * 0.1s);
+      animation-fill-mode: backwards;
+    }
+
+    @keyframes thumbSlide {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .video-thumb.tall { 
+      aspect-ratio: 9 / 16; 
+    }
+
+    .video-thumb.is-active,
+    .video-thumb:hover {
+      border-color: #ff6600;
+      box-shadow: 0 0 15px rgba(255, 102, 0, 0.5);
+      transform: translateY(-4px);
+    }
+
+    .video-thumb iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      pointer-events: none;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 100px 0 30px;
+      padding: 12px 24px;
+      color: #fff;
+      background: linear-gradient(135deg, #ff6600, #ff914d);
+      border-radius: 30px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(255, 102, 0, 0.3);
+      animation: slideInLeft 0.6s ease;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .back-link::before {
+      content: "←";
+      font-size: 1.2rem;
+      line-height: 1;
+      transition: transform 0.3s ease;
+    }
+
+    .back-link:hover {
+      background: linear-gradient(135deg, #ff914d, #ff6600);
+      transform: translateX(-5px);
+      box-shadow: 0 10px 25px rgba(255, 102, 0, 0.5);
+    }
+
+    .back-link:hover::before {
+      transform: translateX(-5px);
+    }
+
+    @media (max-width: 768px) {
+      .video-gallery { 
+        margin-bottom: 60px; 
+      }
+      
+      .video-thumbs {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+
+      .project-detail-container h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CreativeWork",
+      "@id": "https://bx.media/work/feynlab-riyadh-campaign/#work",
+      "name": "Feynlab Riyadh Campaign",
+      "description": "Produced a series of polished reels for Feynlab Riyadh, showcasing their premium detailing and protection services. The content positioned Feynlab as a trusted luxury care provider, directly contributing to increased customer traffic and online conversions.",
+      "url": "https://bx.media/work/feynlab-riyadh-campaign/",
+      "creator": {
+        "@id": "https://bx.media/#org"
+      },
+      "locationCreated": {
+        "@type": "Place",
+        "name": "Riyadh, Saudi Arabia"
+      },
+      "about": {
+        "@type": "Organization",
+        "name": "Feynlab"
+      },
+      "image": "https://bx.media/assets/Projects/feynlab0001.jpg",
+      "video": [
+        {
+          "@type": "VideoObject",
+          "name": "Feynlab Riyadh Campaign: BMW Motortech",
+          "description": "Produced a series of polished reels for Feynlab Riyadh, showcasing their premium detailing and protection services. The content positioned Feynlab as a trusted luxury care provider, directly contributing to increased customer traffic and online conversions.",
+          "embedUrl": "https://player.vimeo.com/video/1102640728?h=7ff76f098f",
+          "thumbnailUrl": "https://bx.media/assets/Projects/feynlab0001.jpg"
+        },
+        {
+          "@type": "VideoObject",
+          "name": "Feynlab Riyadh Campaign: Feynlab Ferrari",
+          "description": "Produced a series of polished reels for Feynlab Riyadh, showcasing their premium detailing and protection services. The content positioned Feynlab as a trusted luxury care provider, directly contributing to increased customer traffic and online conversions.",
+          "embedUrl": "https://player.vimeo.com/video/1102637425?h=dd3a39df5e",
+          "thumbnailUrl": "https://bx.media/assets/Projects/feynlab0001.jpg"
+        },
+        {
+          "@type": "VideoObject",
+          "name": "Feynlab Riyadh Campaign: Ferrari Roma",
+          "description": "Produced a series of polished reels for Feynlab Riyadh, showcasing their premium detailing and protection services. The content positioned Feynlab as a trusted luxury care provider, directly contributing to increased customer traffic and online conversions.",
+          "embedUrl": "https://player.vimeo.com/video/1102636864?h=c13ad6fcad",
+          "thumbnailUrl": "https://bx.media/assets/Projects/feynlab0001.jpg"
+        },
+        {
+          "@type": "VideoObject",
+          "name": "Feynlab Riyadh Campaign: Aston Martin",
+          "description": "Produced a series of polished reels for Feynlab Riyadh, showcasing their premium detailing and protection services. The content positioned Feynlab as a trusted luxury care provider, directly contributing to increased customer traffic and online conversions.",
+          "embedUrl": "https://player.vimeo.com/video/1102637108?h=a7dd6aeeb0",
+          "thumbnailUrl": "https://bx.media/assets/Projects/feynlab0001.jpg"
+        },
+        {
+          "@type": "VideoObject",
+          "name": "Feynlab Riyadh Campaign: Green Urus",
+          "description": "Produced a series of polished reels for Feynlab Riyadh, showcasing their premium detailing and protection services. The content positioned Feynlab as a trusted luxury care provider, directly contributing to increased customer traffic and online conversions.",
+          "embedUrl": "https://player.vimeo.com/video/1102637858?h=2c81b662ae",
+          "thumbnailUrl": "https://bx.media/assets/Projects/feynlab0001.jpg"
+        },
+        {
+          "@type": "VideoObject",
+          "name": "Feynlab Riyadh Campaign: Range Rover",
+          "description": "Produced a series of polished reels for Feynlab Riyadh, showcasing their premium detailing and protection services. The content positioned Feynlab as a trusted luxury care provider, directly contributing to increased customer traffic and online conversions.",
+          "embedUrl": "https://player.vimeo.com/video/1102630788?h=1fcb041e2d",
+          "thumbnailUrl": "https://bx.media/assets/Projects/feynlab0001.jpg"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://bx.media/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Work",
+          "item": "https://bx.media/#projects"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Feynlab Riyadh Campaign",
+          "item": "https://bx.media/work/feynlab-riyadh-campaign/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <div class="container">
+    <a href="/#projects" class="back-link">Back to Projects</a>
+    <section id="projectDetails" class="project-detail-container">
+      <h1>Feynlab Riyadh Campaign</h1>
+      <p>Produced a series of polished reels for Feynlab Riyadh, showcasing their premium detailing and protection services. The content positioned Feynlab as a trusted luxury care provider, directly contributing to increased customer traffic and online conversions.</p>
+      <div class="video-gallery">
+        <h3 style="text-align: center; margin: 0 0 10px; color: #fff;">BMW Motortech</h3>
+        <div class="video-main">
+          <div class="video-wrapper tall">
+            <iframe src="https://player.vimeo.com/video/1102640728?h=7ff76f098f" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="Feynlab Riyadh Campaign: BMW Motortech"></iframe>
+          </div>
+        </div>
+        <div class="video-thumbs" aria-label="More videos">
+          <button class="video-thumb tall is-active" data-index="0" aria-label="BMW Motortech" style="--index: 0"><iframe src="https://player.vimeo.com/video/1102640728?h=7ff76f098f" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="Feynlab Riyadh Campaign: BMW Motortech"></iframe></button>
+          <button class="video-thumb" data-index="1" aria-label="Feynlab Ferrari" style="--index: 1"><iframe src="https://player.vimeo.com/video/1102637425?h=dd3a39df5e" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="Feynlab Riyadh Campaign: Feynlab Ferrari"></iframe></button>
+          <button class="video-thumb" data-index="2" aria-label="Ferrari Roma" style="--index: 2"><iframe src="https://player.vimeo.com/video/1102636864?h=c13ad6fcad" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="Feynlab Riyadh Campaign: Ferrari Roma"></iframe></button>
+          <button class="video-thumb" data-index="3" aria-label="Aston Martin" style="--index: 3"><iframe src="https://player.vimeo.com/video/1102637108?h=a7dd6aeeb0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="Feynlab Riyadh Campaign: Aston Martin"></iframe></button>
+          <button class="video-thumb tall" data-index="4" aria-label="Green Urus" style="--index: 4"><iframe src="https://player.vimeo.com/video/1102637858?h=2c81b662ae" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="Feynlab Riyadh Campaign: Green Urus"></iframe></button>
+          <button class="video-thumb" data-index="5" aria-label="Range Rover" style="--index: 5"><iframe src="https://player.vimeo.com/video/1102630788?h=1fcb041e2d" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="Feynlab Riyadh Campaign: Range Rover"></iframe></button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+(function () {
+  var DT = "Feynlab Riyadh Campaign";
+  var videos = [{"t":"BMW Motortech","s":"https://player.vimeo.com/video/1102640728?h=7ff76f098f","a":"portrait"},{"t":"Feynlab Ferrari","s":"https://player.vimeo.com/video/1102637425?h=dd3a39df5e","a":"landscape"},{"t":"Ferrari Roma","s":"https://player.vimeo.com/video/1102636864?h=c13ad6fcad","a":"landscape"},{"t":"Aston Martin","s":"https://player.vimeo.com/video/1102637108?h=a7dd6aeeb0","a":"landscape"},{"t":"Green Urus","s":"https://player.vimeo.com/video/1102637858?h=2c81b662ae","a":"portrait"},{"t":"Range Rover","s":"https://player.vimeo.com/video/1102630788?h=1fcb041e2d","a":"landscape"}];
+  var gallery = document.querySelector('.video-gallery');
+  if (!gallery) return;
+  var main = gallery.querySelector('.video-main');
+  var titleEl = gallery.querySelector('h3');
+  var thumbs = gallery.querySelector('.video-thumbs');
+  if (!main || !thumbs) return;
+  var current = 0;
+  function render(i) {
+    var v = videos[i];
+    if (!v || i === current) return;
+    current = i;
+    var tall = v.a === 'portrait' ? ' tall' : '';
+    if (titleEl) titleEl.textContent = v.t || '';
+    main.innerHTML = '<div class="video-wrapper' + tall + '"><iframe src="' + v.s +
+      '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="' +
+      (DT + ': ' + (v.t || '')).replace(/"/g, '&quot;') + '"></iframe></div>';
+    thumbs.querySelectorAll('.video-thumb').forEach(function (b) {
+      b.classList.toggle('is-active', Number(b.dataset.index) === i);
+    });
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      main.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+  thumbs.querySelectorAll('.video-thumb').forEach(function (btn) {
+    btn.addEventListener('click', function () { render(Number(btn.dataset.index)); });
+  });
+})();
+</script>
+</body>
+</html>

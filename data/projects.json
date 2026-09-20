@@ -1,0 +1,135 @@
+{
+  "site": {
+    "domain": "https://bx.media",
+    "entityName": "BX Media Automotive",
+    "alternateName": "BX Media"
+  },
+  "projects": [
+    {
+      "id": 1,
+      "slug": "albassami-seven-car-lounge",
+      "gridTitle": "Albassami × Seven Car Lounge",
+      "detailTitle": "Albassami × Seven Car Lounge",
+      "category": "High-End Video & Content Production",
+      "client": "Seven Car Lounge",
+      "location": "Riyadh",
+      "year": "",
+      "services": [],
+      "deliverables": [],
+      "results": "",
+      "description": "Directed a cinematic campaign documenting Albassami's transport sponsorship of a luxury car experience to AlUla and Umluj. The content emphasized Albassami's elite logistics capabilities — handling hypercars with precision — and was repurposed into short-form reels to maximize social reach.",
+      "image": "assets/Projects/albassami0001.jpg",
+      "videos": [
+        { "title": "Transport Campaign", "src": "https://player.vimeo.com/video/1092452102?h=f81d9b7482", "aspect": "landscape", "uploadDate": "" }
+      ]
+    },
+    {
+      "id": 2,
+      "slug": "arabgt-samf",
+      "gridTitle": "ArabGT × SAMF",
+      "detailTitle": "ArabGT × SAMF",
+      "category": "High-End Video & Content Production",
+      "client": "ArabGT",
+      "location": "Riyadh",
+      "year": "",
+      "services": [],
+      "deliverables": [],
+      "results": "",
+      "description": "In partnership with ArabGT — the Middle East's top car channel — we covered the Saudi Toyota Championship for SAMF. Full YouTube video production led to over 1M+ organic views, amplifying the event's visibility and showcasing SAMF's motorsport leadership.",
+      "image": "assets/Projects/samf0001.jpg",
+      "videos": [
+        { "title": "Highlight 1", "src": "https://www.youtube.com/embed/R-_BKHgTp6I", "aspect": "landscape", "uploadDate": "" },
+        { "title": "Highlight 2", "src": "https://www.youtube.com/embed/l7JTF20I61s", "aspect": "landscape", "uploadDate": "" },
+        { "title": "Highlight 3", "src": "https://www.youtube.com/embed/aa3PCDk9OGE", "aspect": "landscape", "uploadDate": "" },
+        { "title": "Highlight 4", "src": "https://www.youtube.com/embed/Z7FxU4aSax4", "aspect": "landscape", "uploadDate": "" },
+        { "title": "Highlight 5", "src": "https://www.youtube.com/embed/n1HFC_kP714", "aspect": "landscape", "uploadDate": "" },
+        { "title": "Highlight 6", "src": "https://www.youtube.com/embed/Qt3HqroG7Ok", "aspect": "landscape", "uploadDate": "" },
+        { "title": "Highlight 7", "src": "https://www.youtube.com/embed/EnYfDxLs92c", "aspect": "landscape", "uploadDate": "" },
+        { "title": "Highlight 8", "src": "https://www.youtube.com/embed/DZv8pdh5wLw", "aspect": "landscape", "uploadDate": "" },
+        { "title": "Highlight 9", "src": "https://www.youtube.com/embed/-O2iWwcCcqg", "aspect": "landscape", "uploadDate": "" }
+      ]
+    },
+    {
+      "id": 3,
+      "slug": "hongqi-striveme",
+      "gridTitle": "Hongqi × StriveME",
+      "detailTitle": "Hongqi × StriveME",
+      "category": "High-End Video & Content Production",
+      "client": "Strive ME",
+      "location": "Riyadh",
+      "year": "",
+      "services": [],
+      "deliverables": [],
+      "results": "",
+      "description": "Collaborated with StriveME to launch the Hongqi HS3 at Boulevard Riyadh. We delivered a series of cinematic reels that captured the car's bold entry into the Saudi market — driving brand buzz and engaging a luxury-focused audience.",
+      "image": "assets/Projects/hongqi.png",
+      "videos": [
+        { "title": "Hongqi Reel 1", "src": "https://player.vimeo.com/video/1102640419?h=450e9d6c88", "aspect": "portrait", "uploadDate": "" },
+        { "title": "Hongqi Reel 2", "src": "https://player.vimeo.com/video/1102639970?h=14791dfc05", "aspect": "portrait", "uploadDate": "" },
+        { "title": "Hongqi Reel 3", "src": "https://player.vimeo.com/video/1102639636?h=0cef0c92c1", "aspect": "portrait", "uploadDate": "" }
+      ]
+    },
+    {
+      "id": 4,
+      "slug": "toyota-lc300-hev-max",
+      "gridTitle": "Toyota LC300 HEV MAX",
+      "detailTitle": "Toyota LC300 HEV MAX",
+      "category": "High-End Video & Content Production",
+      "client": "Abdullateef Jameel",
+      "location": "Riyadh",
+      "year": "",
+      "services": [],
+      "deliverables": [],
+      "results": "",
+      "description": "Shot an off-road reel featuring the Toyota LC300 HEV MAX with influencer @SaudiStig. The video highlighted new features and rugged performance, generating strong engagement and boosting awareness of the model's hybrid innovation.",
+      "image": "assets/Projects/toyotalc3000001.jpg",
+      "videos": [
+        { "title": "LC300 HEV Max Reel", "src": "https://player.vimeo.com/video/1102642017?h=a2716a0e18", "aspect": "portrait", "uploadDate": "" }
+      ]
+    },
+    {
+      "id": 5,
+      "slug": "feynlab-riyadh-campaign",
+      "gridTitle": "Feynlab",
+      "detailTitle": "Feynlab Riyadh Campaign",
+      "category": "High-End Video & Content Production",
+      "client": "Feynlab",
+      "location": "Riyadh",
+      "year": "",
+      "services": [],
+      "deliverables": [],
+      "results": "",
+      "description": "Produced a series of polished reels for Feynlab Riyadh, showcasing their premium detailing and protection services. The content positioned Feynlab as a trusted luxury care provider, directly contributing to increased customer traffic and online conversions.",
+      "image": "assets/Projects/feynlab0001.jpg",
+      "videos": [
+        { "title": "BMW Motortech", "src": "https://player.vimeo.com/video/1102640728?h=7ff76f098f", "aspect": "portrait", "uploadDate": "" },
+        { "title": "Feynlab Ferrari", "src": "https://player.vimeo.com/video/1102637425?h=dd3a39df5e", "aspect": "landscape", "uploadDate": "" },
+        { "title": "Ferrari Roma", "src": "https://player.vimeo.com/video/1102636864?h=c13ad6fcad", "aspect": "landscape", "uploadDate": "" },
+        { "title": "Aston Martin", "src": "https://player.vimeo.com/video/1102637108?h=a7dd6aeeb0", "aspect": "landscape", "uploadDate": "" },
+        { "title": "Green Urus", "src": "https://player.vimeo.com/video/1102637858?h=2c81b662ae", "aspect": "portrait", "uploadDate": "" },
+        { "title": "Range Rover", "src": "https://player.vimeo.com/video/1102630788?h=1fcb041e2d", "aspect": "landscape", "uploadDate": "" }
+      ]
+    },
+    {
+      "id": 6,
+      "slug": "vip-quick-service",
+      "gridTitle": "VIP Quick Service",
+      "detailTitle": "VIP Quick Service",
+      "category": "High-End Video & Content Production",
+      "client": "VIP Quick Service",
+      "location": "Riyadh",
+      "year": "",
+      "services": [],
+      "deliverables": [],
+      "results": "",
+      "description": "Produced a sleek package of high-quality automotive service reels for VIP Quick Service in Riyadh. The content reinforced their premium brand image, built trust with new customers, and elevated their digital presence.",
+      "image": "assets/Projects/vip00.png",
+      "videos": [
+        { "title": "VIP - Urus Final", "src": "https://player.vimeo.com/video/1102639250?h=4720133386", "aspect": "landscape", "uploadDate": "" },
+        { "title": "VIP - Lamborghini", "src": "https://player.vimeo.com/video/1102639119?h=29fb53e2a6", "aspect": "landscape", "uploadDate": "" },
+        { "title": "VIP - Grey Bentley", "src": "https://player.vimeo.com/video/1102638930?h=e62e7ca632", "aspect": "landscape", "uploadDate": "" },
+        { "title": "VIP - Multi Car Shot", "src": "https://player.vimeo.com/video/1102638172?h=029e5a39e9", "aspect": "landscape", "uploadDate": "" }
+      ]
+    }
+  ]
+}
