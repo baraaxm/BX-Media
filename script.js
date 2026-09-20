@@ -321,57 +321,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // === CURSOR TRAIL EFFECT (Desktop Only) ===
-  if (window.innerWidth > 1024) {
-    const coords = { x: 0, y: 0 };
-    const circles = document.querySelectorAll(".cursor-circle");
-    
-    if (circles.length === 0) {
-      // Create cursor circles
-      for (let i = 0; i < 5; i++) {
-        const circle = document.createElement('div');
-        circle.className = 'cursor-circle';
-        circle.style.cssText = `
-          position: fixed;
-          width: ${8 - i}px;
-          height: ${8 - i}px;
-          border-radius: 50%;
-          background: rgba(255, 102, 0, ${0.6 - i * 0.1});
-          pointer-events: none;
-          z-index: 9999;
-          transition: transform 0.1s ease;
-        `;
-        document.body.appendChild(circle);
-      }
-    }
-
-    const cursorCircles = document.querySelectorAll(".cursor-circle");
-    
-    window.addEventListener("mousemove", (e) => {
-      coords.x = e.clientX;
-      coords.y = e.clientY;
-    });
-
-    function animateCircles() {
-      let x = coords.x;
-      let y = coords.y;
-
-      cursorCircles.forEach((circle, index) => {
-        circle.style.left = x - (4 - index) + "px";
-        circle.style.top = y - (4 - index) + "px";
-        circle.style.transform = `scale(${(cursorCircles.length - index) / cursorCircles.length})`;
-
-        const nextCircle = cursorCircles[index + 1] || cursorCircles[0];
-        x += (nextCircle.offsetLeft - x) * 0.3;
-        y += (nextCircle.offsetTop - y) * 0.3;
-      });
-
-      requestAnimationFrame(animateCircles);
-    }
-
-    animateCircles();
-  }
-
   // === LAZY LOADING IMAGES ===
   const lazyImages = document.querySelectorAll('img[loading="lazy"]');
   

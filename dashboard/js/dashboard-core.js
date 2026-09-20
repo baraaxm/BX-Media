@@ -2,6 +2,10 @@
 // Shared helpers: API, auth, utilities, sidebar wiring
 
 (function() {
+  // Set to true to re-enable the dashboard. While false, all dashboard pages
+  // redirect to the login screen, which shows a "temporarily unavailable" notice.
+  const DASHBOARD_ENABLED = false;
+
   const SESSION_KEY = "bxm_dashboard_session_v1";
   let cachedData = null;
   let firstLoadPending = true;
@@ -1006,12 +1010,22 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    const path = (window.location.pathname.split("/").pop() || "").toLowerCase();
+    if (!DASHBOARD_ENABLED) {
+      // Dashboard is turned off: block every page except the login notice.
+      if (path !== "login.html") {
+        clearSession();
+        window.location.href = "login.html";
+      }
+      return;
+    }
     ensurePageLoader();
     logSessionStatus();
     initSidebarChrome();
   });
 
   window.BXCore = {
+    DASHBOARD_ENABLED,
     apiGetAll,
     apiPost,
     fetchAccountForUser,

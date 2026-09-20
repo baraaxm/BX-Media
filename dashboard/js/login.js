@@ -11,6 +11,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const inputs = Array.from(form.querySelectorAll("input, select, textarea"));
 
+  // Dashboard kill switch (see DASHBOARD_ENABLED in dashboard-core.js).
+  if (window.BXCore && window.BXCore.DASHBOARD_ENABLED === false) {
+    const notice = document.querySelector(".login-notice p");
+    if (notice) {
+      notice.textContent = "The dashboard is temporarily unavailable. Please check back soon.";
+    }
+    inputs.forEach((input) => { input.disabled = true; });
+    if (submitBtn) submitBtn.disabled = true;
+    return;
+  }
+
   const passwordInput = document.getElementById("password");
   const passwordToggle = document.querySelector(".password-toggle");
   if (passwordInput && passwordToggle) {
