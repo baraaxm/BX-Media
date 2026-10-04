@@ -337,5 +337,14 @@
       "How do we get started?",
       "Send a brief through the form below or message us on WhatsApp at +966 55 796 9551. We reply within 24 hours with a tailored content roadmap."
     ]
-  ]
+  ],
+  "showreel": {
+    "title": "BX Media Showreel 2025",
+    "src": "https://player.vimeo.com/video/1128532322?h=604e5b6332",
+    "aspect": "landscape",
+    "uploadDate": "2025-10-18",
+    "duration": "PT50S",
+    "thumbnail": "https://i.vimeocdn.com/video/2071625340-ac6fbfc4aeb3fbaabad35e9c25731ccecc852c92a7dda49596b9e36feef0c8e2-d_1280x720",
+    "description": "BX Media Automotive's 2025 showreel: highlights from launch films, creator collaborations, motorsport coverage and car care showcases across Saudi Arabia."
+  }
 }

@@ -2257,3 +2257,42 @@ section {
   aspect-ratio: 2.39 / 1;
   width: min(1200px, 94vw, calc(76vh * 2.39));
 }
+
+/* ===== Showreel ===== */
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+button.cta-btn {
+  border: 0;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button.cta-btn--ghost {
+  border: 1px solid var(--accent);
+}
+
+.hero .cta-btn--ghost {
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+}
+
+.film-tile--reel {
+  border-color: var(--border-glow);
+}
+
+@media (max-width: 480px) {
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .cta-btn {
+    justify-content: center;
+  }
+}

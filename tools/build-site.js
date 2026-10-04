@@ -613,6 +613,29 @@ function durationLabel(iso) {
   return `${min}:${String(sec).padStart(2, "0")}`;
 }
 
+/* ---------- showreel ---------- */
+
+const REEL = site.showreel;
+
+function showreelButton(cls = "cta-btn cta-btn--ghost") {
+  return `<button type="button" class="${cls} showreel-btn" data-film data-src="${esc(playerSrc(REEL))}" data-aspect="${REEL.aspect}" data-title="${esc(REEL.title)}" data-project="BX Media Automotive"><i class="fas fa-play" aria-hidden="true"></i><span>Watch Showreel</span></button>`;
+}
+
+function showreelNode() {
+  return {
+    "@type": "VideoObject",
+    "@id": `${DOMAIN}/#showreel`,
+    name: REEL.title,
+    description: noDash(REEL.description),
+    thumbnailUrl: REEL.thumbnail,
+    uploadDate: REEL.uploadDate,
+    duration: REEL.duration,
+    embedUrl: REEL.src,
+    creator: { "@id": ORG_ID },
+    publisher: { "@id": ORG_ID },
+  };
+}
+
 function filterBar() {
   return `      <div class="work-filters" role="group" aria-label="Filter work">
 ${FILTERS.map(([k, n], i) => `        <button type="button" class="work-filter${i === 0 ? " is-active" : ""}" data-filter="${k}" aria-pressed="${i === 0}">${esc(n)}</button>`).join("\n")}
@@ -620,7 +643,14 @@ ${FILTERS.map(([k, n], i) => `        <button type="button" class="work-filter${
 }
 
 function filmLibrary() {
-  const tiles = [];
+  const tiles = [
+    `          <button type="button" class="film-tile film-tile--reel" data-cats="showreel" data-film data-src="${esc(playerSrc(REEL))}" data-aspect="${REEL.aspect}" data-title="${esc(REEL.title)}" data-project="BX Media Automotive">
+            <img src="${esc(REEL.thumbnail)}" alt="" loading="lazy" decoding="async" />
+            <span class="film-play" aria-hidden="true"><i class="fas fa-play"></i></span>
+            <span class="film-duration">${durationLabel(REEL.duration)}</span>
+            <span class="film-meta"><strong>Showreel 2025</strong><span>BX Media</span></span>
+          </button>`,
+  ];
   projects.forEach((p) => {
     p.videos.forEach((v) => {
       tiles.push(`          <button type="button" class="film-tile${v.aspect === "portrait" ? " film-tile--tall" : ""}" data-cats="${projectCats(p).join(" ")}" ${filmData(p, v)}>
@@ -678,7 +708,9 @@ function lightboxScript() {
         el.dataset.title.replace(/"/g, '&quot;') + '"></iframe>';
       box.querySelector('.film-lightbox-title').textContent = el.dataset.title;
       box.querySelector('.film-lightbox-project').textContent = el.dataset.project;
-      box.querySelector('.film-lightbox-link').href = el.dataset.url;
+      var link = box.querySelector('.film-lightbox-link');
+      link.hidden = !el.dataset.url;
+      if (el.dataset.url) link.href = el.dataset.url;
       box.showModal();
     });
   });
@@ -743,6 +775,7 @@ function buildWorkIndex() {
       },
     },
     breadcrumb([["Home", `${DOMAIN}/`], ["Work", url]]),
+    showreelNode(),
   ];
   const waText = "Hi BX Media, I'd like to discuss a project. (bx.media/work/)";
   const body = `    <div class="container">
@@ -751,6 +784,9 @@ function buildWorkIndex() {
         <p class="eyebrow">Our Work</p>
         <h1>Automotive Films That Move</h1>
         <p class="lead">Launch films, creator collaborations, motorsport series and car care showcases for the brands driving Saudi Arabia's automotive scene.</p>
+        <div class="cta-actions">
+          ${showreelButton("cta-btn")}
+        </div>
       </header>
     </div>
     <div class="container page-shell work-hub">
@@ -993,6 +1029,7 @@ function homeGraph() {
     },
     ...site.services.map(serviceNode),
     faqPage(`${DOMAIN}/#faq`, site.faqs),
+    showreelNode(),
   ];
 }
 
@@ -1043,6 +1080,8 @@ function buildHome() {
   html = injectBlock(html, "INDUSTRIES", industriesSection());
   html = injectBlock(html, "FAQ", homeFaqSection());
   html = injectBlock(html, "FOOTER", footerInner());
+  html = injectBlock(html, "SHOWREEL-BUTTON", "          " + showreelButton());
+  html = injectBlock(html, "LIGHTBOX", lightboxHtml() + "\n" + lightboxScript());
   write("index.html", html);
 }
 

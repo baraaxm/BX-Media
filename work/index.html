@@ -149,6 +149,22 @@
           "item": "https://bx.media/work/"
         }
       ]
+    },
+    {
+      "@type": "VideoObject",
+      "@id": "https://bx.media/#showreel",
+      "name": "BX Media Showreel 2025",
+      "description": "BX Media Automotive's 2025 showreel: highlights from launch films, creator collaborations, motorsport coverage and car care showcases across Saudi Arabia.",
+      "thumbnailUrl": "https://i.vimeocdn.com/video/2071625340-ac6fbfc4aeb3fbaabad35e9c25731ccecc852c92a7dda49596b9e36feef0c8e2-d_1280x720",
+      "uploadDate": "2025-10-18",
+      "duration": "PT50S",
+      "embedUrl": "https://player.vimeo.com/video/1128532322?h=604e5b6332",
+      "creator": {
+        "@id": "https://bx.media/#org"
+      },
+      "publisher": {
+        "@id": "https://bx.media/#org"
+      }
     }
   ]
 }
@@ -182,6 +198,9 @@
         <p class="eyebrow">Our Work</p>
         <h1>Automotive Films That Move</h1>
         <p class="lead">Launch films, creator collaborations, motorsport series and car care showcases for the brands driving Saudi Arabia's automotive scene.</p>
+        <div class="cta-actions">
+          <button type="button" class="cta-btn showreel-btn" data-film data-src="https://player.vimeo.com/video/1128532322?h=604e5b6332&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;dnt=1" data-aspect="landscape" data-title="BX Media Showreel 2025" data-project="BX Media Automotive"><i class="fas fa-play" aria-hidden="true"></i><span>Watch Showreel</span></button>
+        </div>
       </header>
     </div>
     <div class="container page-shell work-hub">
@@ -371,6 +390,12 @@
           <p>Every film in one place. Tap any film to play it.</p>
         </div>
         <div class="film-wall">
+          <button type="button" class="film-tile film-tile--reel" data-cats="showreel" data-film data-src="https://player.vimeo.com/video/1128532322?h=604e5b6332&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;dnt=1" data-aspect="landscape" data-title="BX Media Showreel 2025" data-project="BX Media Automotive">
+            <img src="https://i.vimeocdn.com/video/2071625340-ac6fbfc4aeb3fbaabad35e9c25731ccecc852c92a7dda49596b9e36feef0c8e2-d_1280x720" alt="" loading="lazy" decoding="async" />
+            <span class="film-play" aria-hidden="true"><i class="fas fa-play"></i></span>
+            <span class="film-duration">0:50</span>
+            <span class="film-meta"><strong>Showreel 2025</strong><span>BX Media</span></span>
+          </button>
           <button type="button" class="film-tile" data-cats="motorsport" data-film data-src="https://player.vimeo.com/video/1092452102?h=f81d9b7482&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;dnt=1" data-aspect="landscape" data-title="Hypercar Transport Film" data-project="Albassami × Seven Car Lounge" data-url="/work/albassami-seven-car-lounge/">
             <img src="https://i.vimeocdn.com/video/2025534481-9f6ad14f553c72b118cbede8b2e97b7e408d031b0a992e5793c7b2d9e341649a-d_1280x720" alt="" loading="lazy" decoding="async" />
             <span class="film-play" aria-hidden="true"><i class="fas fa-play"></i></span>
@@ -736,7 +761,9 @@
         el.dataset.title.replace(/"/g, '&quot;') + '"></iframe>';
       box.querySelector('.film-lightbox-title').textContent = el.dataset.title;
       box.querySelector('.film-lightbox-project').textContent = el.dataset.project;
-      box.querySelector('.film-lightbox-link').href = el.dataset.url;
+      var link = box.querySelector('.film-lightbox-link');
+      link.hidden = !el.dataset.url;
+      if (el.dataset.url) link.href = el.dataset.url;
       box.showModal();
     });
   });
