@@ -14,14 +14,33 @@
       "client": "Seven Car Lounge",
       "location": "Riyadh",
       "year": "",
-      "services": [],
-      "deliverables": [],
+      "services": [
+        "automotive-video-production",
+        "automotive-social-media-management"
+      ],
+      "deliverables": [
+        "Campaign film",
+        "Short-form social reels"
+      ],
       "results": "",
       "description": "Directed a cinematic campaign documenting Albassami's transport sponsorship of a luxury car experience to AlUla and Umluj. The content emphasized Albassami's elite logistics capabilities — handling hypercars with precision — and was repurposed into short-form reels to maximize social reach.",
       "image": "assets/Projects/albassami0001.jpg",
       "videos": [
-        { "title": "Transport Campaign", "src": "https://player.vimeo.com/video/1092452102?h=f81d9b7482", "aspect": "landscape", "uploadDate": "" }
-      ]
+        {
+          "title": "Transport Campaign",
+          "src": "https://player.vimeo.com/video/1092452102?h=f81d9b7482",
+          "aspect": "landscape",
+          "uploadDate": "2025-06-11",
+          "duration": "PT54S",
+          "thumbnail": "https://i.vimeocdn.com/video/2025534481-9f6ad14f553c72b118cbede8b2e97b7e408d031b0a992e5793c7b2d9e341649a-d_1280x720",
+          "name": "Albassami Hypercar Transport Campaign Film"
+        }
+      ],
+      "industries": [
+        "motorsport-and-events"
+      ],
+      "summary": "Campaign film and short-form reels documenting Albassami's hypercar transport for a Seven Car Lounge luxury drive experience to AlUla and Umluj.",
+      "imageWeb": "assets/Projects/albassami0001.webp"
     },
     {
       "id": 2,
@@ -31,23 +50,123 @@
       "category": "High-End Video & Content Production",
       "client": "ArabGT",
       "location": "Riyadh",
-      "year": "",
-      "services": [],
-      "deliverables": [],
-      "results": "",
+      "year": "2023–2024",
+      "services": [
+        "automotive-video-production"
+      ],
+      "deliverables": [
+        "9 long-form YouTube episodes (8–33 minutes each)",
+        "Event coverage across Saudi Arabia"
+      ],
+      "results": "Over 1M organic YouTube views across the series.",
       "description": "In partnership with ArabGT — the Middle East's top car channel — we covered the Saudi Toyota Championship for SAMF. Full YouTube video production led to over 1M+ organic views, amplifying the event's visibility and showcasing SAMF's motorsport leadership.",
       "image": "assets/Projects/samf0001.jpg",
       "videos": [
-        { "title": "Highlight 1", "src": "https://www.youtube.com/embed/R-_BKHgTp6I", "aspect": "landscape", "uploadDate": "" },
-        { "title": "Highlight 2", "src": "https://www.youtube.com/embed/l7JTF20I61s", "aspect": "landscape", "uploadDate": "" },
-        { "title": "Highlight 3", "src": "https://www.youtube.com/embed/aa3PCDk9OGE", "aspect": "landscape", "uploadDate": "" },
-        { "title": "Highlight 4", "src": "https://www.youtube.com/embed/Z7FxU4aSax4", "aspect": "landscape", "uploadDate": "" },
-        { "title": "Highlight 5", "src": "https://www.youtube.com/embed/n1HFC_kP714", "aspect": "landscape", "uploadDate": "" },
-        { "title": "Highlight 6", "src": "https://www.youtube.com/embed/Qt3HqroG7Ok", "aspect": "landscape", "uploadDate": "" },
-        { "title": "Highlight 7", "src": "https://www.youtube.com/embed/EnYfDxLs92c", "aspect": "landscape", "uploadDate": "" },
-        { "title": "Highlight 8", "src": "https://www.youtube.com/embed/DZv8pdh5wLw", "aspect": "landscape", "uploadDate": "" },
-        { "title": "Highlight 9", "src": "https://www.youtube.com/embed/-O2iWwcCcqg", "aspect": "landscape", "uploadDate": "" }
-      ]
+        {
+          "title": "Fastest Car Hill Climb Challenge: Al Baha",
+          "src": "https://www.youtube.com/embed/R-_BKHgTp6I",
+          "aspect": "landscape",
+          "uploadDate": "2023-08-21",
+          "duration": "PT23M25S",
+          "thumbnail": "https://i.ytimg.com/vi/R-_BKHgTp6I/maxresdefault.jpg",
+          "nameAr": "تحدي أسرع سيارة لصعود هضبة الباحة",
+          "inLanguage": "ar",
+          "watchUrl": "https://www.youtube.com/watch?v=R-_BKHgTp6I"
+        },
+        {
+          "title": "Fastest Car Hill Climb Challenge: Taif",
+          "src": "https://www.youtube.com/embed/l7JTF20I61s",
+          "aspect": "landscape",
+          "uploadDate": "2023-09-22",
+          "duration": "PT32M33S",
+          "thumbnail": "https://i.ytimg.com/vi/l7JTF20I61s/maxresdefault.jpg",
+          "nameAr": "تحدي أسرع سيارة لصعود هضبة الطائف",
+          "inLanguage": "ar",
+          "watchUrl": "https://www.youtube.com/watch?v=l7JTF20I61s"
+        },
+        {
+          "title": "Three Championships in Al-Ahsa: Drift, Time Attack, Autocross",
+          "src": "https://www.youtube.com/embed/aa3PCDk9OGE",
+          "aspect": "landscape",
+          "uploadDate": "2023-10-27",
+          "duration": "PT20M14S",
+          "thumbnail": "https://i.ytimg.com/vi/aa3PCDk9OGE/maxresdefault.jpg",
+          "nameAr": "تحدي 3 بطولات في الاحساء ( دريفت | كسر الزمن | اوتوكروس )",
+          "inLanguage": "ar",
+          "watchUrl": "https://www.youtube.com/watch?v=aa3PCDk9OGE"
+        },
+        {
+          "title": "Saudi Drag Racing Championship: Round 2",
+          "src": "https://www.youtube.com/embed/Z7FxU4aSax4",
+          "aspect": "landscape",
+          "uploadDate": "2023-11-09",
+          "duration": "PT19M27S",
+          "thumbnail": "https://i.ytimg.com/vi/Z7FxU4aSax4/maxresdefault.jpg",
+          "nameAr": "بطولة السعودية للدراج ريس - الجولة الثانية",
+          "inLanguage": "ar",
+          "watchUrl": "https://www.youtube.com/watch?v=Z7FxU4aSax4"
+        },
+        {
+          "title": "Saudi Championship Round 2 at Jeddah Corniche Circuit",
+          "src": "https://www.youtube.com/embed/n1HFC_kP714",
+          "aspect": "landscape",
+          "uploadDate": "2023-11-17",
+          "duration": "PT27M19S",
+          "thumbnail": "https://i.ytimg.com/vi/n1HFC_kP714/maxresdefault.jpg",
+          "nameAr": "الجولة الثانية لبطولة السعودية في اسرع حلبة في العالم | جدة",
+          "inLanguage": "ar",
+          "watchUrl": "https://www.youtube.com/watch?v=n1HFC_kP714"
+        },
+        {
+          "title": "Saudi Drag Racing Championship: Final Round",
+          "src": "https://www.youtube.com/embed/Qt3HqroG7Ok",
+          "aspect": "landscape",
+          "uploadDate": "2023-12-15",
+          "duration": "PT19M5S",
+          "thumbnail": "https://i.ytimg.com/vi/Qt3HqroG7Ok/maxresdefault.jpg",
+          "nameAr": "بطولة السعودية للدراج ريس - الجولة الاخيرة",
+          "inLanguage": "ar",
+          "watchUrl": "https://www.youtube.com/watch?v=Qt3HqroG7Ok"
+        },
+        {
+          "title": "Qassim Rally 2023: Saudi Rally Championship",
+          "src": "https://www.youtube.com/embed/EnYfDxLs92c",
+          "aspect": "landscape",
+          "uploadDate": "2023-12-27",
+          "duration": "PT8M24S",
+          "thumbnail": "https://i.ytimg.com/vi/EnYfDxLs92c/maxresdefault.jpg",
+          "nameAr": "أكشن ومنافسات قوية في رالي القصيم 2023 من بطولة السعودية للراليات",
+          "inLanguage": "ar",
+          "watchUrl": "https://www.youtube.com/watch?v=EnYfDxLs92c"
+        },
+        {
+          "title": "Jeddah Rally 2023 Final Round: Saudi Rally Championship",
+          "src": "https://www.youtube.com/embed/DZv8pdh5wLw",
+          "aspect": "landscape",
+          "uploadDate": "2024-01-03",
+          "duration": "PT11M53S",
+          "thumbnail": "https://i.ytimg.com/vi/DZv8pdh5wLw/maxresdefault.jpg",
+          "nameAr": "رالي جدة ٢٠٢٣ الجولة الاخيرة ضمن بطولة السعودية للراليات",
+          "inLanguage": "ar",
+          "watchUrl": "https://www.youtube.com/watch?v=DZv8pdh5wLw"
+        },
+        {
+          "title": "Hail Toyota International Rally 2024, Round 1 of the FIA World Baja Cup",
+          "src": "https://www.youtube.com/embed/-O2iWwcCcqg",
+          "aspect": "landscape",
+          "uploadDate": "2024-02-23",
+          "duration": "PT9M58S",
+          "thumbnail": "https://i.ytimg.com/vi/-O2iWwcCcqg/maxresdefault.jpg",
+          "nameAr": "رالي حائل تويوتا الدولي 2024 - الجولة الأولى من بطولة العالم للراليات الصحراوية باها",
+          "inLanguage": "ar",
+          "watchUrl": "https://www.youtube.com/watch?v=-O2iWwcCcqg"
+        }
+      ],
+      "industries": [
+        "motorsport-and-events"
+      ],
+      "summary": "Nine long-form YouTube episodes produced with ArabGT covering SAMF national motorsport championships, from hill climbs and drag racing to rallies, with over 1M organic views.",
+      "imageWeb": "assets/Projects/samf0001.webp"
     },
     {
       "id": 3,
@@ -58,16 +177,49 @@
       "client": "Strive ME",
       "location": "Riyadh",
       "year": "",
-      "services": [],
-      "deliverables": [],
+      "services": [
+        "automotive-video-production"
+      ],
+      "deliverables": [
+        "3 vertical launch reels"
+      ],
       "results": "",
       "description": "Collaborated with StriveME to launch the Hongqi HS3 at Boulevard Riyadh. We delivered a series of cinematic reels that captured the car's bold entry into the Saudi market — driving brand buzz and engaging a luxury-focused audience.",
       "image": "assets/Projects/hongqi.png",
       "videos": [
-        { "title": "Hongqi Reel 1", "src": "https://player.vimeo.com/video/1102640419?h=450e9d6c88", "aspect": "portrait", "uploadDate": "" },
-        { "title": "Hongqi Reel 2", "src": "https://player.vimeo.com/video/1102639970?h=14791dfc05", "aspect": "portrait", "uploadDate": "" },
-        { "title": "Hongqi Reel 3", "src": "https://player.vimeo.com/video/1102639636?h=0cef0c92c1", "aspect": "portrait", "uploadDate": "" }
-      ]
+        {
+          "title": "Hongqi Reel 1",
+          "src": "https://player.vimeo.com/video/1102640419?h=450e9d6c88",
+          "aspect": "portrait",
+          "uploadDate": "2025-07-18",
+          "duration": "PT26S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038429711-ccb20830d9e7d463bdad6d9b8c7a5f7d10d3b8f19d15eb61da0ed8ca28ac78c9-d_720x1280",
+          "name": "Hongqi HS3 Launch Reel 1"
+        },
+        {
+          "title": "Hongqi Reel 2",
+          "src": "https://player.vimeo.com/video/1102639970?h=14791dfc05",
+          "aspect": "portrait",
+          "uploadDate": "2025-07-18",
+          "duration": "PT1M6S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038429378-44acc36680cac38edf597d4d9ba77ec4e767cc1a753e611abdbb1803393e0347-d_720x1280",
+          "name": "Hongqi HS3 Launch Reel 2"
+        },
+        {
+          "title": "Hongqi Reel 3",
+          "src": "https://player.vimeo.com/video/1102639636?h=0cef0c92c1",
+          "aspect": "portrait",
+          "uploadDate": "2025-07-18",
+          "duration": "PT29S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038428857-0207aba43307c2c8367bab62709fda2befcb03561fc11cb5d550710620227f45-d_720x1280",
+          "name": "Hongqi HS3 Launch Reel 3"
+        }
+      ],
+      "industries": [
+        "car-brands-and-dealerships"
+      ],
+      "summary": "Three cinematic vertical reels for the Hongqi HS3 launch at Boulevard Riyadh, produced with StriveME.",
+      "imageWeb": "assets/Projects/hongqi.webp"
     },
     {
       "id": 4,
@@ -78,14 +230,32 @@
       "client": "Abdullateef Jameel",
       "location": "Riyadh",
       "year": "",
-      "services": [],
-      "deliverables": [],
+      "services": [
+        "automotive-video-production",
+        "automotive-influencer-marketing"
+      ],
+      "deliverables": [
+        "Off-road influencer reel with @SaudiStig"
+      ],
       "results": "",
       "description": "Shot an off-road reel featuring the Toyota LC300 HEV MAX with influencer @SaudiStig. The video highlighted new features and rugged performance, generating strong engagement and boosting awareness of the model's hybrid innovation.",
       "image": "assets/Projects/toyotalc3000001.jpg",
       "videos": [
-        { "title": "LC300 HEV Max Reel", "src": "https://player.vimeo.com/video/1102642017?h=a2716a0e18", "aspect": "portrait", "uploadDate": "" }
-      ]
+        {
+          "title": "LC300 HEV Max Reel",
+          "src": "https://player.vimeo.com/video/1102642017?h=a2716a0e18",
+          "aspect": "portrait",
+          "uploadDate": "2025-07-18",
+          "duration": "PT2M53S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038432221-bfc9708a98637b59fd992f59bfa27b34f3204aff8146f56b5553008453bae79b-d_720x1280",
+          "name": "Toyota LC300 HEV MAX Off-Road Reel with @SaudiStig"
+        }
+      ],
+      "industries": [
+        "car-brands-and-dealerships"
+      ],
+      "summary": "Off-road influencer reel with @SaudiStig showcasing the Toyota Land Cruiser LC300 HEV MAX hybrid for Abdul Latif Jameel.",
+      "imageWeb": "assets/Projects/toyotalc3000001.webp"
     },
     {
       "id": 5,
@@ -96,19 +266,71 @@
       "client": "Feynlab",
       "location": "Riyadh",
       "year": "",
-      "services": [],
-      "deliverables": [],
+      "services": [
+        "automotive-video-production",
+        "automotive-social-media-management"
+      ],
+      "deliverables": [
+        "6 detailing showcase reels (vertical and landscape)"
+      ],
       "results": "",
       "description": "Produced a series of polished reels for Feynlab Riyadh, showcasing their premium detailing and protection services. The content positioned Feynlab as a trusted luxury care provider, directly contributing to increased customer traffic and online conversions.",
       "image": "assets/Projects/feynlab0001.jpg",
       "videos": [
-        { "title": "BMW Motortech", "src": "https://player.vimeo.com/video/1102640728?h=7ff76f098f", "aspect": "portrait", "uploadDate": "" },
-        { "title": "Feynlab Ferrari", "src": "https://player.vimeo.com/video/1102637425?h=dd3a39df5e", "aspect": "landscape", "uploadDate": "" },
-        { "title": "Ferrari Roma", "src": "https://player.vimeo.com/video/1102636864?h=c13ad6fcad", "aspect": "landscape", "uploadDate": "" },
-        { "title": "Aston Martin", "src": "https://player.vimeo.com/video/1102637108?h=a7dd6aeeb0", "aspect": "landscape", "uploadDate": "" },
-        { "title": "Green Urus", "src": "https://player.vimeo.com/video/1102637858?h=2c81b662ae", "aspect": "portrait", "uploadDate": "" },
-        { "title": "Range Rover", "src": "https://player.vimeo.com/video/1102630788?h=1fcb041e2d", "aspect": "landscape", "uploadDate": "" }
-      ]
+        {
+          "title": "BMW Motortech",
+          "src": "https://player.vimeo.com/video/1102640728?h=7ff76f098f",
+          "aspect": "portrait",
+          "uploadDate": "2025-07-18",
+          "duration": "PT38S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038429823-b82dc268defc92dcf9eb03066c3711a1678bc9bfc09fcb168bf7963fa16179f1-d_720x1280"
+        },
+        {
+          "title": "Feynlab Ferrari",
+          "src": "https://player.vimeo.com/video/1102637425?h=dd3a39df5e",
+          "aspect": "landscape",
+          "uploadDate": "2025-07-18",
+          "duration": "PT55S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038425709-091a8ffd7bcab2a83f78e5b5fb94b9da9dcc457cb9bf1ac366d99a07818afa26-d_1280x720"
+        },
+        {
+          "title": "Ferrari Roma",
+          "src": "https://player.vimeo.com/video/1102636864?h=c13ad6fcad",
+          "aspect": "landscape",
+          "uploadDate": "2025-07-18",
+          "duration": "PT33S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038425152-e6a42e6d1dab3753babbd6772e3cef662d3eda424a7850366efce259a39c370d-d_1280x720"
+        },
+        {
+          "title": "Aston Martin",
+          "src": "https://player.vimeo.com/video/1102637108?h=a7dd6aeeb0",
+          "aspect": "landscape",
+          "uploadDate": "2025-07-18",
+          "duration": "PT29S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038425269-48ec479294a2560732b5b86686b1007fc1d4f431944adb80c3ab03d57f81f8ed-d_1280x720"
+        },
+        {
+          "title": "Green Urus",
+          "src": "https://player.vimeo.com/video/1102637858?h=2c81b662ae",
+          "aspect": "portrait",
+          "uploadDate": "2025-07-18",
+          "duration": "PT55S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038426631-b3c3f2ea0cb4b078e042943196edd64c8b287adfdeab112a8f4b3e277706b24c-d_720x1280"
+        },
+        {
+          "title": "Range Rover",
+          "src": "https://player.vimeo.com/video/1102630788?h=1fcb041e2d",
+          "aspect": "landscape",
+          "uploadDate": "2025-07-18",
+          "duration": "PT1M14S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038417828-2fc6161e21d06dec4b0bce01c301796accd94df9f83a514a283e00d6652d1b6d-d_1280x720"
+        }
+      ],
+      "industries": [
+        "detailing-and-service-centers"
+      ],
+      "summary": "Six polished reels for Feynlab Riyadh showcasing premium detailing and paint protection on Ferrari, Aston Martin, Lamborghini Urus, Range Rover and BMW.",
+      "imageWeb": "assets/Projects/feynlab0001.webp"
     },
     {
       "id": 6,
@@ -119,17 +341,55 @@
       "client": "VIP Quick Service",
       "location": "Riyadh",
       "year": "",
-      "services": [],
-      "deliverables": [],
+      "services": [
+        "automotive-video-production",
+        "automotive-social-media-management"
+      ],
+      "deliverables": [
+        "4 service showcase reels"
+      ],
       "results": "",
       "description": "Produced a sleek package of high-quality automotive service reels for VIP Quick Service in Riyadh. The content reinforced their premium brand image, built trust with new customers, and elevated their digital presence.",
       "image": "assets/Projects/vip00.png",
       "videos": [
-        { "title": "VIP - Urus Final", "src": "https://player.vimeo.com/video/1102639250?h=4720133386", "aspect": "landscape", "uploadDate": "" },
-        { "title": "VIP - Lamborghini", "src": "https://player.vimeo.com/video/1102639119?h=29fb53e2a6", "aspect": "landscape", "uploadDate": "" },
-        { "title": "VIP - Grey Bentley", "src": "https://player.vimeo.com/video/1102638930?h=e62e7ca632", "aspect": "landscape", "uploadDate": "" },
-        { "title": "VIP - Multi Car Shot", "src": "https://player.vimeo.com/video/1102638172?h=029e5a39e9", "aspect": "landscape", "uploadDate": "" }
-      ]
+        {
+          "title": "VIP - Urus Final",
+          "src": "https://player.vimeo.com/video/1102639250?h=4720133386",
+          "aspect": "landscape",
+          "uploadDate": "2025-07-18",
+          "duration": "PT27S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038428160-d8b450bf4a8efd65834df75ce5339ab887eea1ebd48967aa4a4b046562b79d60-d_1280x720"
+        },
+        {
+          "title": "VIP - Lamborghini",
+          "src": "https://player.vimeo.com/video/1102639119?h=29fb53e2a6",
+          "aspect": "landscape",
+          "uploadDate": "2025-07-18",
+          "duration": "PT33S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038427977-a4ab6971c8a02db3c37da8c639f0b2b62ba58dfe31e36e4a501628a4f9ff480c-d_1280x720"
+        },
+        {
+          "title": "VIP - Grey Bentley",
+          "src": "https://player.vimeo.com/video/1102638930?h=e62e7ca632",
+          "aspect": "landscape",
+          "uploadDate": "2025-07-18",
+          "duration": "PT31S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038427837-9dc7ca2b04a037e64b1358ec38b12827c6f711f5ad3f4c931923e592e225c6a7-d_1280x720"
+        },
+        {
+          "title": "VIP - Multi Car Shot",
+          "src": "https://player.vimeo.com/video/1102638172?h=029e5a39e9",
+          "aspect": "landscape",
+          "uploadDate": "2025-07-18",
+          "duration": "PT51S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038427595-762bac3e7431a1644bf32aa836c7e77d2084e3d9f637f3feac0ef02e444a02c7-d_1280x720"
+        }
+      ],
+      "industries": [
+        "detailing-and-service-centers"
+      ],
+      "summary": "Four premium service reels for VIP Quick Service in Riyadh featuring Lamborghini Urus, Lamborghini and Bentley.",
+      "imageWeb": "assets/Projects/vip00.webp"
     }
   ]
 }

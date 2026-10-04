@@ -1,5 +1,17 @@
 # Netlify custom headers
 
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
 # Keep the client/admin dashboard out of search indexes
 /dashboard/*
   X-Robots-Tag: noindex, nofollow
+
+# Form success page is for people, not search results
+/thank-you/*
+  X-Robots-Tag: noindex
+
+# Static media (not fingerprinted, so 30 days rather than immutable)
+/assets/*
+  Cache-Control: public, max-age=2592000

@@ -1,0 +1,160 @@
+{
+  "contact": {
+    "email": "info@bx.media",
+    "phone": "+966535096137",
+    "phoneDisplay": "+966 53 509 6137",
+    "whatsapp": "966557969551",
+    "whatsappDisplay": "+966 55 796 9551",
+    "city": "Riyadh",
+    "country": "Saudi Arabia",
+    "instagram": "https://www.instagram.com/bxm.auto",
+    "linkedin": "https://www.linkedin.com/company/bxm-auto"
+  },
+  "areaServed": ["Saudi Arabia", "United Arab Emirates", "Kuwait", "Qatar", "Bahrain", "Oman"],
+  "clients": [
+    "Abdul Latif Jameel", "ArabGT", "Barbican", "BYD", "Emirates Driving", "EVIQ",
+    "Feynlab", "Honor", "Jameel Motorsport", "Kumho", "Lotus", "Lynk & Co", "RAM",
+    "Realme", "Saudi Automobile & Motorcycle Federation (SAMF)", "Soueast", "StriveME",
+    "Titanium Automotive", "TMD Friction", "Toyota", "VIP Quick Service", "Volvo", "Zeetex"
+  ],
+  "services": [
+    {
+      "slug": "automotive-video-production",
+      "name": "High-End Video & Content Production",
+      "h1": "Automotive Video Production in Riyadh",
+      "title": "Automotive Video Production Company in Riyadh, Saudi Arabia",
+      "metaDescription": "Cinematic car videos, launch reels, brand films and YouTube series for automotive brands in Riyadh and across the GCC. See our work and send a brief.",
+      "cardText": "Cinematic reels, brand films, influencer videos, and campaign visuals tailored for the automotive industry.",
+      "answer": "BX Media Automotive is a Riyadh-based production company that specialises in video for the automotive industry: vehicle launch reels, brand films, long-form YouTube episodes, event coverage and social cutdowns for car brands, dealerships, detailing studios and motorsport organisers across Saudi Arabia and the GCC.",
+      "interest": "launch",
+      "includes": [
+        ["Vehicle launch films and reels", "Hero films and vertical reels for new model reveals, built to run across Instagram, TikTok, Snapchat and YouTube."],
+        ["Brand and campaign films", "Story-led films for distributors, dealer groups and automotive service brands."],
+        ["Long-form YouTube production", "Multi-episode series and event coverage, such as our nine-episode SAMF motorsport series with ArabGT."],
+        ["Product and service showcases", "Detailing, paint protection and service-centre reels that show the work up close."],
+        ["Event and motorsport coverage", "On-location crews for championships, rallies, track days and launch events."],
+        ["Social cutdowns", "Shoots are repurposed into platform-specific edits so one production feeds more of your channels."]
+      ],
+      "process": [
+        ["Brief", "Share your model, audience, launch date and channels. We reply within 24 hours."],
+        ["Concept and storyboard", "We plan shots, locations, talent and deliverables around your goal."],
+        ["Production", "Cinematography built around the vehicle: motion, detail and sound."],
+        ["Post-production", "Edit, colour, sound design and platform-ready cutdowns."]
+      ],
+      "faqs": [
+        ["What kinds of automotive videos does BX Media produce?", "Launch reels, brand films, long-form YouTube episodes, influencer videos, event and motorsport coverage, and detailing or service showcases. We specialise in the automotive industry."],
+        ["Where does BX Media film?", "BX Media is based in Riyadh and films across Saudi Arabia, including past shoots in AlUla, Umluj, Jeddah, Taif, Al Baha, Al-Ahsa, Qassim and Hail. We serve clients across the GCC."],
+        ["How much does an automotive video cost?", "It depends on the number of deliverables, shoot days, locations and talent. Send a short brief or a WhatsApp message and we will reply within 24 hours with a tailored content roadmap."]
+      ]
+    },
+    {
+      "slug": "automotive-social-media-management",
+      "name": "Social Media Account Management",
+      "h1": "Social Media Management for Automotive Brands",
+      "title": "Automotive Social Media Management in Riyadh, Saudi Arabia",
+      "metaDescription": "Content planning, production, posting and optimisation for car brands, dealerships and automotive service centres in Saudi Arabia and the GCC.",
+      "cardText": "Full content planning, posting, and optimization to grow your brand's presence and performance.",
+      "answer": "BX Media Automotive manages social media accounts for automotive businesses in Saudi Arabia: we plan the content calendar, shoot and edit the reels in-house, publish, and optimise based on performance. Because we are an automotive production house, the content is made by the same team that films your cars.",
+      "interest": "retainer",
+      "includes": [
+        ["Monthly content calendar", "Planned around launches, offers, seasons and events."],
+        ["In-house production", "Reels, stories and posts shot and edited by our automotive crew."],
+        ["Publishing and community", "Scheduling and posting across your brand's channels."],
+        ["Performance optimisation", "We review what performs and adjust formats, hooks and timing."]
+      ],
+      "process": [
+        ["Audit", "We review your current channels and competitors."],
+        ["Plan", "A monthly calendar aligned with your sales and launch goals."],
+        ["Produce", "Batch shoots that feed the month's content."],
+        ["Publish and improve", "Post, measure and refine every month."]
+      ],
+      "faqs": [
+        ["Do you offer monthly social media retainers?", "Yes. Monthly content retainers cover planning, production, publishing and optimisation. Select \"Monthly Content Retainer\" in the brief form to start."],
+        ["Which businesses do you manage social media for?", "Automotive businesses: car brands and distributors, dealerships, detailing and paint protection studios, service centres and automotive product brands."]
+      ]
+    },
+    {
+      "slug": "automotive-influencer-marketing",
+      "name": "Automotive Influencer Marketing",
+      "h1": "Automotive Influencer Marketing in Saudi Arabia",
+      "title": "Automotive Influencer Marketing Agency in Saudi Arabia",
+      "metaDescription": "Connect your car brand with the right Saudi and GCC automotive creators. We plan, produce and deliver influencer campaigns end to end.",
+      "cardText": "Connect your brand with the right creators to reach, engage, and convert your target audience.",
+      "answer": "BX Media Automotive runs automotive influencer campaigns in Saudi Arabia: we match your brand with relevant car creators, plan the concept, produce the content with our own crew, and deliver it ready to publish. For example, we filmed the Toyota Land Cruiser LC300 HEV MAX off-road with influencer @SaudiStig.",
+      "interest": "influencer",
+      "includes": [
+        ["Creator matching", "Automotive creators chosen for fit with your audience and model."],
+        ["Concept and production", "Our crew films the creator content to a cinematic standard."],
+        ["Launch and model campaigns", "Creator-led reels that explain features and build awareness."],
+        ["Usage-ready assets", "Edits that work on the creator's channel and your brand's channels."]
+      ],
+      "process": [
+        ["Brief", "Tell us the model, audience and goal."],
+        ["Shortlist", "We propose creators and a concept."],
+        ["Shoot", "We produce the content on location."],
+        ["Deliver", "Final edits for creator and brand channels."]
+      ],
+      "faqs": [
+        ["Do you work with automotive influencers in Saudi Arabia?", "Yes. We plan and produce creator content for car brands, including an off-road reel for the Toyota LC300 HEV MAX with @SaudiStig."],
+        ["Do you produce the influencer content or only book creators?", "Both. We match creators and produce the content with our own crew so it meets brand standards."]
+      ]
+    }
+  ],
+  "industries": [
+    {
+      "slug": "car-brands-and-dealerships",
+      "name": "Car Brands, Distributors & Dealerships",
+      "title": "Video Production for Car Brands & Dealerships in Saudi Arabia",
+      "h1": "Content for Car Brands, Distributors & Dealerships",
+      "metaDescription": "Launch films, model reels and influencer campaigns for car brands, distributors and dealerships in Saudi Arabia and the GCC.",
+      "cardText": "Launch campaigns, model reels and creator content for OEMs, distributors and dealer groups.",
+      "answer": "BX Media Automotive produces launch campaigns and ongoing content for car brands, distributors and dealerships in Saudi Arabia, from new model reveals to always-on social content. Our work includes the Hongqi HS3 launch at Boulevard Riyadh and a Toyota LC300 HEV MAX influencer reel for Abdul Latif Jameel.",
+      "interest": "launch",
+      "points": [
+        ["New model launches", "Hero films and vertical reels ready for reveal day."],
+        ["Influencer drives", "Creator-led content that explains features and builds demand."],
+        ["Showroom and offer content", "Monthly content that keeps your models in front of buyers."]
+      ],
+      "clientNote": "Brands we have worked with include Toyota, Abdul Latif Jameel, BYD, Lotus, Lynk & Co, RAM, Volvo, Soueast and Hongqi (with StriveME)."
+    },
+    {
+      "slug": "detailing-and-service-centers",
+      "name": "Detailing, Service Centres & Aftermarket",
+      "title": "Video Content for Car Detailing & Service Centres in Riyadh",
+      "h1": "Content for Detailing Studios, Service Centres & Aftermarket Brands",
+      "metaDescription": "Reels that show detailing, paint protection and service quality up close, made for detailing studios, service centres and tyre and parts brands in Riyadh.",
+      "cardText": "Showcase reels for detailing studios, paint protection, service centres and parts brands.",
+      "answer": "BX Media Automotive makes showcase reels for detailing studios, paint protection specialists, service centres and aftermarket brands in Riyadh. Our reels for Feynlab Riyadh and VIP Quick Service feature cars such as Ferrari, Aston Martin, Lamborghini and Bentley and are built to drive enquiries and bookings.",
+      "interest": "retainer",
+      "points": [
+        ["Detailing and protection showcases", "Close-up reels that make finish quality visible."],
+        ["Service-centre content", "Content that builds trust with new customers."],
+        ["Product brands", "Content for tyre, brake and parts brands."]
+      ],
+      "clientNote": "Clients include Feynlab, VIP Quick Service, Titanium Automotive, Kumho, Zeetex and TMD Friction."
+    },
+    {
+      "slug": "motorsport-and-events",
+      "name": "Motorsport, Events & Experiences",
+      "title": "Motorsport & Automotive Event Video Coverage in Saudi Arabia",
+      "h1": "Motorsport, Event & Experience Coverage",
+      "metaDescription": "Championship coverage, YouTube series and experience films for motorsport organisers, media partners and automotive events across Saudi Arabia.",
+      "cardText": "Championship coverage, YouTube series and experience films for organisers and media partners.",
+      "answer": "BX Media Automotive covers motorsport and automotive events across Saudi Arabia. With ArabGT we produced nine long-form YouTube episodes for SAMF championships, including hill climbs, drag racing and rallies, reaching over 1M organic views. We also documented a hypercar experience to AlUla and Umluj for Albassami and Seven Car Lounge.",
+      "interest": "event",
+      "points": [
+        ["Championship coverage", "Multi-round series from hill climbs to drag racing and rallies."],
+        ["Event recaps", "Highlight edits for social and YouTube."],
+        ["Experience films", "Drives, tours and logistics stories told cinematically."]
+      ],
+      "clientNote": "Clients include the Saudi Automobile & Motorcycle Federation (SAMF), ArabGT, Jameel Motorsport, Albassami and Seven Car Lounge."
+    }
+  ],
+  "faqs": [
+    ["What is BX Media Automotive?", "BX Media Automotive (BX Media) is an automotive content and video production agency based in Riyadh, Saudi Arabia. It produces cinematic videos, social media content and influencer campaigns specialised for the automotive industry and serves clients across the GCC."],
+    ["What services does BX Media offer?", "Three core services: high-end automotive video and content production, social media account management for automotive brands, and automotive influencer marketing."],
+    ["Who does BX Media work with?", "Car brands and distributors, dealerships, detailing and service centres, automotive product brands, and motorsport and event organisers. Clients include Toyota, Abdul Latif Jameel, BYD, Lotus, Volvo, ArabGT, SAMF and Feynlab."],
+    ["Does BX Media work outside Riyadh?", "Yes. BX Media is based in Riyadh, films across Saudi Arabia and serves clients across the GCC."],
+    ["How do I start a project with BX Media?", "Send a brief through the project intake form or message us on WhatsApp at +966 55 796 9551. We respond within 24 hours with a tailored content roadmap."]
+  ]
+}

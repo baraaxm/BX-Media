@@ -255,6 +255,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // === LEAD ATTRIBUTION + PRESELECTED PROJECT TYPE ===
+  // First-touch landing page, referrer and UTM tags are kept for the session and
+  // submitted with the brief (hidden Netlify form fields), so every lead shows
+  // where it came from. Subpage CTAs link to /?interest=<type>#contact.
+  const ATTR_KEY = 'bxm_attr';
+  const params = new URLSearchParams(window.location.search);
+  let attr = {};
+  try {
+    attr = JSON.parse(sessionStorage.getItem(ATTR_KEY) || '{}');
+  } catch (e) { /* storage unavailable */ }
+  if (!attr.landing_page) {
+    attr.landing_page = window.location.pathname + window.location.search;
+    attr.referrer = document.referrer || '(direct)';
+  }
+  ['utm_source', 'utm_medium', 'utm_campaign'].forEach(key => {
+    if (params.get(key)) attr[key] = params.get(key);
+  });
+  try {
+    sessionStorage.setItem(ATTR_KEY, JSON.stringify(attr));
+  } catch (e) { /* storage unavailable */ }
+
+  const contactForm = document.querySelector('form[name="contact"]');
+  if (contactForm) {
+    Object.keys(attr).forEach(key => {
+      const field = contactForm.querySelector(`input[name="${key}"]`);
+      if (field) field.value = attr[key];
+    });
+    const interest = params.get('interest');
+    const typeSelect = contactForm.querySelector('#projectType');
+    if (interest && typeSelect && typeSelect.querySelector(`option[value="${CSS.escape(interest)}"]`)) {
+      typeSelect.value = interest;
+    }
+  }
+
   // === LAZY LOADING IMAGES ===
   const lazyImages = document.querySelectorAll('img[loading="lazy"]');
   
