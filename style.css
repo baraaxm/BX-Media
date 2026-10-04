@@ -2248,103 +2248,7 @@ section {
 
 }
 
-/* ===== Spotlight: newest key film ===== */
-.spotlight {
-  padding: 90px 0 30px;
-}
-
-.spotlight--hub {
-  padding: 0 0 4rem;
-}
-
-.spotlight-card {
-  position: relative;
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid var(--border-glow);
-  box-shadow: 0 35px 70px rgba(0, 0, 0, 0.55), 0 0 40px rgba(255, 102, 0, 0.12);
-  background: #000;
-}
-
-.spotlight-media {
-  position: relative;
-  aspect-ratio: 2.39 / 1;
-  overflow: hidden;
-}
-
-.spotlight-media img,
-.spotlight-media iframe {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  height: 100%;
-  aspect-ratio: 2.39 / 1;
-  width: auto;
-  min-width: 100%;
-  transform: translateX(-50%);
-  border: 0;
-  pointer-events: none;
-}
-
-.spotlight-media img {
-  object-fit: cover;
-}
-
-.spotlight-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.35) 45%, transparent 70%),
-    linear-gradient(0deg, rgba(0, 0, 0, 0.6), transparent 40%);
-}
-
-.spotlight-overlay {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  z-index: 2;
-  max-width: 560px;
-  padding: 3rem;
-}
-
-.spotlight-badge {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #fff;
-  background: linear-gradient(135deg, var(--accent), var(--accent-soft));
-  border-radius: 999px;
-  padding: 0.35rem 0.9rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 8px 20px rgba(255, 102, 0, 0.4);
-}
-
-.spotlight-overlay h2 {
-  color: #fff;
-  font-size: clamp(2.4rem, 6vw, 4.5rem);
-  line-height: 1;
-  letter-spacing: -1px;
-  margin-bottom: 0.75rem;
-}
-
-.spotlight-overlay p {
-  color: #ddd;
-  font-size: 1.05rem;
-}
-
-.spotlight-overlay .cta-actions {
-  margin-top: 1.5rem;
-}
-
-.spotlight-overlay button.cta-btn {
-  border: 0;
-  font: inherit;
-  font-weight: 600;
-  cursor: pointer;
-}
-
+/* ===== Cinema (2.39:1) video format ===== */
 .video-main .video-wrapper.cinema {
   aspect-ratio: 2.39 / 1;
 }
@@ -2352,22 +2256,4 @@ section {
 .film-frame--cinema {
   aspect-ratio: 2.39 / 1;
   width: min(1200px, 94vw, calc(76vh * 2.39));
-}
-
-@media (max-width: 768px) {
-  .spotlight {
-    padding: 60px 0 20px;
-  }
-
-  .spotlight-media {
-    aspect-ratio: 4 / 5;
-  }
-
-  .spotlight-media::after {
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.92) 10%, rgba(0, 0, 0, 0.2) 60%, transparent);
-  }
-
-  .spotlight-overlay {
-    padding: 1.5rem;
-  }
 }

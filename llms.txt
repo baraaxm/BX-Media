@@ -20,7 +20,6 @@ Key facts:
 
 ## Case studies
 - [Portfolio overview](https://bx.media/work/)
-- [Pagani: Cinematic Hypercar Film](https://bx.media/work/pagani/): Cinematic widescreen hypercar film for Pagani, our newest production.
 - [Albassami × Seven Car Lounge](https://bx.media/work/albassami-seven-car-lounge/): Campaign film and short-form reels documenting Albassami's hypercar transport for a Seven Car Lounge luxury drive experience to AlUla and Umluj.
 - [ArabGT × SAMF](https://bx.media/work/arabgt-samf/): Nine long-form YouTube episodes produced with ArabGT covering SAMF national motorsport championships, from hill climbs and drag racing to rallies, with over 1M organic views.
 - [Hongqi × StriveME](https://bx.media/work/hongqi-striveme/): Three cinematic vertical reels for the Hongqi HS3 launch at Boulevard Riyadh, produced with StriveME.
@@ -31,6 +30,7 @@ Key facts:
 - [Dirab Drift Open Day](https://bx.media/work/dirab-drift-open-day/): Event recap film from a drift open day at Dirab Park, Riyadh.
 - [Theeb × BMW: Suhail Edition](https://bx.media/work/theeb-bmw-suhail/): Cinematic 4K film for Theeb presenting the BMW Suhail Edition.
 - [Fix Auto](https://bx.media/work/fix-auto/): Widescreen showcase film for the Fix Auto car care centre.
+- [Pagani: Cinematic Hypercar Film](https://bx.media/work/pagani/): Cinematic widescreen hypercar film for Pagani.
 - [ArabGT: Red Eye Edit](https://bx.media/work/arabgt-red-eye-edit/): A short, high-energy Red Eye performance edit for ArabGT.
 
 ## Clients

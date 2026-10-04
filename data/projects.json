@@ -7,44 +7,6 @@
   "projects": [
     {
       "id": 1,
-      "slug": "pagani",
-      "gridTitle": "Pagani",
-      "detailTitle": "Pagani: Cinematic Hypercar Film",
-      "category": "High-End Video & Content Production",
-      "client": "Pagani",
-      "location": "Saudi Arabia",
-      "year": "",
-      "services": [
-        "automotive-video-production"
-      ],
-      "deliverables": [
-        "Cinematic widescreen hypercar film (2.39:1)"
-      ],
-      "results": "",
-      "description": "A cinematic hypercar film for Pagani, shot and graded in widescreen cinema format. Our newest production, built to give one of the world's most exclusive hypercar makers the big-screen treatment it deserves.",
-      "image": "assets/Projects/pagani.jpg",
-      "videos": [
-        {
-          "title": "Cinematic Hypercar Film",
-          "src": "https://player.vimeo.com/video/1230931812?h=164b5dd2fe",
-          "aspect": "cinema",
-          "uploadDate": "2026-09-28",
-          "duration": "PT1M2S",
-          "thumbnail": "https://i.vimeocdn.com/video/2205967051-2cdcc7553d5b4933d0e084a767cf6f15314183ecd8c747043031d71620878d16-d_1280x720",
-          "name": "Pagani: Cinematic Hypercar Film"
-        }
-      ],
-      "industries": [
-        "car-brands-and-dealerships"
-      ],
-      "summary": "Cinematic widescreen hypercar film for Pagani, our newest production.",
-      "imageWeb": "assets/Projects/pagani.webp",
-      "featured": false,
-      "spotlight": true,
-      "spotlightTagline": "Our newest film. One of the world's most exclusive hypercars, shot in widescreen cinema format."
-    },
-    {
-      "id": 2,
       "slug": "albassami-seven-car-lounge",
       "gridTitle": "Albassami × Seven Car Lounge",
       "detailTitle": "Albassami × Seven Car Lounge",
@@ -82,7 +44,7 @@
       "featured": true
     },
     {
-      "id": 3,
+      "id": 2,
       "slug": "arabgt-samf",
       "gridTitle": "ArabGT × SAMF",
       "detailTitle": "ArabGT × SAMF",
@@ -209,7 +171,7 @@
       "featured": true
     },
     {
-      "id": 4,
+      "id": 3,
       "slug": "hongqi-striveme",
       "gridTitle": "Hongqi × StriveME",
       "detailTitle": "Hongqi × StriveME",
@@ -263,7 +225,7 @@
       "featured": true
     },
     {
-      "id": 5,
+      "id": 4,
       "slug": "toyota-lc300-hev-max",
       "gridTitle": "Toyota LC300 HEV MAX",
       "detailTitle": "Toyota LC300 HEV MAX",
@@ -300,7 +262,7 @@
       "featured": true
     },
     {
-      "id": 6,
+      "id": 5,
       "slug": "feynlab-riyadh-campaign",
       "gridTitle": "Feynlab",
       "detailTitle": "Feynlab Riyadh Campaign",
@@ -400,7 +362,7 @@
       "featured": true
     },
     {
-      "id": 7,
+      "id": 6,
       "slug": "vip-quick-service",
       "gridTitle": "VIP Quick Service",
       "detailTitle": "VIP Quick Service",
@@ -464,7 +426,7 @@
       "featured": true
     },
     {
-      "id": 8,
+      "id": 7,
       "slug": "saudistig-creator-collaborations",
       "gridTitle": "@SaudiStig × Brands",
       "detailTitle": "@SaudiStig Creator Collaborations",
@@ -575,7 +537,7 @@
       "featured": false
     },
     {
-      "id": 9,
+      "id": 8,
       "slug": "dirab-drift-open-day",
       "gridTitle": "Dirab Drift Open Day",
       "detailTitle": "Dirab Drift Open Day",
@@ -611,7 +573,7 @@
       "featured": false
     },
     {
-      "id": 10,
+      "id": 9,
       "slug": "theeb-bmw-suhail",
       "gridTitle": "Theeb × BMW",
       "detailTitle": "Theeb × BMW: Suhail Edition",
@@ -647,7 +609,7 @@
       "featured": false
     },
     {
-      "id": 11,
+      "id": 10,
       "slug": "fix-auto",
       "gridTitle": "Fix Auto",
       "detailTitle": "Fix Auto",
@@ -681,6 +643,42 @@
       ],
       "summary": "Widescreen showcase film for the Fix Auto car care centre.",
       "imageWeb": "assets/Projects/fix-auto.webp",
+      "featured": false
+    },
+    {
+      "id": 11,
+      "slug": "pagani",
+      "gridTitle": "Pagani",
+      "detailTitle": "Pagani: Cinematic Hypercar Film",
+      "category": "High-End Video & Content Production",
+      "client": "Pagani",
+      "location": "Saudi Arabia",
+      "year": "",
+      "services": [
+        "automotive-video-production"
+      ],
+      "deliverables": [
+        "Cinematic widescreen hypercar film (2.39:1)"
+      ],
+      "results": "",
+      "description": "A cinematic hypercar film for Pagani, shot and graded in widescreen cinema format.",
+      "image": "assets/Projects/pagani.jpg",
+      "videos": [
+        {
+          "title": "Cinematic Hypercar Film",
+          "src": "https://player.vimeo.com/video/1230931812?h=164b5dd2fe",
+          "aspect": "cinema",
+          "uploadDate": "2026-09-28",
+          "duration": "PT1M2S",
+          "thumbnail": "https://i.vimeocdn.com/video/2205967051-2cdcc7553d5b4933d0e084a767cf6f15314183ecd8c747043031d71620878d16-d_1280x720",
+          "name": "Pagani: Cinematic Hypercar Film"
+        }
+      ],
+      "industries": [
+        "car-brands-and-dealerships"
+      ],
+      "summary": "Cinematic widescreen hypercar film for Pagani.",
+      "imageWeb": "assets/Projects/pagani.webp",
       "featured": false
     },
     {

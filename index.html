@@ -390,68 +390,6 @@
     </div>
   </section>
 
-  <!-- SPOTLIGHT:START -->
-  <section class="spotlight " aria-labelledby="spotlight-title">
-    <div class="container">
-      <div class="spotlight-card">
-        <div class="spotlight-media" aria-hidden="true">
-          <img src="/assets/Projects/pagani.webp" alt="" loading="lazy" decoding="async" />
-          <iframe src="https://player.vimeo.com/video/1230931812?h=164b5dd2fe&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;dnt=1&amp;background=1" title="Pagani: Cinematic Hypercar Film preview" tabindex="-1" loading="lazy" allow="autoplay; fullscreen"></iframe>
-        </div>
-        <div class="spotlight-overlay">
-          <span class="spotlight-badge">New film</span>
-          <h2 id="spotlight-title">Pagani</h2>
-          <p>Our newest film. One of the world's most exclusive hypercars, shot in widescreen cinema format.</p>
-          <div class="cta-actions">
-            <button type="button" class="cta-btn" data-film data-src="https://player.vimeo.com/video/1230931812?h=164b5dd2fe&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;dnt=1" data-aspect="cinema" data-title="Cinematic Hypercar Film" data-project="Pagani: Cinematic Hypercar Film" data-url="/work/pagani/"><i class="fas fa-play" aria-hidden="true"></i><span>Watch the film</span></button>
-            <a class="cta-btn cta-btn--ghost" href="/work/pagani/"><span>View project</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-      <dialog class="film-lightbox" aria-label="Video player">
-        <div class="film-lightbox-inner">
-          <button type="button" class="film-close" aria-label="Close video"><i class="fas fa-xmark" aria-hidden="true"></i></button>
-          <div class="film-frame"></div>
-          <div class="film-lightbox-meta">
-            <div><strong class="film-lightbox-title"></strong><span class="film-lightbox-project"></span></div>
-            <a class="film-lightbox-link" href="#">View project <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
-          </div>
-        </div>
-      </dialog>
-  <script>
-(function () {
-  var box = document.querySelector('.film-lightbox');
-  if (!box || typeof box.showModal !== 'function') return;
-  var frame = box.querySelector('.film-frame');
-  function close() {
-    frame.innerHTML = '';
-    if (box.open) box.close();
-  }
-  document.querySelectorAll('[data-film]').forEach(function (el) {
-    el.addEventListener('click', function () {
-      var src = el.dataset.src;
-      src += (src.indexOf('?') === -1 ? '?' : '&') + 'autoplay=1';
-      var a = el.dataset.aspect;
-      frame.className = 'film-frame' + (a === 'portrait' ? ' film-frame--tall' : a === 'cinema' ? ' film-frame--cinema' : '');
-      frame.innerHTML = '<iframe src="' + src + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="' +
-        el.dataset.title.replace(/"/g, '&quot;') + '"></iframe>';
-      box.querySelector('.film-lightbox-title').textContent = el.dataset.title;
-      box.querySelector('.film-lightbox-project').textContent = el.dataset.project;
-      box.querySelector('.film-lightbox-link').href = el.dataset.url;
-      box.showModal();
-    });
-  });
-  box.querySelector('.film-close').addEventListener('click', close);
-  box.addEventListener('click', function (e) { if (e.target === box) close(); });
-  box.addEventListener('close', function () { frame.innerHTML = ''; });
-})();
-  </script>
-
-  <!-- SPOTLIGHT:END -->
-
   <section id="story" class="scroll-story fade-in">
     <div class="container">
       <div class="story-layout">

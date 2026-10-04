@@ -657,7 +657,7 @@ function lightboxHtml() {
 }
 
 // Opens any element carrying data-src / data-aspect / data-title / data-project / data-url
-// (film tiles, spotlight buttons) in the shared lightbox.
+// (film tiles) in the shared lightbox.
 function lightboxScript() {
   return `  <script>
 (function () {
@@ -692,33 +692,6 @@ function lightboxScript() {
 
 function filmData(p, v) {
   return `data-film data-src="${esc(playerSrc(v))}" data-aspect="${v.aspect}" data-title="${esc(v.title)}" data-project="${esc(p.detailTitle)}" data-url="/work/${p.slug}/"`;
-}
-
-// High-visibility feature for the newest key film (projects with "spotlight": true).
-function spotlightSection(extraClass = "") {
-  const p = projects.find((x) => x.spotlight);
-  if (!p) return "";
-  const v = p.videos[0];
-  const bg = playerSrc(v) + "&background=1";
-  return `  <section class="spotlight ${extraClass}" aria-labelledby="spotlight-title">
-    <div class="container">
-      <div class="spotlight-card">
-        <div class="spotlight-media" aria-hidden="true">
-          <img src="/${esc(p.imageWeb)}" alt="" loading="lazy" decoding="async" />
-          <iframe src="${esc(bg)}" title="${esc(p.detailTitle)} preview" tabindex="-1" loading="lazy" allow="autoplay; fullscreen"></iframe>
-        </div>
-        <div class="spotlight-overlay">
-          <span class="spotlight-badge">New film</span>
-          <h2 id="spotlight-title">${esc(p.gridTitle)}</h2>
-          <p>${esc(p.spotlightTagline || p.summary)}</p>
-          <div class="cta-actions">
-            <button type="button" class="cta-btn" ${filmData(p, v)}><i class="fas fa-play" aria-hidden="true"></i><span>Watch the film</span></button>
-            <a class="cta-btn cta-btn--ghost" href="/work/${p.slug}/"><span>View project</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>`;
 }
 
 function workHubScript() {
@@ -780,7 +753,6 @@ function buildWorkIndex() {
         <p class="lead">Launch films, creator collaborations, motorsport series and car care showcases for the brands driving Saudi Arabia's automotive scene.</p>
       </header>
     </div>
-${spotlightSection("spotlight--hub")}
     <div class="container page-shell work-hub">
 ${filterBar()}
       <section aria-labelledby="cases-heading">
@@ -1069,7 +1041,6 @@ function buildHome() {
   html = injectBlock(html, "JSONLD", "  " + jsonLd(homeGraph()));
   html = injectBlock(html, "PROJECTS", projects.filter((p) => p.featured).map((p, i) => projectCard(p, i, "")).join("\n"));
   html = injectBlock(html, "INDUSTRIES", industriesSection());
-  html = injectBlock(html, "SPOTLIGHT", spotlightSection() + "\n" + lightboxHtml() + "\n" + lightboxScript());
   html = injectBlock(html, "FAQ", homeFaqSection());
   html = injectBlock(html, "FOOTER", footerInner());
   write("index.html", html);
