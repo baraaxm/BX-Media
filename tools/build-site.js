@@ -289,10 +289,31 @@ ${faqs
       </section>`;
 }
 
+// Portfolio filter categories (client-facing labels in FILTERS below).
+const FILTERS = [
+  ["all", "All"],
+  ["car-brands", "Car Brands"],
+  ["car-care", "Car Care"],
+  ["motorsport", "Motorsport & Events"],
+  ["creators", "Creator Collabs"],
+];
+function projectCats(p) {
+  const map = {
+    "car-brands-and-dealerships": "car-brands",
+    "detailing-and-service-centers": "car-care",
+    "motorsport-and-events": "motorsport",
+  };
+  const cats = p.industries.map((i) => map[i]);
+  if (p.services.includes("automotive-influencer-marketing")) cats.push("creators");
+  return [...new Set(cats)];
+}
+
+const where = (p) => (p.location === "Saudi Arabia" ? p.location : `${p.location}, Saudi Arabia`);
+
 function projectCard(p, i, prefix = "/") {
-  return `        <div class="project-card reveal-on-scroll" style="--index: ${i}">
+  return `        <div class="project-card reveal-on-scroll" data-cats="${projectCats(p).join(" ")}" style="--index: ${i}">
           <div class="project-image">
-            <img src="${prefix}${esc(p.imageWeb)}" alt="${esc(p.gridTitle)}: automotive video production by BX Media" loading="lazy" decoding="async" />
+            <img src="${prefix}${esc(p.imageWeb)}" alt="${esc(p.gridTitle)}" loading="lazy" decoding="async" />
           </div>
           <div class="project-info">
             <h3>${esc(p.gridTitle)}</h3>
@@ -380,6 +401,12 @@ const styleBlock = (detailSrc.match(/<style>[\s\S]*?<\/style>/) || ["<style></st
   // generated pages carry a navbar + breadcrumbs instead of the old back link
   .replace(/margin: 120px auto 60px;/, "margin: 0 auto 60px;");
 
+// Player URL for on-page embeds: hide Vimeo's raw file title, byline and avatar.
+function playerSrc(v) {
+  if (!v.src.includes("vimeo")) return v.src;
+  return v.src + (v.src.includes("?") ? "&" : "?") + "title=0&byline=0&portrait=0&badge=0&dnt=1";
+}
+
 function videoName(p, v) {
   return v.name || `${p.detailTitle}: ${v.title}`;
 }
@@ -405,14 +432,14 @@ function videoObject(p, v) {
 
 function iframe(p, v) {
   return (
-    `<iframe src="${esc(v.src)}" allow="autoplay; fullscreen; picture-in-picture" ` +
+    `<iframe src="${esc(playerSrc(v))}" allow="autoplay; fullscreen; picture-in-picture" ` +
     `allowfullscreen loading="lazy" title="${esc(videoName(p, v))}"></iframe>`
   );
 }
 
 function buildGallery(p) {
   const first = p.videos[0];
-  const firstTall = first.aspect === "portrait" ? " tall" : "";
+  const firstTall = first.aspect === "portrait" ? " tall" : first.aspect === "cinema" ? " cinema" : "";
   const thumbs =
     p.videos.length < 2
       ? ""
@@ -444,7 +471,7 @@ ${thumbs}
 
 function galleryScript(p) {
   if (p.videos.length < 2) return "";
-  const mini = p.videos.map((v) => ({ t: v.title, n: videoName(p, v), s: v.src, a: v.aspect }));
+  const mini = p.videos.map((v) => ({ t: v.title, n: videoName(p, v), s: playerSrc(v), a: v.aspect }));
   return `  <script>
 (function () {
   var videos = ${JSON.stringify(mini)};
@@ -459,7 +486,7 @@ function galleryScript(p) {
     var v = videos[i];
     if (!v || i === current) return;
     current = i;
-    var tall = v.a === 'portrait' ? ' tall' : '';
+    var tall = v.a === 'portrait' ? ' tall' : v.a === 'cinema' ? ' cinema' : '';
     if (titleEl) titleEl.textContent = v.t;
     main.innerHTML = '<div class="video-wrapper' + tall + '"><iframe src="' + v.s +
       '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="' +
@@ -506,7 +533,7 @@ function buildWorkPage(p) {
     image: img,
     creator: { "@id": ORG_ID },
     publisher: { "@id": ORG_ID },
-    locationCreated: { "@type": "Place", name: `${p.location}, Saudi Arabia` },
+    locationCreated: { "@type": "Place", name: where(p) },
     about: { "@type": "Organization", name: p.client },
     genre: p.services.map((s) => serviceBySlug[s].name),
     keywords: [].concat(p.deliverables, p.services.map((s) => serviceBySlug[s].h1)).join(", "),
@@ -521,7 +548,7 @@ function buildWorkPage(p) {
 
   const facts = [
     ["Client", esc(p.client)],
-    ["Location", `${esc(p.location)}, Saudi Arabia`],
+    ["Location", esc(where(p))],
     p.year ? ["Year", esc(p.year)] : null,
     ["Services", p.services.map((s) => `<a href="/services/${s}/">${esc(serviceBySlug[s].name)}</a>`).join(", ")],
     ["Industry", p.industries.map((s) => `<a href="/industries/${s}/">${esc(industryBySlug[s].name)}</a>`).join(", ")],
@@ -541,8 +568,7 @@ ${buildGallery(p)}
       </section>
 
       <section class="project-facts" aria-label="Project facts">
-        <h2>Project summary</h2>
-        <p class="lead">${esc(p.summary)}</p>
+        <h2>Project details</h2>
         <dl>
 ${facts.map(([k, v]) => `          <div><dt>${k}</dt><dd>${v}</dd></div>`).join("\n")}
         </dl>
@@ -581,14 +607,154 @@ ${related.map((o, i) => projectCard(o, i)).join("\n")}
 
 /* ---------- work hub ---------- */
 
+function durationLabel(iso) {
+  const m = /PT(?:(\d+)M)?(?:(\d+)S)?/.exec(iso || "") || [];
+  const min = Number(m[1] || 0), sec = Number(m[2] || 0);
+  return `${min}:${String(sec).padStart(2, "0")}`;
+}
+
+function filterBar() {
+  return `      <div class="work-filters" role="group" aria-label="Filter work">
+${FILTERS.map(([k, n], i) => `        <button type="button" class="work-filter${i === 0 ? " is-active" : ""}" data-filter="${k}" aria-pressed="${i === 0}">${esc(n)}</button>`).join("\n")}
+      </div>`;
+}
+
+function filmLibrary() {
+  const tiles = [];
+  projects.forEach((p) => {
+    p.videos.forEach((v) => {
+      tiles.push(`          <button type="button" class="film-tile${v.aspect === "portrait" ? " film-tile--tall" : ""}" data-cats="${projectCats(p).join(" ")}" ${filmData(p, v)}>
+            <img src="${esc(v.thumbnail)}" alt="" loading="lazy" decoding="async" />
+            <span class="film-play" aria-hidden="true"><i class="fas fa-play"></i></span>
+            <span class="film-duration">${durationLabel(v.duration)}</span>
+            <span class="film-meta"><strong>${esc(v.title)}</strong><span>${esc(p.gridTitle)}</span></span>
+          </button>`);
+    });
+  });
+  return `      <section class="film-library" aria-labelledby="films-heading">
+        <div class="film-library-head">
+          <h2 id="films-heading">Film Library</h2>
+          <p>Every film in one place. Tap any film to play it.</p>
+        </div>
+        <div class="film-wall">
+${tiles.join("\n")}
+        </div>
+      </section>`;
+}
+
+function lightboxHtml() {
+  return `
+      <dialog class="film-lightbox" aria-label="Video player">
+        <div class="film-lightbox-inner">
+          <button type="button" class="film-close" aria-label="Close video"><i class="fas fa-xmark" aria-hidden="true"></i></button>
+          <div class="film-frame"></div>
+          <div class="film-lightbox-meta">
+            <div><strong class="film-lightbox-title"></strong><span class="film-lightbox-project"></span></div>
+            <a class="film-lightbox-link" href="#">View project <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </dialog>`;
+}
+
+// Opens any element carrying data-src / data-aspect / data-title / data-project / data-url
+// (film tiles, spotlight buttons) in the shared lightbox.
+function lightboxScript() {
+  return `  <script>
+(function () {
+  var box = document.querySelector('.film-lightbox');
+  if (!box || typeof box.showModal !== 'function') return;
+  var frame = box.querySelector('.film-frame');
+  function close() {
+    frame.innerHTML = '';
+    if (box.open) box.close();
+  }
+  document.querySelectorAll('[data-film]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      var src = el.dataset.src;
+      src += (src.indexOf('?') === -1 ? '?' : '&') + 'autoplay=1';
+      var a = el.dataset.aspect;
+      frame.className = 'film-frame' + (a === 'portrait' ? ' film-frame--tall' : a === 'cinema' ? ' film-frame--cinema' : '');
+      frame.innerHTML = '<iframe src="' + src + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="' +
+        el.dataset.title.replace(/"/g, '&quot;') + '"></iframe>';
+      box.querySelector('.film-lightbox-title').textContent = el.dataset.title;
+      box.querySelector('.film-lightbox-project').textContent = el.dataset.project;
+      box.querySelector('.film-lightbox-link').href = el.dataset.url;
+      box.showModal();
+    });
+  });
+  box.querySelector('.film-close').addEventListener('click', close);
+  box.addEventListener('click', function (e) { if (e.target === box) close(); });
+  box.addEventListener('close', function () { frame.innerHTML = ''; });
+})();
+  </script>
+`;
+}
+
+function filmData(p, v) {
+  return `data-film data-src="${esc(playerSrc(v))}" data-aspect="${v.aspect}" data-title="${esc(v.title)}" data-project="${esc(p.detailTitle)}" data-url="/work/${p.slug}/"`;
+}
+
+// High-visibility feature for the newest key film (projects with "spotlight": true).
+function spotlightSection(extraClass = "") {
+  const p = projects.find((x) => x.spotlight);
+  if (!p) return "";
+  const v = p.videos[0];
+  const bg = playerSrc(v) + "&background=1";
+  return `  <section class="spotlight ${extraClass}" aria-labelledby="spotlight-title">
+    <div class="container">
+      <div class="spotlight-card">
+        <div class="spotlight-media" aria-hidden="true">
+          <img src="/${esc(p.imageWeb)}" alt="" loading="lazy" decoding="async" />
+          <iframe src="${esc(bg)}" title="${esc(p.detailTitle)} preview" tabindex="-1" loading="lazy" allow="autoplay; fullscreen"></iframe>
+        </div>
+        <div class="spotlight-overlay">
+          <span class="spotlight-badge">New film</span>
+          <h2 id="spotlight-title">${esc(p.gridTitle)}</h2>
+          <p>${esc(p.spotlightTagline || p.summary)}</p>
+          <div class="cta-actions">
+            <button type="button" class="cta-btn" ${filmData(p, v)}><i class="fas fa-play" aria-hidden="true"></i><span>Watch the film</span></button>
+            <a class="cta-btn cta-btn--ghost" href="/work/${p.slug}/"><span>View project</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function workHubScript() {
+  return `  <script>
+(function () {
+  var buttons = document.querySelectorAll('.work-filter');
+  var items = document.querySelectorAll('.work-hub [data-cats]');
+  buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var f = btn.dataset.filter;
+      buttons.forEach(function (b) {
+        var on = b === btn;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-pressed', on);
+      });
+      items.forEach(function (el) {
+        var show = f === 'all' || el.dataset.cats.split(' ').indexOf(f) !== -1;
+        el.hidden = !show;
+      });
+    });
+  });
+
+})();
+  </script>
+`;
+}
+
 function buildWorkIndex() {
   const url = `${DOMAIN}/work/`;
+  const desc = "Launch films, creator collaborations, motorsport series and car care showcases by BX Media Automotive for car brands and automotive businesses in Saudi Arabia.";
   const graph = [
     {
       "@type": "CollectionPage",
       "@id": url + "#page",
       name: "Automotive Video Production Portfolio",
-      description: "Case studies from BX Media Automotive: launch reels, YouTube series, influencer content and detailing showcases for automotive brands in Saudi Arabia.",
+      description: desc,
       url,
       isPartOf: { "@id": `${DOMAIN}/#website` },
       about: { "@id": ORG_ID },
@@ -599,38 +765,44 @@ function buildWorkIndex() {
           position: i + 1,
           url: `${DOMAIN}/work/${p.slug}/`,
           name: p.detailTitle,
+          description: noDash(p.summary),
         })),
       },
     },
     breadcrumb([["Home", `${DOMAIN}/`], ["Work", url]]),
   ];
-  const body = `    <div class="container page-shell">
+  const waText = "Hi BX Media, I'd like to discuss a project. (bx.media/work/)";
+  const body = `    <div class="container">
       ${crumbsHtml([["Home", "/"], ["Work"]])}
       <header class="page-hero">
-        <p class="eyebrow">Portfolio</p>
-        <h1>Automotive Video Production Portfolio</h1>
-        <p class="lead">Case studies from BX Media Automotive in Saudi Arabia: vehicle launch reels, long-form YouTube motorsport series, influencer content and detailing showcases for car brands and automotive businesses.</p>
+        <p class="eyebrow">Our Work</p>
+        <h1>Automotive Films That Move</h1>
+        <p class="lead">Launch films, creator collaborations, motorsport series and car care showcases for the brands driving Saudi Arabia's automotive scene.</p>
       </header>
-      <div class="projects-grid">
+    </div>
+${spotlightSection("spotlight--hub")}
+    <div class="container page-shell work-hub">
+${filterBar()}
+      <section aria-labelledby="cases-heading">
+        <h2 id="cases-heading" class="work-section-title">Projects</h2>
+        <div class="projects-grid">
 ${projects.map((p, i) => projectCard(p, i)).join("\n")}
-      </div>
-      <section class="work-index-list">
-        <h2>Case study summaries</h2>
-        <ul>
-${projects.map((p) => `          <li><a href="/work/${p.slug}/">${esc(p.detailTitle)}</a>: ${esc(p.summary)}</li>`).join("\n")}
-        </ul>
+        </div>
       </section>
-${ctaBand({ heading: "Want results like these?", text: "Share your goals and we'll plan the right production for your brand.", interest: "launch", waText: "Hi BX Media, I'd like to discuss a project. (bx.media/work/)" })}
+${filmLibrary()}
+${lightboxHtml()}
+${ctaBand({ heading: "Want your brand on this wall?", text: "Share your goals and we'll plan the right production for your brand.", interest: "launch", waText })}
     </div>`;
   return page({
     headHtml: head({
       title: `Automotive Video Production Portfolio | ${ENTITY}`,
-      description: "Case studies from BX Media Automotive in Saudi Arabia: launch reels, YouTube motorsport series, influencer content and detailing showcases for car brands.",
+      description: desc,
       canonical: url,
       graph,
     }),
     body,
-    waText: "Hi BX Media, I'd like to discuss a project. (bx.media/work/)",
+    waText,
+    extraScripts: workHubScript() + lightboxScript(),
   });
 }
 
@@ -665,7 +837,7 @@ function buildServicePage(s) {
       <header class="page-hero">
         <p class="eyebrow">${esc(s.name)}</p>
         <h1>${esc(s.h1)}</h1>
-        <p class="lead">${esc(s.answer)}</p>
+        <p class="lead">${esc(s.intro)}</p>
         <div class="cta-actions">
           <a class="cta-btn" href="/?interest=${s.interest}#contact"><span>Send a brief</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a>
           <a class="cta-btn cta-btn--ghost" href="${esc(waLink(waText))}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><span>WhatsApp us</span></a>
@@ -742,7 +914,7 @@ function buildIndustryPage(ind) {
       <header class="page-hero">
         <p class="eyebrow">${esc(ind.name)}</p>
         <h1>${esc(ind.h1)}</h1>
-        <p class="lead">${esc(ind.answer)}</p>
+        <p class="lead">${esc(ind.intro)}</p>
         <div class="cta-actions">
           <a class="cta-btn" href="/?interest=${ind.interest}#contact"><span>Send a brief</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a>
           <a class="cta-btn cta-btn--ghost" href="${esc(waLink(waText))}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><span>WhatsApp us</span></a>
@@ -895,8 +1067,9 @@ function injectBlock(html, name, content) {
 function buildHome() {
   let html = read("index.html");
   html = injectBlock(html, "JSONLD", "  " + jsonLd(homeGraph()));
-  html = injectBlock(html, "PROJECTS", projects.map((p, i) => projectCard(p, i, "")).join("\n"));
+  html = injectBlock(html, "PROJECTS", projects.filter((p) => p.featured).map((p, i) => projectCard(p, i, "")).join("\n"));
   html = injectBlock(html, "INDUSTRIES", industriesSection());
+  html = injectBlock(html, "SPOTLIGHT", spotlightSection() + "\n" + lightboxHtml() + "\n" + lightboxScript());
   html = injectBlock(html, "FAQ", homeFaqSection());
   html = injectBlock(html, "FOOTER", footerInner());
   write("index.html", html);

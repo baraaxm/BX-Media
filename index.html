@@ -258,7 +258,7 @@
       "@id": "https://bx.media/services/automotive-influencer-marketing/#service",
       "name": "Automotive Influencer Marketing",
       "serviceType": "Automotive Influencer Marketing in Saudi Arabia",
-      "description": "BX Media Automotive runs automotive influencer campaigns in Saudi Arabia: we match your brand with relevant car creators, plan the concept, produce the content with our own crew, and deliver it ready to publish. For example, we filmed the Toyota Land Cruiser LC300 HEV MAX off-road with influencer @SaudiStig.",
+      "description": "BX Media Automotive runs automotive influencer campaigns in Saudi Arabia: we match brands with relevant car creators, plan the concept, produce the content with our own crew and deliver it ready to publish. Work includes a Toyota LC300 HEV MAX off-road reel and a series of brand reels with creator @SaudiStig for Soueast, EVIQ, realme, Motul, TMD Friction and others.",
       "url": "https://bx.media/services/automotive-influencer-marketing/",
       "provider": {
         "@id": "https://bx.media/#org"
@@ -300,42 +300,42 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "What is BX Media Automotive?",
+          "name": "What do you produce?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "BX Media Automotive (BX Media) is an automotive content and video production agency based in Riyadh, Saudi Arabia. It produces cinematic videos, social media content and influencer campaigns specialised for the automotive industry and serves clients across the GCC."
+            "text": "Cinematic videos, social media content and creator campaigns, made for the automotive world: car brands, dealerships, car care centres, aftermarket brands and motorsport."
           }
         },
         {
           "@type": "Question",
-          "name": "What services does BX Media offer?",
+          "name": "Which brands have you worked with?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Three core services: high-end automotive video and content production, social media account management for automotive brands, and automotive influencer marketing."
+            "text": "Toyota, Abdul Latif Jameel, BYD, Lotus, Volvo, Soueast, EVIQ, ArabGT, SAMF, Feynlab, Motul and more. See the full portfolio for case studies."
           }
         },
         {
           "@type": "Question",
-          "name": "Who does BX Media work with?",
+          "name": "Do you work outside Riyadh?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Car brands and distributors, dealerships, detailing and service centres, automotive product brands, and motorsport and event organisers. Clients include Toyota, Abdul Latif Jameel, BYD, Lotus, Volvo, ArabGT, SAMF and Feynlab."
+            "text": "Yes. We're based in Riyadh, film all over Saudi Arabia and work with clients across the GCC."
           }
         },
         {
           "@type": "Question",
-          "name": "Does BX Media work outside Riyadh?",
+          "name": "Can you handle our social media every month?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. BX Media is based in Riyadh, films across Saudi Arabia and serves clients across the GCC."
+            "text": "Yes. Our monthly retainers cover planning, shooting, editing and posting, all by the same team."
           }
         },
         {
           "@type": "Question",
-          "name": "How do I start a project with BX Media?",
+          "name": "How do we get started?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Send a brief through the project intake form or message us on WhatsApp at +966 55 796 9551. We respond within 24 hours with a tailored content roadmap."
+            "text": "Send a brief through the form below or message us on WhatsApp at +966 55 796 9551. We reply within 24 hours with a tailored content roadmap."
           }
         }
       ]
@@ -389,6 +389,68 @@
       </div>
     </div>
   </section>
+
+  <!-- SPOTLIGHT:START -->
+  <section class="spotlight " aria-labelledby="spotlight-title">
+    <div class="container">
+      <div class="spotlight-card">
+        <div class="spotlight-media" aria-hidden="true">
+          <img src="/assets/Projects/pagani.webp" alt="" loading="lazy" decoding="async" />
+          <iframe src="https://player.vimeo.com/video/1230931812?h=164b5dd2fe&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;dnt=1&amp;background=1" title="Pagani: Cinematic Hypercar Film preview" tabindex="-1" loading="lazy" allow="autoplay; fullscreen"></iframe>
+        </div>
+        <div class="spotlight-overlay">
+          <span class="spotlight-badge">New film</span>
+          <h2 id="spotlight-title">Pagani</h2>
+          <p>Our newest film. One of the world's most exclusive hypercars, shot in widescreen cinema format.</p>
+          <div class="cta-actions">
+            <button type="button" class="cta-btn" data-film data-src="https://player.vimeo.com/video/1230931812?h=164b5dd2fe&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;dnt=1" data-aspect="cinema" data-title="Cinematic Hypercar Film" data-project="Pagani: Cinematic Hypercar Film" data-url="/work/pagani/"><i class="fas fa-play" aria-hidden="true"></i><span>Watch the film</span></button>
+            <a class="cta-btn cta-btn--ghost" href="/work/pagani/"><span>View project</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+      <dialog class="film-lightbox" aria-label="Video player">
+        <div class="film-lightbox-inner">
+          <button type="button" class="film-close" aria-label="Close video"><i class="fas fa-xmark" aria-hidden="true"></i></button>
+          <div class="film-frame"></div>
+          <div class="film-lightbox-meta">
+            <div><strong class="film-lightbox-title"></strong><span class="film-lightbox-project"></span></div>
+            <a class="film-lightbox-link" href="#">View project <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </dialog>
+  <script>
+(function () {
+  var box = document.querySelector('.film-lightbox');
+  if (!box || typeof box.showModal !== 'function') return;
+  var frame = box.querySelector('.film-frame');
+  function close() {
+    frame.innerHTML = '';
+    if (box.open) box.close();
+  }
+  document.querySelectorAll('[data-film]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      var src = el.dataset.src;
+      src += (src.indexOf('?') === -1 ? '?' : '&') + 'autoplay=1';
+      var a = el.dataset.aspect;
+      frame.className = 'film-frame' + (a === 'portrait' ? ' film-frame--tall' : a === 'cinema' ? ' film-frame--cinema' : '');
+      frame.innerHTML = '<iframe src="' + src + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="' +
+        el.dataset.title.replace(/"/g, '&quot;') + '"></iframe>';
+      box.querySelector('.film-lightbox-title').textContent = el.dataset.title;
+      box.querySelector('.film-lightbox-project').textContent = el.dataset.project;
+      box.querySelector('.film-lightbox-link').href = el.dataset.url;
+      box.showModal();
+    });
+  });
+  box.querySelector('.film-close').addEventListener('click', close);
+  box.addEventListener('click', function (e) { if (e.target === box) close(); });
+  box.addEventListener('close', function () { frame.innerHTML = ''; });
+})();
+  </script>
+
+  <!-- SPOTLIGHT:END -->
 
   <section id="story" class="scroll-story fade-in">
     <div class="container">
@@ -590,9 +652,9 @@
       </div>
       <div class="projects-grid" id="projectsGrid">
         <!-- PROJECTS:START -->
-        <div class="project-card reveal-on-scroll" style="--index: 0">
+        <div class="project-card reveal-on-scroll" data-cats="motorsport" style="--index: 0">
           <div class="project-image">
-            <img src="assets/Projects/albassami0001.webp" alt="Albassami × Seven Car Lounge: automotive video production by BX Media" loading="lazy" decoding="async" />
+            <img src="assets/Projects/albassami0001.webp" alt="Albassami × Seven Car Lounge" loading="lazy" decoding="async" />
           </div>
           <div class="project-info">
             <h3>Albassami × Seven Car Lounge</h3>
@@ -604,9 +666,9 @@
             <a href="/work/albassami-seven-car-lounge/" class="project-btn">View Project</a>
           </div>
         </div>
-        <div class="project-card reveal-on-scroll" style="--index: 1">
+        <div class="project-card reveal-on-scroll" data-cats="motorsport" style="--index: 1">
           <div class="project-image">
-            <img src="assets/Projects/samf0001.webp" alt="ArabGT × SAMF: automotive video production by BX Media" loading="lazy" decoding="async" />
+            <img src="assets/Projects/samf0001.webp" alt="ArabGT × SAMF" loading="lazy" decoding="async" />
           </div>
           <div class="project-info">
             <h3>ArabGT × SAMF</h3>
@@ -618,9 +680,9 @@
             <a href="/work/arabgt-samf/" class="project-btn">View Project</a>
           </div>
         </div>
-        <div class="project-card reveal-on-scroll" style="--index: 2">
+        <div class="project-card reveal-on-scroll" data-cats="car-brands" style="--index: 2">
           <div class="project-image">
-            <img src="assets/Projects/hongqi.webp" alt="Hongqi × StriveME: automotive video production by BX Media" loading="lazy" decoding="async" />
+            <img src="assets/Projects/hongqi.webp" alt="Hongqi × StriveME" loading="lazy" decoding="async" />
           </div>
           <div class="project-info">
             <h3>Hongqi × StriveME</h3>
@@ -632,9 +694,9 @@
             <a href="/work/hongqi-striveme/" class="project-btn">View Project</a>
           </div>
         </div>
-        <div class="project-card reveal-on-scroll" style="--index: 3">
+        <div class="project-card reveal-on-scroll" data-cats="car-brands creators" style="--index: 3">
           <div class="project-image">
-            <img src="assets/Projects/toyotalc3000001.webp" alt="Toyota LC300 HEV MAX: automotive video production by BX Media" loading="lazy" decoding="async" />
+            <img src="assets/Projects/toyotalc3000001.webp" alt="Toyota LC300 HEV MAX" loading="lazy" decoding="async" />
           </div>
           <div class="project-info">
             <h3>Toyota LC300 HEV MAX</h3>
@@ -646,9 +708,9 @@
             <a href="/work/toyota-lc300-hev-max/" class="project-btn">View Project</a>
           </div>
         </div>
-        <div class="project-card reveal-on-scroll" style="--index: 4">
+        <div class="project-card reveal-on-scroll" data-cats="car-care" style="--index: 4">
           <div class="project-image">
-            <img src="assets/Projects/feynlab0001.webp" alt="Feynlab: automotive video production by BX Media" loading="lazy" decoding="async" />
+            <img src="assets/Projects/feynlab0001.webp" alt="Feynlab" loading="lazy" decoding="async" />
           </div>
           <div class="project-info">
             <h3>Feynlab</h3>
@@ -660,9 +722,9 @@
             <a href="/work/feynlab-riyadh-campaign/" class="project-btn">View Project</a>
           </div>
         </div>
-        <div class="project-card reveal-on-scroll" style="--index: 5">
+        <div class="project-card reveal-on-scroll" data-cats="car-care" style="--index: 5">
           <div class="project-image">
-            <img src="assets/Projects/vip00.webp" alt="VIP Quick Service: automotive video production by BX Media" loading="lazy" decoding="async" />
+            <img src="assets/Projects/vip00.webp" alt="VIP Quick Service" loading="lazy" decoding="async" />
           </div>
           <div class="project-info">
             <h3>VIP Quick Service</h3>
@@ -675,6 +737,9 @@
           </div>
         </div>
   <!-- PROJECTS:END -->
+      </div>
+      <div class="view-all-work">
+        <a href="/work/" class="cta-btn"><span>View all work</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a>
       </div>
     </div>
   </section>
@@ -689,24 +754,24 @@
       <section class="faq" aria-labelledby="faq-heading">
         <h2 id="faq-heading" class="visually-hidden">Frequently asked questions</h2>
         <details class="faq-item">
-          <summary>What is BX Media Automotive?</summary>
-          <p>BX Media Automotive (BX Media) is an automotive content and video production agency based in Riyadh, Saudi Arabia. It produces cinematic videos, social media content and influencer campaigns specialised for the automotive industry and serves clients across the GCC.</p>
+          <summary>What do you produce?</summary>
+          <p>Cinematic videos, social media content and creator campaigns, made for the automotive world: car brands, dealerships, car care centres, aftermarket brands and motorsport.</p>
         </details>
         <details class="faq-item">
-          <summary>What services does BX Media offer?</summary>
-          <p>Three core services: high-end automotive video and content production, social media account management for automotive brands, and automotive influencer marketing.</p>
+          <summary>Which brands have you worked with?</summary>
+          <p>Toyota, Abdul Latif Jameel, BYD, Lotus, Volvo, Soueast, EVIQ, ArabGT, SAMF, Feynlab, Motul and more. See the full portfolio for case studies.</p>
         </details>
         <details class="faq-item">
-          <summary>Who does BX Media work with?</summary>
-          <p>Car brands and distributors, dealerships, detailing and service centres, automotive product brands, and motorsport and event organisers. Clients include Toyota, Abdul Latif Jameel, BYD, Lotus, Volvo, ArabGT, SAMF and Feynlab.</p>
+          <summary>Do you work outside Riyadh?</summary>
+          <p>Yes. We're based in Riyadh, film all over Saudi Arabia and work with clients across the GCC.</p>
         </details>
         <details class="faq-item">
-          <summary>Does BX Media work outside Riyadh?</summary>
-          <p>Yes. BX Media is based in Riyadh, films across Saudi Arabia and serves clients across the GCC.</p>
+          <summary>Can you handle our social media every month?</summary>
+          <p>Yes. Our monthly retainers cover planning, shooting, editing and posting, all by the same team.</p>
         </details>
         <details class="faq-item">
-          <summary>How do I start a project with BX Media?</summary>
-          <p>Send a brief through the project intake form or message us on WhatsApp at +966 55 796 9551. We respond within 24 hours with a tailored content roadmap.</p>
+          <summary>How do we get started?</summary>
+          <p>Send a brief through the form below or message us on WhatsApp at +966 55 796 9551. We reply within 24 hours with a tailored content roadmap.</p>
         </details>
       </section>
     </div>

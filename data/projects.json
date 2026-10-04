@@ -7,6 +7,44 @@
   "projects": [
     {
       "id": 1,
+      "slug": "pagani",
+      "gridTitle": "Pagani",
+      "detailTitle": "Pagani: Cinematic Hypercar Film",
+      "category": "High-End Video & Content Production",
+      "client": "Pagani",
+      "location": "Saudi Arabia",
+      "year": "",
+      "services": [
+        "automotive-video-production"
+      ],
+      "deliverables": [
+        "Cinematic widescreen hypercar film (2.39:1)"
+      ],
+      "results": "",
+      "description": "A cinematic hypercar film for Pagani, shot and graded in widescreen cinema format. Our newest production, built to give one of the world's most exclusive hypercar makers the big-screen treatment it deserves.",
+      "image": "assets/Projects/pagani.jpg",
+      "videos": [
+        {
+          "title": "Cinematic Hypercar Film",
+          "src": "https://player.vimeo.com/video/1230931812?h=164b5dd2fe",
+          "aspect": "cinema",
+          "uploadDate": "2026-09-28",
+          "duration": "PT1M2S",
+          "thumbnail": "https://i.vimeocdn.com/video/2205967051-2cdcc7553d5b4933d0e084a767cf6f15314183ecd8c747043031d71620878d16-d_1280x720",
+          "name": "Pagani: Cinematic Hypercar Film"
+        }
+      ],
+      "industries": [
+        "car-brands-and-dealerships"
+      ],
+      "summary": "Cinematic widescreen hypercar film for Pagani, our newest production.",
+      "imageWeb": "assets/Projects/pagani.webp",
+      "featured": false,
+      "spotlight": true,
+      "spotlightTagline": "Our newest film. One of the world's most exclusive hypercars, shot in widescreen cinema format."
+    },
+    {
+      "id": 2,
       "slug": "albassami-seven-car-lounge",
       "gridTitle": "Albassami × Seven Car Lounge",
       "detailTitle": "Albassami × Seven Car Lounge",
@@ -27,7 +65,7 @@
       "image": "assets/Projects/albassami0001.jpg",
       "videos": [
         {
-          "title": "Transport Campaign",
+          "title": "Hypercar Transport Film",
           "src": "https://player.vimeo.com/video/1092452102?h=f81d9b7482",
           "aspect": "landscape",
           "uploadDate": "2025-06-11",
@@ -40,10 +78,11 @@
         "motorsport-and-events"
       ],
       "summary": "Campaign film and short-form reels documenting Albassami's hypercar transport for a Seven Car Lounge luxury drive experience to AlUla and Umluj.",
-      "imageWeb": "assets/Projects/albassami0001.webp"
+      "imageWeb": "assets/Projects/albassami0001.webp",
+      "featured": true
     },
     {
-      "id": 2,
+      "id": 3,
       "slug": "arabgt-samf",
       "gridTitle": "ArabGT × SAMF",
       "detailTitle": "ArabGT × SAMF",
@@ -166,10 +205,11 @@
         "motorsport-and-events"
       ],
       "summary": "Nine long-form YouTube episodes produced with ArabGT covering SAMF national motorsport championships, from hill climbs and drag racing to rallies, with over 1M organic views.",
-      "imageWeb": "assets/Projects/samf0001.webp"
+      "imageWeb": "assets/Projects/samf0001.webp",
+      "featured": true
     },
     {
-      "id": 3,
+      "id": 4,
       "slug": "hongqi-striveme",
       "gridTitle": "Hongqi × StriveME",
       "detailTitle": "Hongqi × StriveME",
@@ -188,7 +228,7 @@
       "image": "assets/Projects/hongqi.png",
       "videos": [
         {
-          "title": "Hongqi Reel 1",
+          "title": "Hongqi HS3 Launch Reel 1",
           "src": "https://player.vimeo.com/video/1102640419?h=450e9d6c88",
           "aspect": "portrait",
           "uploadDate": "2025-07-18",
@@ -197,7 +237,7 @@
           "name": "Hongqi HS3 Launch Reel 1"
         },
         {
-          "title": "Hongqi Reel 2",
+          "title": "Hongqi HS3 Launch Reel 2",
           "src": "https://player.vimeo.com/video/1102639970?h=14791dfc05",
           "aspect": "portrait",
           "uploadDate": "2025-07-18",
@@ -206,7 +246,7 @@
           "name": "Hongqi HS3 Launch Reel 2"
         },
         {
-          "title": "Hongqi Reel 3",
+          "title": "Hongqi HS3 Launch Reel 3",
           "src": "https://player.vimeo.com/video/1102639636?h=0cef0c92c1",
           "aspect": "portrait",
           "uploadDate": "2025-07-18",
@@ -219,10 +259,11 @@
         "car-brands-and-dealerships"
       ],
       "summary": "Three cinematic vertical reels for the Hongqi HS3 launch at Boulevard Riyadh, produced with StriveME.",
-      "imageWeb": "assets/Projects/hongqi.webp"
+      "imageWeb": "assets/Projects/hongqi.webp",
+      "featured": true
     },
     {
-      "id": 4,
+      "id": 5,
       "slug": "toyota-lc300-hev-max",
       "gridTitle": "Toyota LC300 HEV MAX",
       "detailTitle": "Toyota LC300 HEV MAX",
@@ -242,7 +283,7 @@
       "image": "assets/Projects/toyotalc3000001.jpg",
       "videos": [
         {
-          "title": "LC300 HEV Max Reel",
+          "title": "LC300 HEV MAX Off-Road Reel",
           "src": "https://player.vimeo.com/video/1102642017?h=a2716a0e18",
           "aspect": "portrait",
           "uploadDate": "2025-07-18",
@@ -255,10 +296,11 @@
         "car-brands-and-dealerships"
       ],
       "summary": "Off-road influencer reel with @SaudiStig showcasing the Toyota Land Cruiser LC300 HEV MAX hybrid for Abdul Latif Jameel.",
-      "imageWeb": "assets/Projects/toyotalc3000001.webp"
+      "imageWeb": "assets/Projects/toyotalc3000001.webp",
+      "featured": true
     },
     {
-      "id": 5,
+      "id": 6,
       "slug": "feynlab-riyadh-campaign",
       "gridTitle": "Feynlab",
       "detailTitle": "Feynlab Riyadh Campaign",
@@ -271,7 +313,7 @@
         "automotive-social-media-management"
       ],
       "deliverables": [
-        "6 detailing showcase reels (vertical and landscape)"
+        "8 detailing showcase reels (vertical and landscape)"
       ],
       "results": "",
       "description": "Produced a series of polished reels for Feynlab Riyadh, showcasing their premium detailing and protection services. The content positioned Feynlab as a trusted luxury care provider, directly contributing to increased customer traffic and online conversions.",
@@ -283,15 +325,17 @@
           "aspect": "portrait",
           "uploadDate": "2025-07-18",
           "duration": "PT38S",
-          "thumbnail": "https://i.vimeocdn.com/video/2038429823-b82dc268defc92dcf9eb03066c3711a1678bc9bfc09fcb168bf7963fa16179f1-d_720x1280"
+          "thumbnail": "https://i.vimeocdn.com/video/2038429823-b82dc268defc92dcf9eb03066c3711a1678bc9bfc09fcb168bf7963fa16179f1-d_720x1280",
+          "name": "Feynlab: BMW Motortech"
         },
         {
-          "title": "Feynlab Ferrari",
+          "title": "Ferrari",
           "src": "https://player.vimeo.com/video/1102637425?h=dd3a39df5e",
           "aspect": "landscape",
           "uploadDate": "2025-07-18",
           "duration": "PT55S",
-          "thumbnail": "https://i.vimeocdn.com/video/2038425709-091a8ffd7bcab2a83f78e5b5fb94b9da9dcc457cb9bf1ac366d99a07818afa26-d_1280x720"
+          "thumbnail": "https://i.vimeocdn.com/video/2038425709-091a8ffd7bcab2a83f78e5b5fb94b9da9dcc457cb9bf1ac366d99a07818afa26-d_1280x720",
+          "name": "Feynlab: Ferrari"
         },
         {
           "title": "Ferrari Roma",
@@ -299,7 +343,8 @@
           "aspect": "landscape",
           "uploadDate": "2025-07-18",
           "duration": "PT33S",
-          "thumbnail": "https://i.vimeocdn.com/video/2038425152-e6a42e6d1dab3753babbd6772e3cef662d3eda424a7850366efce259a39c370d-d_1280x720"
+          "thumbnail": "https://i.vimeocdn.com/video/2038425152-e6a42e6d1dab3753babbd6772e3cef662d3eda424a7850366efce259a39c370d-d_1280x720",
+          "name": "Feynlab: Ferrari Roma"
         },
         {
           "title": "Aston Martin",
@@ -307,15 +352,17 @@
           "aspect": "landscape",
           "uploadDate": "2025-07-18",
           "duration": "PT29S",
-          "thumbnail": "https://i.vimeocdn.com/video/2038425269-48ec479294a2560732b5b86686b1007fc1d4f431944adb80c3ab03d57f81f8ed-d_1280x720"
+          "thumbnail": "https://i.vimeocdn.com/video/2038425269-48ec479294a2560732b5b86686b1007fc1d4f431944adb80c3ab03d57f81f8ed-d_1280x720",
+          "name": "Feynlab: Aston Martin"
         },
         {
-          "title": "Green Urus",
+          "title": "Lamborghini Urus in Green",
           "src": "https://player.vimeo.com/video/1102637858?h=2c81b662ae",
           "aspect": "portrait",
           "uploadDate": "2025-07-18",
           "duration": "PT55S",
-          "thumbnail": "https://i.vimeocdn.com/video/2038426631-b3c3f2ea0cb4b078e042943196edd64c8b287adfdeab112a8f4b3e277706b24c-d_720x1280"
+          "thumbnail": "https://i.vimeocdn.com/video/2038426631-b3c3f2ea0cb4b078e042943196edd64c8b287adfdeab112a8f4b3e277706b24c-d_720x1280",
+          "name": "Feynlab: Lamborghini Urus in Green"
         },
         {
           "title": "Range Rover",
@@ -323,17 +370,37 @@
           "aspect": "landscape",
           "uploadDate": "2025-07-18",
           "duration": "PT1M14S",
-          "thumbnail": "https://i.vimeocdn.com/video/2038417828-2fc6161e21d06dec4b0bce01c301796accd94df9f83a514a283e00d6652d1b6d-d_1280x720"
+          "thumbnail": "https://i.vimeocdn.com/video/2038417828-2fc6161e21d06dec4b0bce01c301796accd94df9f83a514a283e00d6652d1b6d-d_1280x720",
+          "name": "Feynlab: Range Rover"
+        },
+        {
+          "title": "Nissan Patrol NISMO",
+          "src": "https://player.vimeo.com/video/1102658045?h=75c895dbd5",
+          "aspect": "landscape",
+          "uploadDate": "2025-07-18",
+          "duration": "PT51S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038451658-04ccde65cf9db1c8a66b110182b2fece12b92090787b64f4e18f6b5b701bfe6a-d_1280x720",
+          "name": "Feynlab: Nissan Patrol NISMO"
+        },
+        {
+          "title": "Nissan GT-R Lineup",
+          "src": "https://player.vimeo.com/video/1102637197?h=cfb34a1f28",
+          "aspect": "landscape",
+          "uploadDate": "2025-07-18",
+          "duration": "PT41S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038425591-f5b723132352f002bda83363a8da6592b46102ee2070a6a8b82b0e10685d2cea-d_1280x720",
+          "name": "Feynlab: Nissan GT-R Lineup"
         }
       ],
       "industries": [
         "detailing-and-service-centers"
       ],
-      "summary": "Six polished reels for Feynlab Riyadh showcasing premium detailing and paint protection on Ferrari, Aston Martin, Lamborghini Urus, Range Rover and BMW.",
-      "imageWeb": "assets/Projects/feynlab0001.webp"
+      "summary": "Eight polished reels for Feynlab Riyadh showcasing premium detailing and paint protection on Ferrari, Aston Martin, Lamborghini Urus, Range Rover, BMW, Nissan Patrol NISMO and Nissan GT-R.",
+      "imageWeb": "assets/Projects/feynlab0001.webp",
+      "featured": true
     },
     {
-      "id": 6,
+      "id": 7,
       "slug": "vip-quick-service",
       "gridTitle": "VIP Quick Service",
       "detailTitle": "VIP Quick Service",
@@ -353,43 +420,305 @@
       "image": "assets/Projects/vip00.png",
       "videos": [
         {
-          "title": "VIP - Urus Final",
+          "title": "Lamborghini Urus",
           "src": "https://player.vimeo.com/video/1102639250?h=4720133386",
           "aspect": "landscape",
           "uploadDate": "2025-07-18",
           "duration": "PT27S",
-          "thumbnail": "https://i.vimeocdn.com/video/2038428160-d8b450bf4a8efd65834df75ce5339ab887eea1ebd48967aa4a4b046562b79d60-d_1280x720"
+          "thumbnail": "https://i.vimeocdn.com/video/2038428160-d8b450bf4a8efd65834df75ce5339ab887eea1ebd48967aa4a4b046562b79d60-d_1280x720",
+          "name": "VIP Quick Service: Lamborghini Urus"
         },
         {
-          "title": "VIP - Lamborghini",
+          "title": "Lamborghini",
           "src": "https://player.vimeo.com/video/1102639119?h=29fb53e2a6",
           "aspect": "landscape",
           "uploadDate": "2025-07-18",
           "duration": "PT33S",
-          "thumbnail": "https://i.vimeocdn.com/video/2038427977-a4ab6971c8a02db3c37da8c639f0b2b62ba58dfe31e36e4a501628a4f9ff480c-d_1280x720"
+          "thumbnail": "https://i.vimeocdn.com/video/2038427977-a4ab6971c8a02db3c37da8c639f0b2b62ba58dfe31e36e4a501628a4f9ff480c-d_1280x720",
+          "name": "VIP Quick Service: Lamborghini"
         },
         {
-          "title": "VIP - Grey Bentley",
+          "title": "Bentley in Grey",
           "src": "https://player.vimeo.com/video/1102638930?h=e62e7ca632",
           "aspect": "landscape",
           "uploadDate": "2025-07-18",
           "duration": "PT31S",
-          "thumbnail": "https://i.vimeocdn.com/video/2038427837-9dc7ca2b04a037e64b1358ec38b12827c6f711f5ad3f4c931923e592e225c6a7-d_1280x720"
+          "thumbnail": "https://i.vimeocdn.com/video/2038427837-9dc7ca2b04a037e64b1358ec38b12827c6f711f5ad3f4c931923e592e225c6a7-d_1280x720",
+          "name": "VIP Quick Service: Bentley in Grey"
         },
         {
-          "title": "VIP - Multi Car Shot",
+          "title": "Three-Car Lineup",
           "src": "https://player.vimeo.com/video/1102638172?h=029e5a39e9",
           "aspect": "landscape",
           "uploadDate": "2025-07-18",
           "duration": "PT51S",
-          "thumbnail": "https://i.vimeocdn.com/video/2038427595-762bac3e7431a1644bf32aa836c7e77d2084e3d9f637f3feac0ef02e444a02c7-d_1280x720"
+          "thumbnail": "https://i.vimeocdn.com/video/2038427595-762bac3e7431a1644bf32aa836c7e77d2084e3d9f637f3feac0ef02e444a02c7-d_1280x720",
+          "name": "VIP Quick Service: Three-Car Lineup"
         }
       ],
       "industries": [
         "detailing-and-service-centers"
       ],
       "summary": "Four premium service reels for VIP Quick Service in Riyadh featuring Lamborghini Urus, Lamborghini and Bentley.",
-      "imageWeb": "assets/Projects/vip00.webp"
+      "imageWeb": "assets/Projects/vip00.webp",
+      "featured": true
+    },
+    {
+      "id": 8,
+      "slug": "saudistig-creator-collaborations",
+      "gridTitle": "@SaudiStig × Brands",
+      "detailTitle": "@SaudiStig Creator Collaborations",
+      "category": "Automotive Influencer Marketing",
+      "client": "Multiple brands",
+      "location": "Saudi Arabia",
+      "year": "",
+      "services": [
+        "automotive-influencer-marketing",
+        "automotive-video-production"
+      ],
+      "deliverables": [
+        "9 vertical creator reels",
+        "Brand-ready edits for creator and brand channels"
+      ],
+      "results": "",
+      "description": "A run of creator-led reels with Saudi automotive creator @SaudiStig, produced by BX Media for brands across the automotive world: car makers, EV charging, tyres and brakes, lubricants, detailing and tech. Each reel pairs the creator's voice with our cinematography, so it feels native to the creator's audience while still meeting brand standards.",
+      "image": "assets/Projects/saudistig.jpg",
+      "videos": [
+        {
+          "title": "Soueast",
+          "src": "https://player.vimeo.com/video/1102643020?h=83731eb0f7",
+          "aspect": "portrait",
+          "uploadDate": "2025-07-18",
+          "duration": "PT2M37S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038448625-cf902cd3d156aaa929bbb6e06dc7d57ba2c1b7252dfffb89ba17199342eed065-d_720x1280",
+          "name": "Soueast × @SaudiStig"
+        },
+        {
+          "title": "EVIQ",
+          "src": "https://player.vimeo.com/video/1102657301?h=9c55e18c61",
+          "aspect": "portrait",
+          "uploadDate": "2025-07-18",
+          "duration": "PT2M10S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038451392-8b740effaadbf43b7998f24eb58e942e6efb96026707bf874e998a41b8aab4a0-d_720x1280",
+          "name": "EVIQ × @SaudiStig"
+        },
+        {
+          "title": "realme",
+          "src": "https://player.vimeo.com/video/1102656161?h=5825d5b8c9",
+          "aspect": "portrait",
+          "uploadDate": "2025-07-18",
+          "duration": "PT2M25S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038450489-8cf0ae782caf96542e25d0fe306b705a6ccc64ea038f81f407aa7c54dde4ada9-d_720x1280",
+          "name": "realme × @SaudiStig"
+        },
+        {
+          "title": "4Cars",
+          "src": "https://player.vimeo.com/video/1092453264?h=21707d953c",
+          "aspect": "portrait",
+          "uploadDate": "2025-06-11",
+          "duration": "PT1M12S",
+          "thumbnail": "https://i.vimeocdn.com/video/2025535757-340c2266d87d9fde0c4404a7a164cde8e21d833060387561833dce56b0672f5b-d_720x1280",
+          "name": "4Cars × @SaudiStig"
+        },
+        {
+          "title": "TMD Friction",
+          "src": "https://player.vimeo.com/video/1102658725?h=1539b20cb1",
+          "aspect": "portrait",
+          "uploadDate": "2025-07-18",
+          "duration": "PT40S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038452674-f6f99e061292ea4a4559f777505d6e44b295a763e1a2253830a2a07494ec4f27-d_720x1280",
+          "name": "TMD Friction × @SaudiStig"
+        },
+        {
+          "title": "Titanium Automotive",
+          "src": "https://player.vimeo.com/video/1102642752?h=7edfeb6f18",
+          "aspect": "portrait",
+          "uploadDate": "2025-07-18",
+          "duration": "PT1M9S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038432525-fd19676d7a836b6612064231fcc867744ea68315d3547999ddfbc1df427c2de4-d_720x1280",
+          "name": "Titanium Automotive × @SaudiStig"
+        },
+        {
+          "title": "Motul",
+          "src": "https://player.vimeo.com/video/1102639394?h=4535e9a438",
+          "aspect": "portrait",
+          "uploadDate": "2025-07-18",
+          "duration": "PT18S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038428551-da9c56c7dfc6cdcc657fdc1b802ccef02f53f1a86463cc38f39a47ee600fcede-d_720x1280",
+          "name": "Motul × @SaudiStig"
+        },
+        {
+          "title": "Pendix",
+          "src": "https://player.vimeo.com/video/1102640848?h=7cfb472140",
+          "aspect": "portrait",
+          "uploadDate": "2025-07-18",
+          "duration": "PT1M32S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038431284-c952dd0903fdbf39d1833bee394d247485c295f220ddb659cc83aeb98caf85ec-d_720x1280",
+          "name": "Pendix × @SaudiStig"
+        },
+        {
+          "title": "Petromin × RAM Rebel",
+          "src": "https://player.vimeo.com/video/1102657945?h=f09806aade",
+          "aspect": "portrait",
+          "uploadDate": "2025-07-18",
+          "duration": "PT23S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038451500-64bd29942682637a0799a1a48b62fce1df4d8b251a56651f77e90485d2500239-d_720x1280",
+          "name": "Petromin × RAM Rebel with @SaudiStig"
+        }
+      ],
+      "industries": [
+        "car-brands-and-dealerships",
+        "detailing-and-service-centers"
+      ],
+      "summary": "Nine creator-led reels with @SaudiStig for Soueast, EVIQ, realme, 4Cars, TMD Friction, Titanium Automotive, Motul, Pendix and Petromin × RAM.",
+      "imageWeb": "assets/Projects/saudistig.webp",
+      "featured": false
+    },
+    {
+      "id": 9,
+      "slug": "dirab-drift-open-day",
+      "gridTitle": "Dirab Drift Open Day",
+      "detailTitle": "Dirab Drift Open Day",
+      "category": "Event Coverage",
+      "client": "Dirab Park",
+      "location": "Riyadh",
+      "year": "",
+      "services": [
+        "automotive-video-production"
+      ],
+      "deliverables": [
+        "Event recap film"
+      ],
+      "results": "",
+      "description": "A fast-cut recap of a drift open day at Dirab Park in Riyadh, capturing the cars, the smoke and the atmosphere on track in a film built for social.",
+      "image": "assets/Projects/dirab.jpg",
+      "videos": [
+        {
+          "title": "Drift Open Day Recap",
+          "src": "https://player.vimeo.com/video/1093495801?h=3547a02b50",
+          "aspect": "landscape",
+          "uploadDate": "2025-06-15",
+          "duration": "PT42S",
+          "thumbnail": "https://i.vimeocdn.com/video/2026854055-6677f1d6c0aa81da04ef4bf52884763c07391794d50a815a0ee0ffe9c9043091-d_1280x720",
+          "name": "Dirab Park Drift Open Day, Riyadh: Event Recap"
+        }
+      ],
+      "industries": [
+        "motorsport-and-events"
+      ],
+      "summary": "Event recap film from a drift open day at Dirab Park, Riyadh.",
+      "imageWeb": "assets/Projects/dirab.webp",
+      "featured": false
+    },
+    {
+      "id": 10,
+      "slug": "theeb-bmw-suhail",
+      "gridTitle": "Theeb × BMW",
+      "detailTitle": "Theeb × BMW: Suhail Edition",
+      "category": "High-End Video & Content Production",
+      "client": "Theeb",
+      "location": "Saudi Arabia",
+      "year": "",
+      "services": [
+        "automotive-video-production"
+      ],
+      "deliverables": [
+        "4K launch film"
+      ],
+      "results": "",
+      "description": "A cinematic 4K film for Theeb presenting the BMW Suhail Edition.",
+      "image": "assets/Projects/theeb-bmw.jpg",
+      "videos": [
+        {
+          "title": "BMW Suhail Edition",
+          "src": "https://player.vimeo.com/video/1214244212?h=3315842670",
+          "aspect": "landscape",
+          "uploadDate": "2026-07-30",
+          "duration": "PT54S",
+          "thumbnail": "https://i.vimeocdn.com/video/2185115750-1ce3c762b0badf9e107bf93f5d3eaa3d018f6652aa7150414238cd948923bacf-d_1280x720",
+          "name": "Theeb × BMW: Suhail Edition"
+        }
+      ],
+      "industries": [
+        "car-brands-and-dealerships"
+      ],
+      "summary": "Cinematic 4K film for Theeb presenting the BMW Suhail Edition.",
+      "imageWeb": "assets/Projects/theeb-bmw.webp",
+      "featured": false
+    },
+    {
+      "id": 11,
+      "slug": "fix-auto",
+      "gridTitle": "Fix Auto",
+      "detailTitle": "Fix Auto",
+      "category": "High-End Video & Content Production",
+      "client": "Fix Auto",
+      "location": "Saudi Arabia",
+      "year": "",
+      "services": [
+        "automotive-video-production",
+        "automotive-social-media-management"
+      ],
+      "deliverables": [
+        "Widescreen showcase film"
+      ],
+      "results": "",
+      "description": "A widescreen showcase film for Fix Auto, presenting their car care centre with the same cinematic polish we bring to vehicle launches.",
+      "image": "assets/Projects/fix-auto.jpg",
+      "videos": [
+        {
+          "title": "Fix Auto Showcase",
+          "src": "https://player.vimeo.com/video/1230932417?h=d13041f728",
+          "aspect": "landscape",
+          "uploadDate": "2026-09-28",
+          "duration": "PT58S",
+          "thumbnail": "https://i.vimeocdn.com/video/2205968819-3ea9afff5636a890f2d37071a0875c33ce00da82327a9daf78412b4b430bff63-d_1280x720",
+          "name": "Fix Auto: Car Care Centre Showcase"
+        }
+      ],
+      "industries": [
+        "detailing-and-service-centers"
+      ],
+      "summary": "Widescreen showcase film for the Fix Auto car care centre.",
+      "imageWeb": "assets/Projects/fix-auto.webp",
+      "featured": false
+    },
+    {
+      "id": 12,
+      "slug": "arabgt-red-eye-edit",
+      "gridTitle": "ArabGT Red Eye Edit",
+      "detailTitle": "ArabGT: Red Eye Edit",
+      "category": "High-End Video & Content Production",
+      "client": "ArabGT",
+      "location": "Saudi Arabia",
+      "year": "",
+      "services": [
+        "automotive-video-production"
+      ],
+      "deliverables": [
+        "Short-form performance edit"
+      ],
+      "results": "",
+      "description": "A short, high-energy Red Eye edit for ArabGT, the Middle East's top car channel, cut for maximum impact on social.",
+      "image": "assets/Projects/arabgt-red-eye.jpg",
+      "videos": [
+        {
+          "title": "ArabGT Red Eye",
+          "src": "https://player.vimeo.com/video/1102637520?h=b76e11bae9",
+          "aspect": "landscape",
+          "uploadDate": "2025-07-18",
+          "duration": "PT17S",
+          "thumbnail": "https://i.vimeocdn.com/video/2038426213-417357d1bbefc452274c4cf24131050539d47befde4c5727e6726dab5a0fa405-d_1280x720",
+          "name": "ArabGT: Red Eye Edit"
+        }
+      ],
+      "industries": [
+        "car-brands-and-dealerships",
+        "motorsport-and-events"
+      ],
+      "summary": "A short, high-energy Red Eye performance edit for ArabGT.",
+      "imageWeb": "assets/Projects/arabgt-red-eye.webp",
+      "featured": false
     }
   ]
 }
